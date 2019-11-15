@@ -1,0 +1,32 @@
+#!/usr/bin/sh
+
+# Constants
+FILES_PATH=files
+
+# Aliases
+alias cp='cp -vf'
+alias mkdir='mkdir -p'
+
+# Change current directory
+mkdir $FILES_PATH
+cd $FILES_PATH
+
+# .profile
+cp ~/.profile .
+# .bashrc
+cp ~/.bashrc .
+# .gitconfig
+cp ~/.gitconfig .
+# .xinitrc
+cp ~/.xinitrc .
+
+# .emacs.d
+mkdir .emacs.d
+mkdir .emacs.d/{themes,langs}
+cp ~/.emacs.d/{init.el,config.org} .emacs.d
+cp ~/.emacs.d/themes/*.el .emacs.d/themes
+cp ~/.emacs.d/langs/*.el .emacs.d/langs
+
+# .fonts
+mkdir .fonts
+cp ~/.fonts/*.{ttf,otf} .fonts
