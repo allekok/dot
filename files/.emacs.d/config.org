@@ -735,8 +735,7 @@
 * Compile
 #+BEGIN_SRC emacs-lisp
   (defun modif-time (f)
-    (let ((m (file-attribute-modification-time
-              (file-attributes f))))
+    (let ((m (nth 4 (file-attributes f))))
       (and m (+ (nth 0 m)
                 (/ (nth 1 m) (expt 2.0 16))))))
 
