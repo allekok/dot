@@ -21,4 +21,4 @@ PATH="$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
 export GPG_TTY=$(tty)
 
-alias em=startx 2> /dev/null
+alias em='startx 2> /dev/null'
