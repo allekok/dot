@@ -30,3 +30,6 @@ cp ~/.emacs.d/langs/*.el .emacs.d/langs
 # .fonts
 mkdir .fonts
 cp ~/.fonts/*.{ttf,otf} .fonts
+
+# .color-*
+cp ~/.color-{light,dark} .
