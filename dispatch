@@ -1,0 +1,25 @@
+#!/usr/bin/sh
+
+# Constants
+FILES_PATH=files
+
+# Aliases
+alias cp='cp -vr' # Add `-i' for interactive
+
+# Main
+cd $FILES_PATH
+for F in $(ls -a)
+	 {
+	     
+	     if [ $F != "." ];
+	     then
+		 {
+		     if [ $F != ".." ];
+		     then
+			 {
+			     cp $F $HOME
+			 }
+		     fi
+		 }
+	     fi
+	 }
