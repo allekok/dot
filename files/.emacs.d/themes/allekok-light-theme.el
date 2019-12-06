@@ -5,6 +5,9 @@
 ;; Author: Payam <one@allekok.com>
 
 ;;; Code:
+(load-file (expand-file-name
+	    "allekok-core-theme.el"
+	    (expand-file-name "themes" user-emacs-directory)))
 
 (deftheme allekok-light)
 
@@ -14,19 +17,21 @@
        (font-size-main 120)
        (font-size-mini 100)
        ;; Color
-       (back-color "#ffffff")
-       (back-light-color "#f6f6f6")
-       (fore-color "#000")
-       (fore-light-color "#444")
-       (keyword-color "#00e")
-       (warn-color keyword-color)
+       (colors (get-colorname "light"))
+       (back-color (nth 0 colors))
+       (fore-color (nth 1 colors))
+       (keyword-color (nth 2 colors))
+       (warn-color (nth 3 colors))
+       
+       (back-light-color "#F3F3F3")
+       (fore-light-color "#444444")
+       (comment-color back-light-color)
+       (hl-color back-light-color)
+       (region-color back-light-color)
        (builtin-color fore-color)
        (string-color fore-color)
-       (comment-color back-light-color)
        (var-color fore-color)
-       (hl-color back-light-color)
-       (region-color "#f3f3f3")
-       (paren-match-color warn-color))
+       (paren-match-color keyword-color))
   (custom-theme-set-faces
    'allekok-light
    `(default ((,class (:family
