@@ -79,6 +79,7 @@
    `(isearch-fail ((,class (:strike-through t))))
    `(lazy-highlight ((,class (:underline t :foreground ,keyword-color))))
    `(eshell-prompt ((,class (:foreground ,keyword-color :weight bold))))
+   `(dired-async-message ((,class (:foreground ,keyword-color))))
    `(font-lock-type-face ((,class (:foreground ,fore-color))))))
 
 (provide-theme 'allekok-dark)
