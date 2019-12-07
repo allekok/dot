@@ -11,15 +11,10 @@ cd $FILES_PATH
 for F in $(ls -a)
 	 {
 	     
-	     if [ $F != "." ];
+	     if [ $F != "." ] && [ $F != ".." ];
 	     then
 		 {
-		     if [ $F != ".." ];
-		     then
-			 {
-			     cp $F $HOME
-			 }
-		     fi
+		     cp $F $HOME
 		 }
 	     fi
 	 }
