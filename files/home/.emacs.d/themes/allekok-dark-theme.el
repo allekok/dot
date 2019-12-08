@@ -23,7 +23,7 @@
        (keyword-color (nth 2 colors))
        (warn-color (nth 3 colors))
 
-       (back-light-color "#444444")
+       (back-light-color "#333333")
        (fore-light-color "#AAAAAA")
        (comment-color back-light-color)
        (hl-color back-light-color)
