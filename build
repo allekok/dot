@@ -33,3 +33,7 @@ cp ~/.fonts/*.{ttf,otf} .fonts
 
 # .color-*
 cp ~/.color-{light,dark} .
+
+# PROG
+mkdir PROG
+cp -r ~/PROG/* PROG

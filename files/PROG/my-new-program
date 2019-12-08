@@ -1,0 +1,13 @@
+#!/usr/bin/php
+<?php
+require('my-library.php');
+$arg = nth(1);
+if($arg and !file_exists($arg))
+{
+    file_put_contents(
+	$arg,
+	"#!/usr/bin/php\n<?php\nrequire('my-library.php');\n\n?>",
+    );
+    exec("sudo chmod +x '$arg'");
+}
+?>

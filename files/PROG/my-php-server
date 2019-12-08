@@ -1,0 +1,9 @@
+#!/usr/bin/php
+<?php
+require('my-library.php');
+$browser = nth_pair('-browser','chromium');
+$port = nth_pair('-port', '8082');
+$path = nth_pair('-path', '.');
+$host = "localhost:$port";
+exec("cd $path && php -S $host & $browser http://$host/");
+?>
