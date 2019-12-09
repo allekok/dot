@@ -1,8 +1,9 @@
 export _JAVA_AWT_WM_NONREPARENTING=1
 xset r rate 200 60
 
+HOUR_NOW_NUM=$(date +%H)
 BG_COLOR_FILE=
-if [ $(date +%H) >= 8 ] && [ $(date +%H) < 22 ]; then
+if [ $HOUR_NOW_NUM -gt 7 ] && [ $HOUR_NOW_NUM -lt 22 ]; then
     {
 	BG_COLOR_FILE="$HOME/.color-light"
     }
