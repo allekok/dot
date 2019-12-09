@@ -745,7 +745,8 @@
   (auto-image-file-mode)
   (global-set-key (kbd "C-x e") 'eval-last-sexp)
   (global-set-key (kbd "C-<return>") 'calculator)
-  (define-key image-map "=" 'image-increase-size)
+  (when (boundp 'image-map)
+    (define-key image-map "=" 'image-increase-size))
   (setq safe-local-variable-values
         '((bidi-paragraph-direction . right-to-left))
         shr-use-colors nil)
