@@ -13,7 +13,7 @@
     ("3c54c58274300ec35b5f1e0580be74c3983d04d139a4626c777204e741c4a1f8" "2e3e2cba9ec95beb78bdbcf12b2045cc29ef61d918c3441f0421ab299b26149f" allekok-dark allekok-light default)))
  '(package-selected-packages
    (quote
-    (htmlize rust-mode slime slime-mode web-mode markdown-mode async exwm use-package))))
+    (basic-c-compile bash-completion htmlize rust-mode slime slime-mode web-mode markdown-mode async exwm use-package))))
 (put 'downcase-region 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
