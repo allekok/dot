@@ -27,6 +27,8 @@
 * /package/
 #+BEGIN_SRC emacs-lisp
   (require 'package)
+  ;; On bad signature error un-comment the line below.
+  ;; (setq package-check-signature nil)
   (setq package-enable-at-startup nil
         package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                            ("melpa" . "http://melpa.org/packages/")))
