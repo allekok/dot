@@ -254,8 +254,8 @@
   (fringe-mode '(0 . 0))
 
   ;;; Theme
-  (global-set-key [XF86LaunchA] 'theme-toggle)
-  (global-set-key [XF86HomePage] 'theme-toggle)
+  (global-set-key [XF86LaunchA] 'theme-toggle) ; At home
+  (global-set-key [XF86HomePage] 'theme-toggle) ; At work
 
   (setq custom-theme-directory
         (expand-file-name "themes" user-emacs-directory))
@@ -711,8 +711,8 @@
 * Bidi-direction
 #+BEGIN_SRC emacs-lisp
   ;; Key-bindings
-  (global-set-key [XF86LaunchB] 'bidi-toggle)
-  (global-set-key [XF86Search] 'bidi-toggle)
+  (global-set-key [XF86LaunchB] 'bidi-toggle) ;; At home
+  (global-set-key [XF86Search] 'bidi-toggle) ;; At work
 
   ;; Functions
   (defun bidi-toggle ()
