@@ -255,6 +255,7 @@
 
   ;;; Theme
   (global-set-key [XF86LaunchA] 'theme-toggle)
+  (global-set-key [XF86HomePage] 'theme-toggle)
 
   (setq custom-theme-directory
         (expand-file-name "themes" user-emacs-directory))
@@ -711,6 +712,7 @@
 #+BEGIN_SRC emacs-lisp
   ;; Key-bindings
   (global-set-key [XF86LaunchB] 'bidi-toggle)
+  (global-set-key [XF86Search] 'bidi-toggle)
 
   ;; Functions
   (defun bidi-toggle ()

@@ -15,6 +15,7 @@ cd $FILES_HOME_PATH
 
 cp ~/.profile .
 cp ~/.bashrc .
+cp ~/.bash_aliases .
 cp ~/.gitconfig .
 cp ~/.xinitrc .
 
