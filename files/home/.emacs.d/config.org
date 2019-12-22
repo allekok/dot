@@ -240,8 +240,8 @@
     "Check Internet Connection"
     (let ((connection (string-trim
                        (shell-command-to-string
-                        "awk -F'[] []' '{print $9}' <(nmcli d|sort|tail -1)"))))
-      (if (string= "connected" connection)
+                        "awk -F'[] []' '{print $9}' <(nmcli connect|tail -1)"))))
+      (if (not (string= "--" connection))
           (local-ip-address)
         connection)))
 #+END_SRC
@@ -356,9 +356,11 @@
     (volume-set step "- volume: %s"))
 
   (defun volume-level ()
-    (string-trim
-     (shell-command-to-string
-      "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)")))
+    (let ((vl (string-trim
+               (shell-command-to-string
+                "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
+      (unless (string= vl "amixer: Unable to find simple control 'Master',0")
+        vl)))
 
   (defun volume-mute? ()
     (when (string= (string-trim
