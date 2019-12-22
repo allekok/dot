@@ -9,19 +9,14 @@ FILES_ETC_PATH=$FILES_PATH/etc
 alias cp='cp -vf'
 alias mkdir='mkdir -p'
 
-# Change current directory
+# home
 mkdir $FILES_HOME_PATH
 cd $FILES_HOME_PATH
 
-# .profile
 cp ~/.profile .
-# .bashrc
 cp ~/.bashrc .
-# .bash_aliases
 cp ~/.bash_aliases .
-# .gitconfig
 cp ~/.gitconfig .
-# .xinitrc
 cp ~/.xinitrc .
 
 # .emacs.d
