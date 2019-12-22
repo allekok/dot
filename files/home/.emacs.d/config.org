@@ -196,9 +196,9 @@
 * Quail
 #+BEGIN_SRC emacs-lisp
   ;; Input-methods
-  (load-file (expand-file-name "langs/kurdish-sorani.el"
+  (load-file (expand-file-name "langs/kurdish-sorani.elc"
                                user-emacs-directory))
-  (load-file (expand-file-name "langs/kurdish-kurmanci.el"
+  (load-file (expand-file-name "langs/kurdish-kurmanci.elc"
                                user-emacs-directory))
 
   ;; Key-bindings
@@ -387,13 +387,13 @@
     (with-temp-buffer
       (insert-file-contents screen-brightness-max-file)
       (string-to-number (buffer-string))))
-
+  ;;;###autoload
   (defun screen-brightness-current ()
     (interactive)
     (with-temp-buffer
       (insert-file-contents screen-brightness-file)
       (string-to-number (buffer-string))))
-
+  ;;;###autoload
   (defun screen-brightness-set (v &optional message-format)
     (interactive "nbrightness: ")
     (unless message-format (setq message-format "* brightness: %d"))
@@ -401,13 +401,13 @@
       (with-temp-file screen-brightness-file
         (insert (number-to-string v)))
       (message message-format v)))
-
+  ;;;###autoload
   (defun screen-brighter (&optional step)
     (interactive)
     (unless step (setq step +1))
     (let ((v (+ (screen-brightness-current) step)))
       (screen-brightness-set v "+ brightness: +%d")))
-
+  ;;;###autoload
   (defun screen-darker (&optional step)
     (interactive)
     (unless step (setq step -1))
@@ -425,17 +425,17 @@
         "/sudo::/sys/class/leds/smc::kbd_backlight/brightness")
   (setq kbd-brightness-max-file
         "/sudo::/sys/class/leds/smc::kbd_backlight/max_brightness")
-
+  ;;;###autoload
   (defun kbd-brightness-max ()
     (with-temp-buffer
       (insert-file-contents kbd-brightness-max-file)
       (string-to-number (buffer-string))))
-
+  ;;;###autoload
   (defun kbd-brightness-current ()
     (with-temp-buffer
       (insert-file-contents kbd-brightness-file)
       (string-to-number (buffer-string))))
-
+  ;;;###autoload
   (defun kbd-brightness-set (v &optional message-format)
     (interactive "nkbd backlight: ")
     (unless message-format (setq message-format "* kbd backlight: %d"))
@@ -443,13 +443,13 @@
       (with-temp-file kbd-brightness-file
         (insert (number-to-string v)))
       (message message-format v)))
-
+  ;;;###autoload
   (defun kbd-brighter (&optional step)
     (interactive)
     (unless step (setq step +1))
     (let ((v (+ (kbd-brightness-current) step)))
       (kbd-brightness-set v "+ kbd backlight: +%d")))
-
+  ;;;###autoload
   (defun kbd-darker (&optional step)
     (interactive)
     (unless step (setq step -1))
@@ -760,17 +760,27 @@
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp
+  ;;;###autoload
+  (unless (fboundp 'file-attribute-modification-time)
+    ;;; From 'files.el'
+    (defsubst file-attribute-modification-time (attributes)
+    "The modification time in ATTRIBUTES returned by `file-attributes'.
+  This is the time of the last change to the file's contents, and
+  is a list of integers (HIGH LOW USEC PSEC) in the same style
+  as (current-time)."
+    (nth 5 attributes)))
+  ;;;###autoload
   (defun modif-time (f)
     (let ((m (file-attribute-modification-time
               (file-attributes f))))
       (and m (+ (nth 0 m)
                 (/ (nth 1 m) (expt 2.0 16))))))
-
+  ;;;###autoload
   (defun modif-time-more-recent (f1 f2)
     (let ((m1 (modif-time f1))
           (m2 (modif-time f2)))
       (or (not m2) (> m1 m2))))
-
+  ;;;###autoload
   (defun compile-if-necessary (f)
     (let* ((org? (string-suffix-p ".org" f t))
            (el? (string-suffix-p ".el" f t))
@@ -783,9 +793,10 @@
                       (car (org-babel-tangle-file
                             f (concat (substring f 0 -3) "el"))))
                    (byte-compile-file f))))))
-
-  (add-hook 'kill-emacs-hook
-            (lambda () (mapcar 'compile-if-necessary
+  ;;;###autoload
+  (defun my-compile-all ()
+    (interactive)
+    (mapcar 'compile-if-necessary
                           (list
                            (expand-file-name
                             "init.el" user-emacs-directory)
@@ -798,9 +809,11 @@
                            (expand-file-name
                             "langs/kurdish-sorani.el" user-emacs-directory)
                            (expand-file-name
-                            "langs/kurdish-kurmanci.el" user-emacs-directory)))))
-#+END_SRC
+                            "langs/kurdish-kurmanci.el" user-emacs-directory))))
 
+  (global-set-key [XF86AudioPlay] 'my-compile-all)
+  (add-hook 'kill-emacs-hook 'my-compile-all)
+#+END_SRC
 * Server
 #+BEGIN_SRC emacs-lisp
   (server-start)

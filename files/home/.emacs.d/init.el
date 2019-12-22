@@ -1,15 +1,13 @@
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (setq gc-cons-threshold (* 150 1024 1024))
 
 ;; Load config file
-(org-babel-load-file (expand-file-name
-		      "config.org" user-emacs-directory))
+(let* ((conf (expand-file-name "config" user-emacs-directory))
+       (conf-elc (concat conf ".elc"))
+       (conf-org (concat conf ".org")))
+  
+  (if (file-exists-p (concat conf-elc))
+      (load-file (concat conf-elc))
+    (org-babel-load-file conf-org)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
