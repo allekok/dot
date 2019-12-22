@@ -657,7 +657,7 @@
   ;; Open website
   (global-set-key (kbd "C-x a")
                   #'(lambda () (interactive)
-                      (chromium "https://allekok.com/")))
+                      (chromium "http://localhost/allekok/")))
   ;; Test server
   (global-set-key (kbd "C-x A")
                   #'(lambda () (interactive)
@@ -668,7 +668,7 @@
                       (switch-to-buffer "allekok/status")
                       (erase-buffer)
                       (url-insert-file-contents
-                       "https://allekok.com/status.php")
+                       "http://localhost/status.php")
                       (message "'allekok/status' Done!")
                       (org-mode)
                       (setq bidi-paragraph-direction 'right-to-left)))
