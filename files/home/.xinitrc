@@ -14,4 +14,5 @@ else
 fi
 BG_COLOR=$(head -1 $BG_COLOR_FILE)
 
+xrdb -merge ~/.Xresources
 exec emacs --no-site-lisp --no-site-file --no-splash -fs -bg $BG_COLOR

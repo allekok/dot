@@ -1,4 +1,4 @@
-(setq gc-cons-threshold (* 150 1024 1024))
+(setq gc-cons-threshold (* 120 1024 1024))
 
 ;; Load config file
 (let* ((conf (expand-file-name "config" user-emacs-directory))
@@ -16,4 +16,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (basic-c-compile bash-completion htmlize rust-mode slime slime-mode web-mode markdown-mode async exwm use-package))))
+    (htmlize slime slime-mode web-mode markdown-mode async exwm use-package))))

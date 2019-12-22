@@ -10,3 +10,5 @@
 	    (buffer-string))
 	  split-string-default-separators t)))
     colors))
+
+(provide 'allekok-core-theme)

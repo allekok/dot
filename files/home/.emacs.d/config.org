@@ -198,11 +198,11 @@
 #+END_SRC
 * Quail
 #+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path
+               (expand-file-name "langs" user-emacs-directory))
   ;; Input-methods
-  (load-file (expand-file-name "langs/kurdish-sorani.elc"
-                               user-emacs-directory))
-  (load-file (expand-file-name "langs/kurdish-kurmanci.elc"
-                               user-emacs-directory))
+  (require 'kurdish-sorani)
+  (require 'kurdish-kurmanci)
 
   ;; Key-bindings
   (global-set-key (kbd "s-1")
@@ -251,14 +251,16 @@
 * Appearance
 #+BEGIN_SRC emacs-lisp
   ;;; Remove bars
-  (push '(tool-bar-lines . 0) default-frame-alist)
-  (push '(menu-bar-lines . 0) default-frame-alist)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
   (scroll-bar-mode -1)
   (fringe-mode '(0 . 0))
 
   ;;; Theme
   (global-set-key [XF86LaunchA] 'theme-toggle) ; At home
   (global-set-key [XF86HomePage] 'theme-toggle) ; At work
+
+  (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
 
   (setq custom-theme-directory
         (expand-file-name "themes" user-emacs-directory))
@@ -809,6 +811,8 @@
                             "init.el" user-emacs-directory)
                            (expand-file-name
                             "config.org" user-emacs-directory)
+                           (expand-file-name
+                            "themes/allekok-core-theme.el" user-emacs-directory)
                            (expand-file-name
                             "themes/allekok-dark-theme.el" user-emacs-directory)
                            (expand-file-name

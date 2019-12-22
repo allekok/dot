@@ -104,4 +104,5 @@ Based on Kurdish-Sorani table in X Keyboard Configuration DB.
  ("." ?.)
  ("/" ?/))
 
+(provide 'kurdish-sorani)
 ;;; kurdish-sorani.el ends here

@@ -18,6 +18,7 @@ cp ~/.bashrc .
 cp ~/.bash_aliases .
 cp ~/.gitconfig .
 cp ~/.xinitrc .
+cp ~/.Xresources .
 
 # .emacs.d
 mkdir .emacs.d

@@ -91,4 +91,5 @@ Based on Kurdish-Kurmanci table in X Keyboard Configuration DB.
  ("." ?ç)
  ("/" ?.))
 
+(provide 'kurdish-kurmanci)
 ;;; kurdish-kurmanci.el ends here

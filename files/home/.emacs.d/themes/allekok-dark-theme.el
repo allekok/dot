@@ -5,9 +5,7 @@
 ;; Author: Payam <one@allekok.com>
 
 ;;; Code:
-(load-file (expand-file-name
-	    "allekok-core-theme.el"
-	    (expand-file-name "themes" user-emacs-directory)))
+(require 'allekok-core-theme)
 
 (deftheme allekok-dark)
 
