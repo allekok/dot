@@ -240,8 +240,8 @@
     "Check Internet Connection"
     (let ((connection (string-trim
                        (shell-command-to-string
-                        "awk -F'[] []' '{print $9}' <(nmcli d|sort|tail -1)"))))
-      (if (string= "connected" connection)
+                        "awk -F'[] []' '{print $9}' <(nmcli connect|tail -1)"))))
+      (if (not (string= "--" connection))
           (local-ip-address)
         connection)))
 #+END_SRC
@@ -356,9 +356,11 @@
     (volume-set step "- volume: %s"))
 
   (defun volume-level ()
-    (string-trim
-     (shell-command-to-string
-      "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)")))
+    (let ((vl (string-trim
+               (shell-command-to-string
+                "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
+      (unless (string= vl "amixer: Unable to find simple control 'Master',0")
+        vl)))
 
   (defun volume-mute? ()
     (when (string= (string-trim
@@ -379,6 +381,7 @@
   (setq screen-brightness-max-file
         "/sudo::/sys/class/backlight/acpi_video0/max_brightness")
 
+  ;;;###autoload
   (defun screen-brightness-max ()
     (interactive)
     (with-temp-buffer
@@ -711,8 +714,8 @@
 * Bidi-direction
 #+BEGIN_SRC emacs-lisp
   ;; Key-bindings
-  (global-set-key [XF86LaunchB] 'bidi-toggle) ;; At home
-  (global-set-key [XF86Search] 'bidi-toggle) ;; At work
+  (global-set-key [XF86LaunchB] 'bidi-toggle) ; At home
+  (global-set-key [XF86Search] 'bidi-toggle) ; At work
 
   ;; Functions
   (defun bidi-toggle ()
@@ -755,6 +758,49 @@
         '((bidi-paragraph-direction . right-to-left))
         shr-use-colors nil)
 #+END_SRC
+* Compile
+#+BEGIN_SRC emacs-lisp
+  (defun modif-time (f)
+    (let ((m (file-attribute-modification-time
+              (file-attributes f))))
+      (and m (+ (nth 0 m)
+                (/ (nth 1 m) (expt 2.0 16))))))
+
+  (defun modif-time-more-recent (f1 f2)
+    (let ((m1 (modif-time f1))
+          (m2 (modif-time f2)))
+      (or (not m2) (> m1 m2))))
+
+  (defun compile-if-necessary (f)
+    (let* ((org? (string-suffix-p ".org" f t))
+           (el? (string-suffix-p ".el" f t))
+           (o (concat (substring f 0 (if org? -3 -2)) "elc"))
+           (compile? (modif-time-more-recent f o)))
+      (if compile?
+          (progn (setq byte-compile-warnings nil)
+                 (if org?
+                     (byte-compile-file
+                      (car (org-babel-tangle-file
+                            f (concat (substring f 0 -3) "el"))))
+                   (byte-compile-file f))))))
+
+  (add-hook 'kill-emacs-hook
+            (lambda () (mapcar 'compile-if-necessary
+                          (list
+                           (expand-file-name
+                            "init.el" user-emacs-directory)
+                           (expand-file-name
+                            "config.org" user-emacs-directory)
+                           (expand-file-name
+                            "themes/allekok-dark-theme.el" user-emacs-directory)
+                           (expand-file-name
+                            "themes/allekok-light-theme.el" user-emacs-directory)
+                           (expand-file-name
+                            "langs/kurdish-sorani.el" user-emacs-directory)
+                           (expand-file-name
+                            "langs/kurdish-kurmanci.el" user-emacs-directory)))))
+#+END_SRC
+
 * Server
 #+BEGIN_SRC emacs-lisp
   (server-start)
