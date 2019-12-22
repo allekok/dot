@@ -1,5 +1,5 @@
 #+TITLE: My emacs configuration file
-#+AUTHOR: Payam <one@allekok.com>
+#+AUTHOR: Payam <payambapiri.97@gmail.com>
 * ~
 #+BEGIN_SRC emacs-lisp
   (defun mapcar* (function &rest args)
