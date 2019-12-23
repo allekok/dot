@@ -2,7 +2,7 @@
   (let ((colors
 	 (split-string
 	  (with-temp-buffer
-	    (insert-file
+	    (insert-file-contents
 	     (expand-file-name
 	      (if (string= LD "dark")
 		  ".color-dark" ".color-light")
