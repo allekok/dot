@@ -668,7 +668,7 @@
                       (switch-to-buffer "allekok/status")
                       (erase-buffer)
                       (url-insert-file-contents
-                       "http://localhost/status.php")
+                       "http://localhost/allekok/status.php")
                       (message "'allekok/status' Done!")
                       (org-mode)
                       (setq bidi-paragraph-direction 'right-to-left)))
