@@ -14,7 +14,7 @@
   ;;;###autoload
   (defun escape-string (string)
     "Backslash escaping escape-worth characters."
-    (let* ((escape-worth '(" " "(" ")" "'"))
+    (let* ((escape-worth '(" " "(" ")" "'" "&"))
            (to (mapcar #'(lambda (o) (format "\\%s" o))
                        escape-worth)))
       (with-temp-buffer
