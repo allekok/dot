@@ -657,7 +657,7 @@
   ;; Open website
   (global-set-key (kbd "C-x a")
                   #'(lambda () (interactive)
-                      (chromium "http://localhost/allekok/")))
+                      (chromium "--app=http://localhost/")))
   ;; Test server
   (global-set-key (kbd "C-x A")
                   #'(lambda () (interactive)
