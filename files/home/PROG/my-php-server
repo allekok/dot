@@ -1,9 +1,13 @@
 #!/usr/bin/php
 <?php
 require('my-library.php');
-$browser = nth_pair('-browser','chromium');
+const DEF_BROWSER = 'chromium';
+$browser = nth_pair('-browser', DEF_BROWSER);
 $port = nth_pair('-port', '8082');
 $path = nth_pair('-path', '.');
 $host = "localhost:$port";
-exec("cd $path && php -S $host & $browser http://$host/");
+$browser_command = $browser == DEF_BROWSER ?
+		   "{$browser} --app=http://$host/" :
+		   "{$browser} http://$host/";
+exec("cd $path && php -S $host & $browser_command");
 ?>
