@@ -511,10 +511,9 @@
 #+END_SRC
 * Kurdish font-face
 #+BEGIN_SRC emacs-lisp
-  (set-fontset-font
-   t (cons (decode-char 'ucs #x0600)
-           (decode-char 'ucs #x06FF))
-   "NotoNaskhArabic")
+  (let ((spec (font-spec :family "NotoNaskhArabicUI" :weight 'bold)))
+    (set-fontset-font nil 'arabic spec)
+    (set-fontset-font nil #x200c spec))
 #+END_SRC
 * Desktop apps
 #+BEGIN_SRC emacs-lisp

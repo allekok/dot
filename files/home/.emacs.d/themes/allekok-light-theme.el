@@ -11,9 +11,9 @@
 
 (let* ((class '((class color) (min-colors 89)))
        ;; Font
-       (font-family "Liberation Mono")
-       (font-size-main 120)
-       (font-size-mini 100)
+       (font-family "NotoSansMono")
+       (font-size-main 110)
+       (font-size-mini 90)
        ;; Color
        (colors (get-colorname "light"))
        (back-color (nth 0 colors))
