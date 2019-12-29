@@ -48,3 +48,4 @@ mkdir $FILES_ETC_PATH
 cd $FILES_ETC_PATH
 cp /etc/issue .
 cp /etc/motd .
+cp /etc/pacman.conf .
