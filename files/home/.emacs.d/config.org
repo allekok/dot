@@ -241,9 +241,10 @@
 
   (defun internet? ()
     "Check Internet Connection"
-    (let ((connection (string-trim
-                       (shell-command-to-string
-                        "awk -F'[] []' '{print $9}' <(nmcli connect|tail -1)"))))
+    (let ((connection (car (last (split-string
+                                  (string-trim
+                                   (shell-command-to-string
+                                    "nmcli connect|head -2|tail -1")))))))
       (if (not (string= "--" connection))
           (local-ip-address)
         connection)))
