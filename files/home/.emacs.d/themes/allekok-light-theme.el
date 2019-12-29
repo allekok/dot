@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2019 allekok
 
-;; Author: Payam <one@allekok.com>
+;; Author: Payam <payambapiri.97@gmail.com>
 
 ;;; Code:
 (require 'allekok-core-theme)
@@ -37,12 +37,12 @@
 		       :background ,back-color
 		       :foreground ,fore-color
 		       :height ,font-size-main
-		       :weight normal))))
+		       :weight medium))))
    `(mode-line ((,class (:foreground
 			 ,fore-color
 			 :background ,back-color
 			 :height ,font-size-mini
-			 :weight bold
+			 :weight medium
 			 :box (:color
 			       ,back-color
 			       :line-width 2)))))
@@ -50,7 +50,7 @@
 				  ,fore-light-color
 				  :background ,back-color
 				  :height ,font-size-mini
-				  :weight bold
+				  :weight medium
 				  :box (:color
 					,back-color
 					:line-width 2)))))
@@ -63,7 +63,7 @@
    `(font-lock-warning-face ((,class (:foreground ,warn-color))))
    `(font-lock-keyword-face ((,class (:foreground ,keyword-color))))
    `(font-lock-builtin-face ((,class (:foreground ,builtin-color))))
-   `(font-lock-function-name-face ((,class (:bold t))))
+   `(font-lock-function-name-face ((,class (:weight bold))))
    `(font-lock-string-face ((,class :foreground ,string-color
 				    :italic t)))
    `(font-lock-comment-face ((,class :background ,comment-color)))
@@ -76,7 +76,7 @@
    `(isearch ((,class (:underline t))))
    `(isearch-fail ((,class (:strike-through t))))
    `(lazy-highlight ((,class (:underline t :foreground ,keyword-color))))
-   `(eshell-prompt ((,class (:foreground ,keyword-color :weight bold))))
+   `(eshell-prompt ((,class (:foreground ,keyword-color :weight medium))))
    `(dired-async-message ((,class (:foreground ,keyword-color))))
    `(font-lock-type-face ((,class (:foreground ,fore-color))))))
 
