@@ -27,7 +27,7 @@ do
     if [ $F != "." ] && [ $F != ".." ];
     then
 	{
-	    sudo cp -vr $F /etc
+	    sudo cp $F /etc
 	}
     fi
 done
