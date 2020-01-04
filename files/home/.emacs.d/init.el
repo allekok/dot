@@ -1,4 +1,4 @@
-(setq gc-cons-threshold (* 120 1024 1024))
+(setq gc-cons-threshold (* 150 1024 1024))
 
 ;; Load config file
 (let* ((conf (expand-file-name "config" user-emacs-directory))
@@ -14,14 +14,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ede-project-directories (quote ("/home/payam/projects/www.allekok.com")))
- '(muse-project-alist nil)
  '(package-selected-packages
    (quote
     (exwm xelb htmlize slime slime-mode web-mode markdown-mode async use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

@@ -78,6 +78,8 @@
    `(lazy-highlight ((,class (:underline t :foreground ,keyword-color))))
    `(eshell-prompt ((,class (:foreground ,keyword-color :weight medium))))
    `(dired-async-message ((,class (:foreground ,keyword-color))))
+   `(web-mode-html-tag-face ((,class (:foreground ,fore-color))))
+   `(web-mode-html-attr-name-face ((,class (:foreground ,fore-color))))
    `(font-lock-type-face ((,class (:foreground ,fore-color))))))
 
 (provide-theme 'allekok-dark)

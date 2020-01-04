@@ -1,5 +1,5 @@
 #+TITLE: My emacs configuration file
-#+AUTHOR: Payam <payambapiri.97@gmail.com>
+#+AUTHOR: Payam Bapiri <payambapiri.97@gmail.com>
 * ~
 #+BEGIN_SRC emacs-lisp
   ;;;###autoload
@@ -128,9 +128,7 @@
   ;; Hook
   (add-hook 'c-mode-hook
             (lambda ()
-              (local-set-key (kbd "C-c C-c")
-                             (lambda () (interactive)
-                               (c-compile-run-current-file)))
+              (local-set-key (kbd "C-c C-c") 'c-compile-run-current-file)
               (local-set-key (kbd "C-c C-r")
                              (lambda () (interactive)
                                (c-compile-run-current-file t)))))
@@ -179,8 +177,8 @@
   ;; Hook
   (add-hook 'web-mode-hook
             (lambda ()
-              (local-set-key (kbd "s-\\") 'php-IA)
-              (local-set-key (kbd "s-|") 'php-IA-rtl)))
+              (local-set-key (kbd "C-c C-c") 'php-IA)
+              (local-set-key (kbd "C-c C-r") 'php-IA-rtl)))
 
   ;; Function
   ;;;###autoload
@@ -201,7 +199,9 @@
   (add-to-list 'load-path
                (expand-file-name "langs" user-emacs-directory))
   ;; Input-methods
+  ;;;###autoload
   (require 'kurdish-sorani)
+  ;;;###autoload
   (require 'kurdish-kurmanci)
 
   ;; Key-bindings
@@ -216,6 +216,7 @@
                     (change-input-method 'kurdish-kurmanci "Kurdî")))
 
   ;; Function
+  ;;;###autoload
   (defun change-input-method (method &optional message)
     (set-input-method method)
     (message message))
@@ -225,7 +226,7 @@
   (defun memory-free ()
     (format "%.1fG"
             (/ (nth 1 (memory-info)) 1000000.0)))
-
+  ;;;###autoload
   (defun memory-drop-caches ()
     (interactive)
     (shell-command "sudo su -c 'echo 1 > /proc/sys/vm/drop_caches'")
@@ -759,7 +760,7 @@
 #+BEGIN_SRC emacs-lisp
   (blink-cursor-mode -1)
   (setq-default fill-column 80
-                line-spacing 5)
+                line-spacing 2)
   (auto-image-file-mode)
   (global-set-key (kbd "C-x e") 'eval-last-sexp)
   (global-set-key (kbd "C-<return>") 'calculator)
