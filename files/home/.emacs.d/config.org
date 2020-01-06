@@ -44,7 +44,8 @@
 * /package/ exwm
 #+BEGIN_SRC emacs-lisp
   (when (eq 'x (window-system))
-    (use-package exwm :ensure t
+    (use-package exwm
+      :ensure t
       :config
       (require 'exwm)
       (exwm-input-set-simulation-keys
@@ -85,14 +86,16 @@
 #+END_SRC
 * /package/ async
 #+BEGIN_SRC emacs-lisp
-  (use-package async :ensure t
+  (use-package async
+    :ensure t
     :config
     (require 'async)
     (dired-async-mode))
 #+END_SRC
 * /package/ bongo
 #+BEGIN_SRC emacs-lisp
-  (use-package bongo :ensure t
+  (use-package bongo
+    :ensure t
     :config
     (require 'bongo)
     (setq bongo-logo nil
@@ -106,13 +109,15 @@
 * /package/ web-mode
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
-    :ensure t :config
+    :ensure t
+    :config
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode)))
 #+END_SRC
 * /package/ slime
 #+BEGIN_SRC emacs-lisp
-  (use-package slime :ensure t
+  (use-package slime
+    :ensure t
     :config
     ;; Set your lisp system and, optionally, some contribs
     (setq inferior-lisp-program "/usr/bin/sbcl --noinform")
@@ -134,6 +139,14 @@
                                (c-compile-run-current-file t)))))
 
   ;; Function
+  ;;;###autoload
+  (defun buffer-exists-p (buffer-name)
+    (defun buffer-exists-rec (buffer-name buffer-list)
+      (if (consp buffer-list)
+          (if (string= buffer-name (buffer-name (car buffer-list)))
+              buffer-name
+            (buffer-exists-rec buffer-name (cdr buffer-list)))))
+    (buffer-exists-rec buffer-name (buffer-list)))
   ;;;###autoload
   (defun c-compile-run-current-file (&optional run)
     (interactive)
@@ -163,14 +176,6 @@
     (let ((command (format "'%s' %s" o opts)))
       (shell-command command buffer)
       (message "") (display-buffer buffer)))
-  ;;;###autoload
-  (defun buffer-exists-p (buffer-name)
-    (defun buffer-exists-rec (buffer-name buffer-list)
-      (if (consp buffer-list)
-          (if (string= buffer-name (buffer-name (car buffer-list)))
-              buffer-name
-            (buffer-exists-rec buffer-name (cdr buffer-list)))))
-    (buffer-exists-rec buffer-name (buffer-list)))
 #+END_SRC
 * PHP repl
 #+BEGIN_SRC emacs-lisp
@@ -567,10 +572,8 @@
 * Kill-buffer
 #+BEGIN_SRC emacs-lisp
   ;; Key-bindings
-  (global-set-key (kbd "C-x C-k") 'kill-buffer)
-  (global-set-key (kbd "C-x <return> k") 'kill-buffer)
-  (global-set-key (kbd "C-x C-<return> k") 'kill-buffer)
-  (global-set-key (kbd "C-x C-<return> C-k") 'kill-buffer)
+  (global-set-key (kbd "C-x k") 'kill-this-buffer)
+  (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
   ;; Kill all buffers
   (global-set-key (kbd "C-x C-z") 'kill-buffers-all)
   ;; Unset key-binding
