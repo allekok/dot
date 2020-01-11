@@ -2,12 +2,12 @@
 <?php
 require('my-library.php');
 const DEF_BROWSER = 'chromium';
-$browser = nth_pair('-browser', DEF_BROWSER);
-$port = nth_pair('-port', '8082');
+$browser = nth_pair('-browser');
+$port = nth_pair('-port', '5555');
 $path = nth_pair('-path', '.');
-$host = "localhost:$port";
-$browser_command = $browser == DEF_BROWSER ?
-		   "{$browser} --app=http://$host/" :
-		   "{$browser} http://$host/";
-exec("cd $path && php -S $host & $browser_command");
+$host = "localhost:{$port}";
+$browser_command =  !$browser ?
+		     DEF_BROWSER . " --app=http://{$host}/" :
+		     "{$browser} http://{$host}/";
+exec("cd {$path} && php -S {$host} & {$browser_command}");
 ?>

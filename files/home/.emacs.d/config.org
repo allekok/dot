@@ -502,17 +502,20 @@
 #+END_SRC
 * Keyboard languages
 #+BEGIN_SRC emacs-lisp
+  ;;;###autoload
   (defun keyboard-language (layout &optional variant message)
     (start-process-shell-command
      "keyboard-language" nil
      (format "setxkbmap -layout %s -variant %s"
              layout variant))
     (message message))
-
+  ;;;###autoload
   (defun keyboard-english () (interactive)
          (keyboard-language "us" "" "English"))
+  ;;;###autoload
   (defun keyboard-kurdish () (interactive)
          (keyboard-language "ir" "ku_ara" "کوردی"))
+  ;;;###autoload
   (defun keyboard-latin-kurdish () (interactive)
          (keyboard-language "ir" "ku" "Kurdî"))
 #+END_SRC
@@ -542,12 +545,19 @@
   ;; Apps
   ;;;###autoload
   (desktop-app firefox)
+  ;;;###autoload
   (desktop-app chromium)
+  ;;;###autoload
   (desktop-app surf t "s")
+  ;;;###autoload
   (desktop-app st)
+  ;;;###autoload
   (desktop-app mupdf t "f")
+  ;;;###autoload
   (desktop-app vlc t "f")
+  ;;;###autoload
   (desktop-app mpv t "f")
+  ;;;###autoload
   (desktop-app gimp t "f")
   ;;;###autoload
   (defun tor-browser (&optional args)
@@ -580,6 +590,7 @@
   (global-unset-key (kbd "C-z"))
 
   ;; Functions
+  ;;;###autoload
   (defun kill-buffers-all () (interactive)  
          (mapc 'kill-buffer (buffer-list))
          (cd "~/")
@@ -608,6 +619,7 @@
                  (kbd "<return>") 'my-dired-uni-open)))
 
   ;; Functions
+  ;;;###autoload
   (defun my-dired-uni-open ()
     (interactive)
     (let ((file (dired-get-file-for-visit)))
@@ -623,20 +635,20 @@
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
        (t (dired-find-file)))))
-
+  ;;;###autoload
   (defun my-dired-shell-command (program)
     (let ((file (dired-get-file-for-visit)))
       (start-process-shell-command
        "my-dired-shell-command" nil
        (concat program " " (escape-string file)))))
-
+  ;;;###autoload
   (defun my-dired-run-http-server ()
     (interactive)
     (let ((file (dired-get-file-for-visit)))
       (if (file-directory-p file)
           (st (concat "php -S localhost:8081 -t "
                       (escape-string file)
-                      " & chromium http://localhost:8081")))))
+                      " & chromium --app=http://localhost:8081")))))
 #+END_SRC
 * Backup and autosaving
 #+BEGIN_SRC emacs-lisp
@@ -679,10 +691,6 @@
                       (org-mode)
                       (setq bidi-paragraph-direction 'right-to-left)))
 #+END_SRC
-* Pretty symbols
-#+BEGIN_SRC emacs-lisp
-  (global-prettify-symbols-mode)
-#+END_SRC
 * Hippie-expand
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-<tab>") 'hippie-expand)
@@ -710,6 +718,7 @@
 
   ;; Functions
   (setq hs-status-all 'show)
+  ;;;###autoload
   (defun hs-toggle-all ()
     (interactive)
     (if (eq 'show hs-status-all)
@@ -775,7 +784,6 @@
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp
-  ;;;###autoload
   (unless (fboundp 'file-attribute-modification-time)
     ;;; From 'files.el'
     (defsubst file-attribute-modification-time (attributes)
