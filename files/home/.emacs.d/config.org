@@ -351,29 +351,29 @@
     (mode-line-refresh))
   ;;;###autoload
   (defun volume-set (v &optional message-format)
-    (unless message-format (setq message-format "* volume: %s"))
-    (let ((command (concat "pactl set-sink-volume 0 " v)))
+    (let ((message-format (or message-format "* volume: %s"))
+          (command (concat "pactl set-sink-volume 0 " v)))
       (start-process-shell-command command nil command)
-      (mode-line-refresh)
-      (message message-format v)))
+      (mode-line-refresh) (redisplay)
+      (message message-format (volume-level))))
   ;;;###autoload
   (defun volume-raise (&optional step)
     (interactive)
-    (unless step (setq step "+2%"))
-    (volume-set step "+ volume: %s"))
+    (let ((step (or step "+2%")))
+      (volume-set step "+ volume: %s")))
   ;;;###autoload
   (defun volume-lower (&optional step)
     (interactive)
-    (unless step (setq step "-2%"))
-    (volume-set step "- volume: %s"))
-
+    (let ((step (or step "-2%")))
+      (volume-set step "- volume: %s")))
+  ;;;###autoload
   (defun volume-level ()
     (let ((vl (string-trim
                (shell-command-to-string
                 "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
       (unless (string= vl "amixer: Unable to find simple control 'Master',0")
         vl)))
-
+  ;;;###autoload
   (defun volume-mute? ()
     (when (string= (string-trim
                     (shell-command-to-string
@@ -408,22 +408,22 @@
   ;;;###autoload
   (defun screen-brightness-set (v &optional message-format)
     (interactive "nbrightness: ")
-    (unless message-format (setq message-format "* brightness: %d"))
-    (when (and (<= v (screen-brightness-max)) (>= v 0))
-      (with-temp-file screen-brightness-file
-        (insert (number-to-string v)))
-      (message message-format v)))
+    (let ((message-format (or message-format "* brightness: %d")))
+      (when (and (<= v (screen-brightness-max)) (>= v 0))
+        (with-temp-file screen-brightness-file
+          (insert (number-to-string v)))
+        (message message-format v))))
   ;;;###autoload
   (defun screen-brighter (&optional step)
     (interactive)
-    (unless step (setq step +1))
-    (let ((v (+ (screen-brightness-current) step)))
+    (let ((step (or step +1))
+          (v (+ (screen-brightness-current) step)))
       (screen-brightness-set v "+ brightness: +%d")))
   ;;;###autoload
   (defun screen-darker (&optional step)
     (interactive)
-    (unless step (setq step -1))
-    (let ((v (+ (screen-brightness-current) step)))
+    (let ((step (or step -1))
+          (v (+ (screen-brightness-current) step)))
       (screen-brightness-set v "- brightness: -%d")))
 #+END_SRC
 * Keyboard backlight
@@ -450,22 +450,22 @@
   ;;;###autoload
   (defun kbd-brightness-set (v &optional message-format)
     (interactive "nkbd backlight: ")
-    (unless message-format (setq message-format "* kbd backlight: %d"))
-    (when (and (<= v (kbd-brightness-max)) (>= v 0))
-      (with-temp-file kbd-brightness-file
-        (insert (number-to-string v)))
-      (message message-format v)))
+    (let ((message-format (or message-format "* kbd backlight: %d")))
+      (when (and (<= v (kbd-brightness-max)) (>= v 0))
+        (with-temp-file kbd-brightness-file
+          (insert (number-to-string v)))
+        (message message-format v))))
   ;;;###autoload
   (defun kbd-brighter (&optional step)
     (interactive)
-    (unless step (setq step +1))
-    (let ((v (+ (kbd-brightness-current) step)))
+    (let ((step (or step +1))
+          (v (+ (kbd-brightness-current) step)))
       (kbd-brightness-set v "+ kbd backlight: +%d")))
   ;;;###autoload
   (defun kbd-darker (&optional step)
     (interactive)
-    (unless step (setq step -1))
-    (let ((v (+ (kbd-brightness-current) step)))
+    (let ((step (or step -1))
+          (v (+ (kbd-brightness-current) step)))
       (kbd-brightness-set v "- kbd backlight: -%d")))
 #+END_SRC
 * Initial buffer
