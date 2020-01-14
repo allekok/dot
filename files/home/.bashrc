@@ -16,8 +16,3 @@ HISTFILESIZE=2000
 
 shopt -s histappend
 shopt -s globstar
-
-# uni
-if [ -f "$HOME/uni/programs/uni-path.sh" ]; then
-    . "$HOME/uni/programs/uni-path.sh"
-fi
