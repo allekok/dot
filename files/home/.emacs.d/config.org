@@ -177,7 +177,7 @@
       (shell-command command buffer)
       (message "") (display-buffer buffer)))
 #+END_SRC
-* PHP repl
+* PHP-repl
 #+BEGIN_SRC emacs-lisp
   ;; Hook
   (add-hook 'web-mode-hook
@@ -301,7 +301,7 @@
   ;;; Mode-line
   (defun mode-line-refresh ()
     (interactive)
-    (let ((| (propertize " | " 'face 'font-lock-keyword-face)))
+    (let ((| " | "))
       (setq-default
        mode-line-format
        (list
