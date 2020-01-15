@@ -348,7 +348,7 @@
     (shell-command-to-string
      "amixer set Master toggle")
     (message (if (volume-mute?) "MUTE" "UNMUTE"))
-    (mode-line-refresh))
+    (mode-line-refresh) (redisplay))
   ;;;###autoload
   (defun volume-set (v &optional message-format)
     (let ((message-format (or message-format "* volume: %s"))
@@ -416,14 +416,14 @@
   ;;;###autoload
   (defun screen-brighter (&optional step)
     (interactive)
-    (let ((step (or step +1))
-          (v (+ (screen-brightness-current) step)))
+    (unless step (setq step +1))
+    (let ((v (+ (screen-brightness-current) step)))
       (screen-brightness-set v "+ brightness: +%d")))
   ;;;###autoload
   (defun screen-darker (&optional step)
     (interactive)
-    (let ((step (or step -1))
-          (v (+ (screen-brightness-current) step)))
+    (unless step (setq step -1))
+    (let ((v (+ (screen-brightness-current) step)))
       (screen-brightness-set v "- brightness: -%d")))
 #+END_SRC
 * Keyboard backlight
@@ -458,14 +458,14 @@
   ;;;###autoload
   (defun kbd-brighter (&optional step)
     (interactive)
-    (let ((step (or step +1))
-          (v (+ (kbd-brightness-current) step)))
+    (unless step (setq step +1))
+    (let ((v (+ (kbd-brightness-current) step)))
       (kbd-brightness-set v "+ kbd backlight: +%d")))
   ;;;###autoload
   (defun kbd-darker (&optional step)
     (interactive)
-    (let ((step (or step -1))
-          (v (+ (kbd-brightness-current) step)))
+    (unless step (setq step -1))
+    (let ((v (+ (kbd-brightness-current) step)))
       (kbd-brightness-set v "- kbd backlight: -%d")))
 #+END_SRC
 * Initial buffer
