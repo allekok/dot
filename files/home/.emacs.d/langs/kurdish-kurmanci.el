@@ -1,8 +1,6 @@
 ;;; kurdish-kurmanci.el --- Quail package for inputting Kurdish-Kurmanci	-*- coding: utf-8;-*-
 
-;; Copyright (C) 2019 allekok.
-
-;; Author: allekok <one@allekok.com>
+;; Author: Payam <payambapiri.97@gmail.com>
 ;; Keywords: mule, input method, Kurdish-Kurmanci
 
 ;;; Commentary:

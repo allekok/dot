@@ -1,8 +1,6 @@
 ;;; kurdish-sorani.el --- Quail package for inputting Kurdish-Sorani	-*- coding: utf-8;-*-
 
-;; Copyright (C) 2019 allekok.
-
-;; Author: allekok <one@allekok.com>
+;; Author: Payam <payambapiri.97@gmail.com>
 ;; Keywords: mule, input method, Kurdish-Sorani
 
 ;;; Commentary:
