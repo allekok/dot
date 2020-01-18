@@ -79,6 +79,10 @@
    `(dired-async-message ((,class (:foreground ,keyword-color))))
    `(web-mode-html-tag-face ((,class (:foreground ,fore-color))))
    `(web-mode-html-attr-name-face ((,class (:foreground ,fore-color))))
+   `(error ((,class (:foreground ,warn-color))))
+   `(compilation-info ((,class (:foreground ,keyword-color))))
+   `(org-todo ((,class (:foreground ,warn-color))))
+   `(org-done ((,class (:foreground ,keyword-color))))
    `(font-lock-type-face ((,class (:foreground ,fore-color))))))
 
 (provide-theme 'allekok-dark)
