@@ -1,7 +1,5 @@
 ;;; allekok-light-theme.el --- Allekok light theme
 
-;; Copyright (C) 2019 allekok
-
 ;; Author: Payam <payambapiri.97@gmail.com>
 
 ;;; Code:
@@ -21,7 +19,7 @@
        (keyword-color (nth 2 colors))
        (warn-color (nth 3 colors))
        
-       (back-light-color "#F3F3F3")
+       (back-light-color "#DDDDDD")
        (fore-light-color "#444444")
        (comment-color back-light-color)
        (hl-color back-light-color)

@@ -1,7 +1,5 @@
 ;;; allekok-dark-theme.el --- Allekok dark theme
 
-;; Copyright (C) 2019 allekok
-
 ;; Author: Payam <payambapiri.97@gmail.com>
 
 ;;; Code:
@@ -21,7 +19,7 @@
        (keyword-color (nth 2 colors))
        (warn-color (nth 3 colors))
 
-       (back-light-color "#333333")
+       (back-light-color "#222222")
        (fore-light-color "#AAAAAA")
        (comment-color back-light-color)
        (hl-color back-light-color)
