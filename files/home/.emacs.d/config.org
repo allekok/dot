@@ -478,6 +478,7 @@
 * Text-mode
 #+BEGIN_SRC emacs-lisp
   (setq-default major-mode 'text-mode)
+  (add-hook 'text-mode-hook 'auto-fill-mode)
 #+END_SRC
 * Org
 #+BEGIN_SRC emacs-lisp
@@ -785,11 +786,11 @@
   (unless (fboundp 'file-attribute-modification-time)
     ;;; From 'files.el'
     (defsubst file-attribute-modification-time (attributes)
-    "The modification time in ATTRIBUTES returned by `file-attributes'.
+      "The modification time in ATTRIBUTES returned by `file-attributes'.
   This is the time of the last change to the file's contents, and
   is a list of integers (HIGH LOW USEC PSEC) in the same style
   as (current-time)."
-    (nth 5 attributes)))
+      (nth 5 attributes)))
   ;;;###autoload
   (defun modif-time (f)
     (let ((m (file-attribute-modification-time
@@ -818,21 +819,21 @@
   (defun my-compile-all ()
     (interactive)
     (mapcar 'compile-if-necessary
-                          (list
-                           (expand-file-name
-                            "init.el" user-emacs-directory)
-                           (expand-file-name
-                            "config.org" user-emacs-directory)
-                           (expand-file-name
-                            "themes/allekok-core-theme.el" user-emacs-directory)
-                           (expand-file-name
-                            "themes/allekok-dark-theme.el" user-emacs-directory)
-                           (expand-file-name
-                            "themes/allekok-light-theme.el" user-emacs-directory)
-                           (expand-file-name
-                            "langs/kurdish-sorani.el" user-emacs-directory)
-                           (expand-file-name
-                            "langs/kurdish-kurmanci.el" user-emacs-directory))))
+            (list
+             (expand-file-name
+              "init.el" user-emacs-directory)
+             (expand-file-name
+              "config.org" user-emacs-directory)
+             (expand-file-name
+              "themes/allekok-core-theme.el" user-emacs-directory)
+             (expand-file-name
+              "themes/allekok-dark-theme.el" user-emacs-directory)
+             (expand-file-name
+              "themes/allekok-light-theme.el" user-emacs-directory)
+             (expand-file-name
+              "langs/kurdish-sorani.el" user-emacs-directory)
+             (expand-file-name
+              "langs/kurdish-kurmanci.el" user-emacs-directory))))
 
   (global-set-key [XF86AudioPlay] 'my-compile-all)
   (add-hook 'kill-emacs-hook 'my-compile-all)
