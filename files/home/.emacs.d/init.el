@@ -18,4 +18,4 @@
    (quote
     (exwm xelb htmlize slime slime-mode web-mode markdown-mode async use-package))))
 (put 'upcase-region 'disabled nil)
-(put 'lowercase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
