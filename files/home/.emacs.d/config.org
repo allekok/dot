@@ -289,7 +289,7 @@
     (let ((h (string-to-number
               (format-time-string "%H"))))
       (theme-load*
-       (if (and (< h 22) (>= h 8))
+       (if (and (< h 20) (> h 5))
            'allekok-light 'allekok-dark))))
 
   (setq theme-timer
