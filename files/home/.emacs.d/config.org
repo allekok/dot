@@ -289,7 +289,7 @@
     (let ((h (string-to-number
               (format-time-string "%H"))))
       (theme-load*
-       (if (and (< h 20) (> h 5))
+       (if (and (> h 6) (<= h 23))
            'allekok-light 'allekok-dark))))
 
   (setq theme-timer
@@ -627,10 +627,10 @@
        ((file-directory-p file) (dired-find-file))
        ((string-suffix-p ".avi" file t) (mpv file))
        ((string-suffix-p ".mp4" file t) (mpv file))
-       ((string-suffix-p ".mp3" file t) (mpv file))
-       ((string-suffix-p ".wav" file t) (mpv file))
+       ((string-suffix-p ".mp3" file t) (vlc file))
+       ((string-suffix-p ".wav" file t) (vlc file))
        ((string-suffix-p ".m4v" file t) (mpv file))
-       ((string-suffix-p ".m4a" file t) (mpv file))
+       ((string-suffix-p ".m4a" file t) (vlc file))
        ((string-suffix-p ".mkv" file t) (mpv file))
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
@@ -771,7 +771,7 @@
 #+BEGIN_SRC emacs-lisp
   (blink-cursor-mode -1)
   (setq-default fill-column 80
-                line-spacing 2)
+                line-spacing 4)
   (auto-image-file-mode)
   (global-set-key (kbd "C-x e") 'eval-last-sexp)
   (global-set-key (kbd "C-<return>") 'calculator)

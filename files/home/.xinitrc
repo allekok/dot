@@ -3,7 +3,8 @@ xset r rate 200 60
 
 HOUR_NOW_NUM=$(date +%H)
 BG_COLOR_FILE=
-if [ $HOUR_NOW_NUM -gt 5 ] && [ $HOUR_NOW_NUM -lt 20 ]; then
+if [ $HOUR_NOW_NUM -gt 5 ] && [ $HOUR_NOW_NUM -lt 23 ] ||
+       [ $HOUR_NOW_NUM -eq 23 ]; then
     {
 	BG_COLOR_FILE="$HOME/.color-light"
     }
