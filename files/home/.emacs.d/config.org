@@ -771,7 +771,7 @@
 #+BEGIN_SRC emacs-lisp
   (blink-cursor-mode -1)
   (setq-default fill-column 80
-                line-spacing 4)
+                line-spacing 7)
   (auto-image-file-mode)
   (global-set-key (kbd "C-x e") 'eval-last-sexp)
   (global-set-key (kbd "C-<return>") 'calculator)
