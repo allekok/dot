@@ -780,6 +780,7 @@
   (setq safe-local-variable-values
         '((bidi-paragraph-direction . right-to-left))
         shr-use-colors nil)
+  (global-prettify-symbols-mode)
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp
