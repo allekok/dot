@@ -100,7 +100,7 @@
     (require 'bongo)
     (setq bongo-logo nil
           bongo-default-directory "~/music/"
-          bongo-enabled-backends '(mplayer)))
+          bongo-enabled-backends '(vlc)))
 #+END_SRC
 * /package/ markdown-mode
 #+BEGIN_SRC emacs-lisp
@@ -557,8 +557,6 @@
   ;;;###autoload
   (desktop-app vlc t "f")
   ;;;###autoload
-  (desktop-app mpv t "f")
-  ;;;###autoload
   (desktop-app gimp t "f")
   ;;;###autoload
   (defun tor-browser (&optional args)
@@ -626,13 +624,13 @@
     (let ((file (dired-get-file-for-visit)))
       (cond
        ((file-directory-p file) (dired-find-file))
-       ((string-suffix-p ".avi" file t) (mpv file))
-       ((string-suffix-p ".mp4" file t) (mpv file))
+       ((string-suffix-p ".avi" file t) (vlc file))
+       ((string-suffix-p ".mp4" file t) (vlc file))
        ((string-suffix-p ".mp3" file t) (vlc file))
        ((string-suffix-p ".wav" file t) (vlc file))
-       ((string-suffix-p ".m4v" file t) (mpv file))
+       ((string-suffix-p ".m4v" file t) (vlc file))
        ((string-suffix-p ".m4a" file t) (vlc file))
-       ((string-suffix-p ".mkv" file t) (mpv file))
+       ((string-suffix-p ".mkv" file t) (vlc file))
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
        (t (dired-find-file)))))
