@@ -352,20 +352,21 @@
   ;;;###autoload
   (defun volume-set (v &optional message-format)
     (let ((message-format (or message-format "* volume: %s"))
-          (command (concat "pactl set-sink-volume 0 " v)))
+          (command (concat "amixer set Master "
+                           (number-to-string v) "%")))
       (start-process-shell-command command nil command)
       (mode-line-refresh) (redisplay)
       (message message-format (volume-level))))
   ;;;###autoload
-  (defun volume-raise (&optional step)
+  (cl-defun volume-raise (&optional (step 2))
     (interactive)
-    (let ((step (or step "+2%")))
-      (volume-set step "+ volume: %s")))
+    (let ((nv (+ step (string-to-number (volume-level)))))
+      (volume-set nv "+ volume: %s")))
   ;;;###autoload
-  (defun volume-lower (&optional step)
+  (cl-defun volume-lower (&optional (step -2))
     (interactive)
-    (let ((step (or step "-2%")))
-      (volume-set step "- volume: %s")))
+    (let ((nv (+ step (string-to-number (volume-level)))))
+      (volume-set nv "- volume: %s")))
   ;;;###autoload
   (defun volume-level ()
     (let ((vl (string-trim
@@ -377,7 +378,7 @@
   (defun volume-mute? ()
     (when (string= (string-trim
                     (shell-command-to-string
-                     "awk -F '[][]' '{print $4}' <(amixer get Master | tail -1)"))
+                     "awk -F '[][]' '{print $6}' <(amixer get Master | tail -1)"))
                    "off")
       t))
 #+END_SRC
