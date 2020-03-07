@@ -13,7 +13,7 @@ alias mkdir='mkdir -p'
 mkdir $FILES_HOME_PATH
 cd $FILES_HOME_PATH
 
-cp ~/.profile .
+cp ~/.bash_profile .
 cp ~/.bashrc .
 cp ~/.bash_aliases .
 cp ~/.gitconfig .
