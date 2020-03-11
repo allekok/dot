@@ -545,6 +545,8 @@
 
   ;; Apps
   ;;;###autoload
+  (desktop-app telegram-desktop)
+  ;;;###autoload
   (desktop-app firefox)
   ;;;###autoload
   (desktop-app chromium)
@@ -670,22 +672,22 @@
 #+END_SRC
 * C-x-(a A !)
 #+BEGIN_SRC emacs-lisp
-  ;;; allekok.com
+  ;;; allekok-website
   ;; Open website
   (global-set-key (kbd "C-x a")
                   #'(lambda () (interactive)
-                      (chromium "--app=http://localhost/")))
+                      (chromium "--app=https://allekok.ir/")))
   ;; Test server
   (global-set-key (kbd "C-x A")
                   #'(lambda () (interactive)
-                      (chromium "http://localhost/")))
+                      (chromium "https://allekok.ir/")))
   ;; Show allekok/status
   (global-set-key (kbd "C-x !")
                   #'(lambda () (interactive)
                       (switch-to-buffer "allekok/status")
                       (erase-buffer)
                       (url-insert-file-contents
-                       "http://localhost/status.php")
+                       "https://allekok.ir/status.php")
                       (message "'allekok/status' Done!")
                       (org-mode)
                       (setq bidi-paragraph-direction 'right-to-left)))
