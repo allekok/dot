@@ -522,7 +522,7 @@
 #+END_SRC
 * Kurdish font-face
 #+BEGIN_SRC emacs-lisp
-  (let ((spec (font-spec :family "NotoNaskhArabicUI" :weight 'bold)))
+  (let ((spec (font-spec :family "NotoNaskhArabicUI")))
     (set-fontset-font nil 'arabic spec)
     (set-fontset-font nil #x200c spec))
 #+END_SRC
@@ -633,6 +633,7 @@
        ((string-suffix-p ".m4v" file t) (vlc file))
        ((string-suffix-p ".m4a" file t) (vlc file))
        ((string-suffix-p ".mkv" file t) (vlc file))
+       ((string-suffix-p ".webm" file t) (vlc file))
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
        (t (dired-find-file)))))
@@ -782,6 +783,8 @@
         '((bidi-paragraph-direction . right-to-left))
         shr-use-colors nil)
   (global-prettify-symbols-mode)
+  (setq user-full-name "Payam"
+        user-mail-address "payambapiri.97@gmail.com")
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp
