@@ -785,6 +785,17 @@
   (global-prettify-symbols-mode)
   (setq user-full-name "Payam"
         user-mail-address "payambapiri.97@gmail.com")
+  ;; Convert Numbers
+  (defun kurdish-numbers ()
+    (interactive)
+    (let ((fa '("۰" "۱" "۲" "۳" "۴" "۵" "۶" "۷" "۸" "۹"))
+          (ck '("٠" "١" "٢" "٣" "٤" "٥" "٦" "٧" "٨" "٩")))
+      (defun iter (from to)
+        (if from
+            (progn (replace-string* (car from) (car to))
+                   (iter (cdr from) (cdr to)))))
+      (iter fa ck)))
+  (global-set-key [XF86AudioPrev] 'kurdish-numbers)
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp
