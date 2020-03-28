@@ -16,7 +16,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (haskell-mode exwm xelb htmlize slime slime-mode web-mode markdown-mode async use-package)))
+    (haskell-mode exwm xelb htmlize web-mode markdown-mode async use-package)))
  '(send-mail-function (quote smtpmail-send-it))
  '(smtpmail-smtp-server "smtp.gmail.com")
  '(smtpmail-smtp-service 587))
