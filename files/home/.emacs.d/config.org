@@ -193,7 +193,7 @@
 * Quail
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path
-               (expand-file-name "langs" user-emacs-directory))
+	       (expand-file-name "langs" user-emacs-directory))
   ;; Input-methods
   ;;;###autoload
   (require 'kurdish-sorani)
@@ -202,14 +202,14 @@
 
   ;; Key-bindings
   (global-set-key (kbd "s-1")
-                  (lambda () (interactive)
-                    (change-input-method nil "English")))
+		  (lambda () (interactive)
+		    (change-input-method nil "English")))
   (global-set-key (kbd "s-2")
-                  (lambda () (interactive)
-                    (change-input-method 'kurdish-sorani "کوردی")))
+		  (lambda () (interactive)
+		    (change-input-method 'kurdish-sorani "کوردی")))
   (global-set-key (kbd "s-3")
-                  (lambda () (interactive)
-                    (change-input-method 'kurdish-kurmanci "Kurdî")))
+		  (lambda () (interactive)
+		    (change-input-method 'kurdish-kurmanci "Kurdî")))
 
   ;; Function
   ;;;###autoload
@@ -513,9 +513,10 @@
 #+END_SRC
 * Kurdish font-face
 #+BEGIN_SRC emacs-lisp
-  (let ((spec (font-spec :family "NotoNaskhArabicUI")))
-    (set-fontset-font nil 'arabic spec)
-    (set-fontset-font nil #x200c spec))
+  (when (eq 'x (window-system))
+    (let ((spec (font-spec :family "NotoNaskhArabicUI")))
+      (set-fontset-font nil 'arabic spec)
+      (set-fontset-font nil #x200c spec)))
 #+END_SRC
 * Desktop apps
 #+BEGIN_SRC emacs-lisp
