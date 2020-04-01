@@ -6,7 +6,7 @@ if [ -f "$HOME/.bash_aliases" ]; then
     . "$HOME/.bash_aliases"
 fi
 
-PS1='-> '
+PS1='\W '
 EDITOR=emacsclient
 PATH=$PATH:"$HOME/PROG"
 
