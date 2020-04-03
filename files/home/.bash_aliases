@@ -1,6 +1,5 @@
 # -*- mode:sh -*-
-alias ls='ls --color=never -lh'
-alias l='ls'
+alias l='ls --color=never -lh'
 alias p='pwd'
 alias n='nano'
 alias r='sudo protonvpn r'
