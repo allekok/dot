@@ -578,6 +578,7 @@
   (global-set-key (kbd "C-x C-k") 'kill-buffer)
   ;; Kill all buffers
   (global-set-key (kbd "C-x C-z") 'kill-buffers-all)
+  (global-set-key (kbd "C-x z") 'kill-buffers-all)
   ;; Unset key-binding
   (global-unset-key (kbd "C-z"))
 

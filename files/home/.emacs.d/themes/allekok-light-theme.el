@@ -53,7 +53,7 @@
 					,back-color
 					:line-width 2)))))
    `(cursor ((,class (:background ,keyword-color))))
-   `(region ((,class (:background ,region-color))))
+   `(region ((,class (:background ,keyword-color :foreground ,back-color))))
    `(hl-line ((,class (:background ,hl-color))))
    `(vertical-border ((,class (:foreground ,fore-light-color))))
    `(show-paren-match ((,class (:foreground ,paren-match-color
