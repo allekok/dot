@@ -27,97 +27,69 @@
 #+END_SRC
 * /package/
 #+BEGIN_SRC emacs-lisp
-  (require 'package)
   ;; On bad signature error un-comment the line below.
   ;; (setq package-check-signature nil)
   (setq package-enable-at-startup nil
         package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                            ("melpa" . "http://melpa.org/packages/")))
-  (package-initialize)
-#+END_SRC
-* /package/ use-package
-#+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
 #+END_SRC
 * /package/ exwm
 #+BEGIN_SRC emacs-lisp
   (when (eq 'x (window-system))
-    (use-package exwm
-      :ensure t
-      :config
-      (require 'exwm)
-      (exwm-input-set-simulation-keys
-       '(
-         ([?\C-b] . left)
-         ([?\M-b] . C-left)
-         ([?\C-f] . right)
-         ([?\M-f] . C-right)
-         ([?\C-p] . up)
-         ([?\C-n] . down)
-         ([?\C-a] . home)
-         ([?\C-e] . end)
-         ([?\M-v] . prior)
-         ([?\C-v] . next)
-         ([?\C-d] . delete)
-         ([?\C-k] . (S-end delete))
-         ([?\C-w] . ?\C-x)
-         ([?\M-w] . ?\C-c)
-         ([?\C-y] . ?\C-v)
-         ([?\C-s] . ?\C-f)))
-      (dolist (k '(XF86AudioLowerVolume
-                   XF86AudioRaiseVolume
-                   XF86AudioMute
-                   XF86KbdBrightnessUp
-                   XF86KbdBrightnessDown
-                   XF86MonBrightnessUp
-                   XF86MonBrightnessDown))
-        (cl-pushnew k exwm-input-prefix-keys))
-      (setq exwm-input-global-keys
-            `(([?\s-!] . keyboard-english)
-              ([?\s-@] . keyboard-kurdish)
-              ([?\s-#] . keyboard-latin-kurdish)))
-      (add-hook 'exwm-update-class-hook
-                (lambda ()
-                  (exwm-workspace-rename-buffer
-                   (format "#%s#" exwm-class-name))))
-      (exwm-enable)))
+    (require 'exwm)
+    (exwm-input-set-simulation-keys
+     '(
+       ([?\C-b] . left)
+       ([?\M-b] . C-left)
+       ([?\C-f] . right)
+       ([?\M-f] . C-right)
+       ([?\C-p] . up)
+       ([?\C-n] . down)
+       ([?\C-a] . home)
+       ([?\C-e] . end)
+       ([?\M-v] . prior)
+       ([?\C-v] . next)
+       ([?\C-d] . delete)
+       ([?\C-k] . (S-end delete))
+       ([?\C-w] . ?\C-x)
+       ([?\M-w] . ?\C-c)
+       ([?\C-y] . ?\C-v)
+       ([?\C-s] . ?\C-f)))
+    (dolist (k '(XF86AudioLowerVolume
+                 XF86AudioRaiseVolume
+                 XF86AudioMute
+                 XF86KbdBrightnessUp
+                 XF86KbdBrightnessDown
+                 XF86MonBrightnessUp
+                 XF86MonBrightnessDown))
+      (cl-pushnew k exwm-input-prefix-keys))
+    (setq exwm-input-global-keys
+          `(([?\s-!] . keyboard-english)
+            ([?\s-@] . keyboard-kurdish)
+            ([?\s-#] . keyboard-latin-kurdish)))
+    (add-hook 'exwm-update-class-hook
+              (lambda ()
+                (exwm-workspace-rename-buffer
+                 (format "#%s#" exwm-class-name))))
+    (exwm-enable))
 #+END_SRC
 * /package/ async
 #+BEGIN_SRC emacs-lisp
-  (use-package async
-    :ensure t
-    :config
-    (require 'async)
-    (dired-async-mode))
-#+END_SRC
-* /package/ bongo
-#+BEGIN_SRC emacs-lisp
-  (use-package bongo
-    :ensure t
-    :config
-    (require 'bongo)
-    (setq bongo-logo nil
-          bongo-default-directory "~/music/"
-          bongo-enabled-backends '(vlc)))
+  (require 'async)
+  (dired-async-mode)
 #+END_SRC
 * /package/ markdown-mode
 #+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode :ensure t)
+  ;; Install `markdown-mode'
 #+END_SRC
 * /package/ web-mode
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :ensure t
-    :config
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode)))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 #+END_SRC
 * /package/ htmlize
 #+BEGIN_SRC emacs-lisp
-  ;; For org-mode HTML export
-  (use-package htmlize :ensure t)
+  ;; For org-mode HTML export Install `htmlize'
 #+END_SRC
 * C-mode
 #+BEGIN_SRC emacs-lisp
@@ -249,10 +221,8 @@
 * Appearance
 #+BEGIN_SRC emacs-lisp
   ;;; Remove bars
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (fringe-mode '(0 . 0))
+  (set-frame-parameter nil 'vertical-scroll-bars nil)
+  (fringe-mode '(1 . 1))
 
   ;;; Theme
   (global-set-key [XF86LaunchA] 'theme-toggle)
@@ -776,7 +746,7 @@
         shr-use-colors nil)
   (setq user-full-name "Payam"
         user-mail-address "payambapiri.97@gmail.com")
-  ;; Convert Numbers
+  ;;;###autoload
   (defun kurdish-numbers ()
     (interactive)
     (let ((fa '("۰" "۱" "۲" "۳" "۴" "۵" "۶" "۷" "۸" "۹"))
@@ -788,6 +758,12 @@
       (iter fa ck)))
   (global-set-key [XF86AudioPrev] 'kurdish-numbers)
   (setq inferior-lisp-program "/usr/local/bin/scm")
+  (setq gnus-select-method '(nntp "news.gwene.org"))
+  (with-eval-after-load 'gnutls
+    (setq
+     gnutls-verify-error t
+     gnutls-min-prime-bits 2048
+     gnutls-trustfiles '("/etc/ssl/cert.pem")))
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp

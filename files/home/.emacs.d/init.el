@@ -15,9 +15,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (haskell-mode exwm xelb htmlize web-mode markdown-mode async use-package)))
- '(send-mail-function (quote smtpmail-send-it))
+   '(haskell-mode exwm xelb htmlize web-mode markdown-mode async))
+ '(send-mail-function 'smtpmail-send-it)
  '(smtpmail-smtp-server "smtp.gmail.com")
  '(smtpmail-smtp-service 587))
 (put 'upcase-region 'disabled nil)
