@@ -5,6 +5,9 @@
 	editor = emacsclient	
 # Source: https://github.com/wichtounet/dotfiles-git/blob/master/.gitconfig
 [alias]
-	lg = log --color --graph \
+	l = log --color --graph \
 	--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
-	--abbrev-commit -- 
+	--abbrev-commit --
+	s = status
+	a = add
+	c = commit

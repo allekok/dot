@@ -28,6 +28,7 @@ cp ~/.emacs.d/init.el .emacs.d
 cp ~/.emacs.d/config.org .emacs.d
 cp ~/.emacs.d/themes/*.el .emacs.d/themes
 cp ~/.emacs.d/langs/*.el .emacs.d/langs
+cp ~/.emacs.d/emacs-configure .emacs.d
 
 # .fonts
 mkdir .fonts

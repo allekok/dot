@@ -222,7 +222,7 @@
 #+BEGIN_SRC emacs-lisp
   ;;; Remove bars
   (set-frame-parameter nil 'vertical-scroll-bars nil)
-  (fringe-mode '(1 . 1))
+  (fringe-mode '(0 . 0))
 
   ;;; Theme
   (global-set-key [XF86LaunchA] 'theme-toggle)
@@ -309,14 +309,14 @@
     (shell-command-to-string
      "amixer set Master toggle")
     (message (if (volume-mute?) "MUTE" "UNMUTE"))
-    (mode-line-refresh) (redisplay))
+    (mode-line-refresh))
   ;;;###autoload
   (defun volume-set (v &optional message-format)
     (let ((message-format (or message-format "* volume: %s"))
           (command (concat "amixer set Master "
                            (number-to-string v) "%")))
       (start-process-shell-command command nil command)
-      (mode-line-refresh) (redisplay)
+      (mode-line-refresh)
       (message message-format (volume-level))))
   ;;;###autoload
   (cl-defun volume-raise (&optional (step 2))
