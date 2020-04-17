@@ -1,3 +1,4 @@
 #!/bin/sh
+./autogen.sh
 # Mostly from linux `kiss' community repo
-./configure CFLAGS="-Os" --prefix=/usr --with-modules --with-xft --without-toolkit-scroll-bars --without-dbus --without-gconf --without-gsettings --without-makeinfo --with-xpm=no --with-gnutls=yes --with-json=yes
+./configure CFLAGS="-Os" --prefix=/usr --with-modules --with-xft --without-toolkit-scroll-bars --without-dbus --without-makeinfo --with-xpm=no --with-gnutls=yes --with-json=yes --with-wide-int
