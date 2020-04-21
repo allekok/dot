@@ -87,10 +87,6 @@
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 #+END_SRC
-* /package/ htmlize
-#+BEGIN_SRC emacs-lisp
-  ;; For org-mode HTML export Install `htmlize'
-#+END_SRC
 * C-mode
 #+BEGIN_SRC emacs-lisp
   ;; Hook

@@ -17,17 +17,7 @@
        (back-color (nth 0 colors))
        (fore-color (nth 1 colors))
        (keyword-color (nth 2 colors))
-       (warn-color (nth 3 colors))
-       
-       (back-light-color back-color)
-       (fore-light-color fore-color)
-       (comment-color back-light-color)
-       (hl-color back-light-color)
-       (region-color back-light-color)
-       (builtin-color fore-color)
-       (string-color fore-color)
-       (var-color fore-color)
-       (paren-match-color keyword-color))
+       (warn-color (nth 3 colors)))
   (custom-theme-set-faces
    'allekok-light
    `(default ((,class (:family
@@ -45,7 +35,7 @@
 			       ,back-color
 			       :line-width 2)))))
    `(mode-line-inactive ((,class (:foreground
-				  ,fore-light-color
+				  ,fore-color
 				  :background ,back-color
 				  :height ,font-size-mini
 				  :weight medium
@@ -54,21 +44,21 @@
 					:line-width 2)))))
    `(cursor ((,class (:background ,keyword-color))))
    `(region ((,class (:background ,keyword-color :foreground ,back-color))))
-   `(hl-line ((,class (:background ,hl-color))))
-   `(vertical-border ((,class (:foreground ,fore-light-color))))
-   `(show-paren-match ((,class (:foreground ,paren-match-color
+   `(hl-line ((,class (:background ,back-color))))
+   `(vertical-border ((,class (:foreground ,fore-color))))
+   `(show-paren-match ((,class (:foreground ,keyword-color
 					    :weight normal))))
    `(font-lock-warning-face ((,class (:foreground ,warn-color))))
    `(font-lock-keyword-face ((,class (:foreground ,keyword-color))))
-   `(font-lock-builtin-face ((,class (:foreground ,builtin-color))))
+   `(font-lock-builtin-face ((,class (:foreground ,fore-color))))
    `(font-lock-function-name-face ((,class (:weight normal))))
-   `(font-lock-string-face ((,class :foreground ,string-color)))
-   `(font-lock-comment-face ((,class :background ,comment-color)))
-   `(font-lock-variable-name-face ((,class :foreground ,var-color)))
+   `(font-lock-string-face ((,class :foreground ,fore-color)))
+   `(font-lock-comment-face ((,class :background ,back-color)))
+   `(font-lock-variable-name-face ((,class :foreground ,fore-color)))
    `(font-lock-constant-face ((,class :weight normal)))
    `(minibuffer-prompt ((,class :foreground ,keyword-color)))
    `(link ((,class (:foreground ,keyword-color :weight bold))))
-   `(header-line ((,class (:background ,back-light-color))))
+   `(header-line ((,class (:background ,back-color))))
    `(eww-valid-certificate ((,class (:foreground ,keyword-color :weight normal))))
    `(isearch ((,class (:underline t))))
    `(isearch-fail ((,class (:strike-through t))))

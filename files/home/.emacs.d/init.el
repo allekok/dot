@@ -14,8 +14,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(haskell-mode exwm xelb htmlize web-mode markdown-mode async))
+ '(package-selected-packages '(haskell-mode exwm xelb web-mode markdown-mode async))
  '(send-mail-function 'smtpmail-send-it)
  '(smtpmail-smtp-server "smtp.gmail.com")
  '(smtpmail-smtp-service 587))
