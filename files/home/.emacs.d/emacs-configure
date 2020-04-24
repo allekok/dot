@@ -1,4 +1,4 @@
 #!/bin/sh
 ./autogen.sh
 # Mostly from linux `kiss' community repo
-./configure CFLAGS="-O3" --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --with-modules --with-xft --without-toolkit-scroll-bars --without-dbus --without-makeinfo --with-xpm=no --with-gnutls=yes --with-json=yes --with-wide-int
+./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --with-modules --with-xft --without-toolkit-scroll-bars --without-dbus --without-makeinfo --with-xpm=no --with-gnutls=yes --with-json=yes --with-wide-int

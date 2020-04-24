@@ -247,7 +247,7 @@
     (let ((h (string-to-number
               (format-time-string "%H"))))
       (theme-load*
-       (if (and (> h 6) (<= h 23))
+       (if (and (> h 6) (<= h 22))
            'allekok-light 'allekok-dark))))
 
   (setq theme-timer
@@ -746,13 +746,15 @@
   ;;;###autoload
   (defun kurdish-numbers ()
     (interactive)
-    (let ((fa '("۰" "۱" "۲" "۳" "۴" "۵" "۶" "۷" "۸" "۹"))
+    (let ((en '("0" "1" "2" "3" "4" "5" "6" "7" "8" "9"))
+          (fa '("۰" "۱" "۲" "۳" "۴" "۵" "۶" "۷" "۸" "۹"))
           (ck '("٠" "١" "٢" "٣" "٤" "٥" "٦" "٧" "٨" "٩")))
       (defun iter (from to)
         (if from
             (progn (replace-string* (car from) (car to))
                    (iter (cdr from) (cdr to)))))
-      (iter fa ck)))
+      (iter fa ck)
+      (iter en ck)))
   (global-set-key [XF86AudioPrev] 'kurdish-numbers)
   (setq inferior-lisp-program "/usr/local/bin/scm")
   (setq gnus-select-method '(nntp "news.gwene.org"))
