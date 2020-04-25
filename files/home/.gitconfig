@@ -1,6 +1,6 @@
 [user]
 	email = payambapiri.97@gmail.com
-	name = Payam Bapiri
+	name = Payam
 [core]
 	editor = emacsclient	
 # Source: https://github.com/wichtounet/dotfiles-git/blob/master/.gitconfig
