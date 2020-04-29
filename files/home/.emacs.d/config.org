@@ -1,5 +1,5 @@
 #+TITLE: My emacs configuration file
-#+AUTHOR: Payam Bapiri <payambapiri.97@gmail.com>
+#+AUTHOR: Payam <payambapiri.97@gmail.com>
 * ~
 #+BEGIN_SRC emacs-lisp
   ;;;###autoload
@@ -244,16 +244,21 @@
     (cancel-timer theme-timer))
 
   (defun theme-now ()
+    (interactive)
     (let ((h (string-to-number
-              (format-time-string "%H"))))
-      (theme-load*
-       (if (and (> h 6) (<= h 22))
-           'allekok-light 'allekok-dark))))
+              (format-time-string "%H")))
+          (theme (if (> (get-light) 2)
+                     'allekok-light 'allekok-dark)))
+      (unless (memq theme custom-enabled-themes) (theme-load* theme))))
 
-  (setq theme-timer
-        (run-with-timer 0 1800
-                        #'(lambda ()
-                            (theme-now))))
+  (defun get-light ()
+    (interactive)
+    (string-to-number
+     (substring
+      (shell-command-to-string "cat /sys/devices/platform/applesmc.768/light")
+      1 2)))
+
+  (setq theme-timer (run-with-timer 0 5 'theme-now))
 
   ;;; Mode-line
   (defun mode-line-refresh ()
@@ -269,16 +274,17 @@
                               'font-lock-warning-face)))
         | "%m" | "%l,%02c" | "%p-%I" |
         internet? | (when (volume-mute?) "MUTE ")
-        (volume-level) | memory-free))))
+        (volume-level) | memory-free | fan-speed))))
 
   (defun mode-line-refresh-variables ()
     (setq datetime (format-time-string "%H:%M %a-%d-%b")
           battery battery-mode-line-string
           internet? (internet?)
-          memory-free (memory-free)))
+          memory-free (memory-free)
+          fan-speed (get-fan-speed)))
 
   (setq mode-line-refresh-variables-timer
-        (run-with-timer 0 30
+        (run-with-timer 0 5
                         #'(lambda ()
                             (mode-line-refresh-variables)
                             (mode-line-refresh))))
@@ -528,6 +534,13 @@
   (defun tchromium (&optional args)
     (interactive)
     (chromium (concat "--proxy-server=socks://127.0.0.1:9150 " args)))
+  ;;;###autoload
+  (defun desktop-app-query (program)
+    (interactive
+     (list (read-shell-command "Program: ")))
+    (start-process-shell-command
+     program nil program))
+  (global-set-key (kbd "M-!") 'desktop-app-query)
 #+END_SRC
 * Coding system <- UTF-8
 #+BEGIN_SRC emacs-lisp
@@ -763,6 +776,11 @@
      gnutls-verify-error t
      gnutls-min-prime-bits 2048
      gnutls-trustfiles '("/etc/ssl/cert.pem")))
+
+  (defun get-fan-speed ()
+    (interactive)
+    (string-trim (shell-command-to-string
+                  "cat /sys/devices/platform/applesmc.768/fan1_input")))
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp

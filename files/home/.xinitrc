@@ -1,10 +1,10 @@
 export _JAVA_AWT_WM_NONREPARENTING=1
 xset r rate 200 60
 
-HOUR_NOW_NUM=$(date +%H)
+LIGHT=$(cat /sys/devices/platform/applesmc.768/light)
+LIGHT_NUM=$(echo -n ${LIGHT:1:1})
 BG_COLOR_FILE=
-if [ $HOUR_NOW_NUM -gt 6 ] && [ $HOUR_NOW_NUM -lt 22 ] ||
-       [ $HOUR_NOW_NUM -eq 22 ]; then
+if [ $LIGHT_NUM -gt 2 ]; then
     BG_COLOR_FILE="$HOME/.color-light"
 else
     BG_COLOR_FILE="$HOME/.color-dark"

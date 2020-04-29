@@ -71,7 +71,8 @@
    `(compilation-info ((,class (:foreground ,keyword-color))))
    `(org-todo ((,class (:foreground ,warn-color))))
    `(org-done ((,class (:foreground ,keyword-color))))
-   `(font-lock-type-face ((,class (:foreground ,fore-color))))))
+   `(font-lock-type-face ((,class (:foreground ,fore-color))))
+   `(erc-notice-face ((,class (:foreground ,keyword-color))))))
 
 (provide-theme 'allekok-light)
 
