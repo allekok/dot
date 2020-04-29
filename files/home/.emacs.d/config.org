@@ -235,13 +235,12 @@
     "Disable all enabled themes and load `theme'."
     (mapc 'disable-theme custom-enabled-themes)
     (load-theme theme t))
-  ;;;###autoload
+
   (defun theme-toggle ()
     (interactive)
     (theme-load* (if (memq 'allekok-light
                            custom-enabled-themes)
-                     'allekok-dark 'allekok-light))
-    (cancel-timer theme-timer))
+                     'allekok-dark 'allekok-light)))
 
   (defun theme-now ()
     (interactive)
@@ -249,16 +248,16 @@
               (format-time-string "%H")))
           (theme (if (> (get-light) 2)
                      'allekok-light 'allekok-dark)))
-      (unless (memq theme custom-enabled-themes) (theme-load* theme))))
+      (theme-load* theme)))
 
   (defun get-light ()
     (interactive)
     (string-to-number
-     (substring
-      (shell-command-to-string "cat /sys/devices/platform/applesmc.768/light")
-      1 2)))
+     (substring (shell-command-to-string
+                 "cat /sys/devices/platform/applesmc.768/light")
+                1 2)))
 
-  (setq theme-timer (run-with-timer 0 5 'theme-now))
+  (run-with-timer 0 nil 'theme-now)
 
   ;;; Mode-line
   (defun mode-line-refresh ()
@@ -284,7 +283,7 @@
           fan-speed (get-fan-speed)))
 
   (setq mode-line-refresh-variables-timer
-        (run-with-timer 0 5
+        (run-with-timer 0 10
                         #'(lambda ()
                             (mode-line-refresh-variables)
                             (mode-line-refresh))))
