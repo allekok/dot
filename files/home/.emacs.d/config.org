@@ -273,17 +273,16 @@
                               'font-lock-warning-face)))
         | "%m" | "%l,%02c" | "%p-%I" |
         internet? | (when (volume-mute?) "MUTE ")
-        (volume-level) | memory-free | fan-speed))))
+        (volume-level) | memory-free))))
 
   (defun mode-line-refresh-variables ()
     (setq datetime (format-time-string "%H:%M %a-%d-%b")
           battery battery-mode-line-string
           internet? (internet?)
-          memory-free (memory-free)
-          fan-speed (get-fan-speed)))
+          memory-free (memory-free)))
 
   (setq mode-line-refresh-variables-timer
-        (run-with-timer 0 10
+        (run-with-timer 0 20
                         #'(lambda ()
                             (mode-line-refresh-variables)
                             (mode-line-refresh))))
@@ -780,6 +779,10 @@
     (interactive)
     (string-trim (shell-command-to-string
                   "cat /sys/devices/platform/applesmc.768/fan1_input")))
+  (setq-default tab-width 8
+                standard-indent tab-width
+                c-basic-offset tab-width
+                sgml-basic-offset tab-width)
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp
