@@ -2,16 +2,16 @@
 #+AUTHOR: Payam <payambapiri.97@gmail.com>
 * ~
 #+BEGIN_SRC emacs-lisp
-  ;;;###autoload
+  
   (defun mapcar* (function &rest args)
     (if (not (memq nil args))
         (cons (apply function (mapcar 'car args))
               (apply 'mapcar* function
                      (mapcar 'cdr args)))))
-  ;;;###autoload
+  
   (defun replace-string* (from-string to-string)
     (replace-string from-string to-string nil 0 (buffer-size)))
-  ;;;###autoload
+  
   (defun escape-string (string)
     "Backslash escaping escape-worth characters."
     (let* ((escape-worth '(" " "(" ")" "'" "&"))
@@ -32,6 +32,7 @@
   (setq package-enable-at-startup nil
         package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                            ("melpa" . "http://melpa.org/packages/")))
+  (package-initialize)
 #+END_SRC
 * /package/ exwm
 #+BEGIN_SRC emacs-lisp
@@ -56,21 +57,21 @@
        ([?\C-y] . ?\C-v)
        ([?\C-s] . ?\C-f)))
     (dolist (k '(XF86AudioLowerVolume
-                 XF86AudioRaiseVolume
-                 XF86AudioMute
-                 XF86KbdBrightnessUp
-                 XF86KbdBrightnessDown
-                 XF86MonBrightnessUp
-                 XF86MonBrightnessDown))
+		 XF86AudioRaiseVolume
+		 XF86AudioMute
+		 XF86KbdBrightnessUp
+		 XF86KbdBrightnessDown
+		 XF86MonBrightnessUp
+		 XF86MonBrightnessDown))
       (cl-pushnew k exwm-input-prefix-keys))
     (setq exwm-input-global-keys
-          `(([?\s-!] . keyboard-english)
-            ([?\s-@] . keyboard-kurdish)
-            ([?\s-#] . keyboard-latin-kurdish)))
+	  `(([?\s-!] . keyboard-english)
+	    ([?\s-@] . keyboard-kurdish)
+	    ([?\s-#] . keyboard-latin-kurdish)))
     (add-hook 'exwm-update-class-hook
-              (lambda ()
-                (exwm-workspace-rename-buffer
-                 (format "#%s#" exwm-class-name))))
+	      (lambda ()
+		(exwm-workspace-rename-buffer
+		 (format "#%s#" exwm-class-name))))
     (exwm-enable))
 #+END_SRC
 * /package/ async
@@ -98,7 +99,7 @@
                                (c-compile-run-current-file t)))))
 
   ;; Function
-  ;;;###autoload
+  
   (defun buffer-exists-p (buffer-name)
     (defun buffer-exists-rec (buffer-name buffer-list)
       (if (consp buffer-list)
@@ -106,7 +107,7 @@
               buffer-name
             (buffer-exists-rec buffer-name (cdr buffer-list)))))
     (buffer-exists-rec buffer-name (buffer-list)))
-  ;;;###autoload
+  
   (defun c-compile-run-current-file (&optional run)
     (interactive)
     (save-buffer)
@@ -114,7 +115,7 @@
            (out (substring in 0 -2))
            (compiled? (c-compile-file in out "" "*c-compilation*")))
       (if (and compiled? run) (c-run-file out "" "*c-run*"))))
-  ;;;###autoload
+  
   (defun c-compile-file (in &optional out opts buffer)
     (let* ((out (or out (substring in 0 -2)))
            (command (format "cc %s -o '%s' '%s'" opts out in))
@@ -130,7 +131,7 @@
                 (erase-buffer) (insert result)
                 (compilation-mode))
               (display-buffer buffer))))))
-  ;;;###autoload
+  
   (defun c-run-file (o &optional opts buffer)
     (let ((command (format "'%s' %s" o opts)))
       (shell-command command buffer)
@@ -145,7 +146,7 @@
               (local-set-key (kbd "C-c C-r") 'php-IA-rtl)))
 
   ;; Function
-  ;;;###autoload
+  
   (defun php-IA (&optional rtl)
     (interactive)
     (let* ((f (buffer-file-name))
@@ -155,7 +156,7 @@
       (setq bidi-display-reordering rtl)
       (term-send-string tr "php -a\n")
       (term-send-string tr rq)))
-  ;;;###autoload
+  
   (defun php-IA-rtl () (interactive) (php-IA t))
 #+END_SRC
 * Quail
@@ -163,9 +164,9 @@
   (add-to-list 'load-path
 	       (expand-file-name "langs" user-emacs-directory))
   ;; Input-methods
-  ;;;###autoload
+  
   (require 'kurdish-sorani)
-  ;;;###autoload
+  
   (require 'kurdish-kurmanci)
 
   ;; Key-bindings
@@ -180,7 +181,7 @@
 		    (change-input-method 'kurdish-kurmanci "Kurdî")))
 
   ;; Function
-  ;;;###autoload
+  
   (defun change-input-method (method &optional message)
     (set-input-method method)
     (message message))
@@ -190,7 +191,7 @@
   (defun memory-free ()
     (format "%.1fG"
             (/ (nth 1 (memory-info)) 1000000.0)))
-  ;;;###autoload
+  
   (defun memory-drop-caches ()
     (interactive)
     (shell-command "sudo su -c 'echo 1 > /proc/sys/vm/drop_caches'")
@@ -304,14 +305,14 @@
   (global-set-key [XF86AudioLowerVolume] 'volume-lower)
 
   ;; Functions
-  ;;;###autoload
+  
   (defun volume-mute ()
     (interactive)
     (shell-command-to-string
      "amixer set Master toggle")
     (message (if (volume-mute?) "MUTE" "UNMUTE"))
     (mode-line-refresh))
-  ;;;###autoload
+  
   (defun volume-set (v &optional message-format)
     (let ((message-format (or message-format "* volume: %s"))
           (command (concat "amixer set Master "
@@ -319,24 +320,24 @@
       (start-process-shell-command command nil command)
       (mode-line-refresh)
       (message message-format (volume-level))))
-  ;;;###autoload
+  
   (cl-defun volume-raise (&optional (step 2))
     (interactive)
     (let ((nv (+ step (string-to-number (volume-level)))))
       (volume-set nv "+ volume: %s")))
-  ;;;###autoload
+  
   (cl-defun volume-lower (&optional (step -2))
     (interactive)
     (let ((nv (+ step (string-to-number (volume-level)))))
       (volume-set nv "- volume: %s")))
-  ;;;###autoload
+  
   (defun volume-level ()
     (let ((vl (string-trim
                (shell-command-to-string
                 "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
       (unless (string= vl "amixer: Unable to find simple control 'Master',0")
         vl)))
-  ;;;###autoload
+  
   (defun volume-mute? ()
     (when (string= (string-trim
                     (shell-command-to-string
@@ -356,19 +357,19 @@
   (setq screen-brightness-max-file
         "/sudo::/sys/class/backlight/acpi_video0/max_brightness")
 
-  ;;;###autoload
+  
   (defun screen-brightness-max ()
     (interactive)
     (with-temp-buffer
       (insert-file-contents screen-brightness-max-file)
       (string-to-number (buffer-string))))
-  ;;;###autoload
+  
   (defun screen-brightness-current ()
     (interactive)
     (with-temp-buffer
       (insert-file-contents screen-brightness-file)
       (string-to-number (buffer-string))))
-  ;;;###autoload
+  
   (defun screen-brightness-set (v &optional message-format)
     (interactive "nbrightness: ")
     (let ((message-format (or message-format "* brightness: %d")))
@@ -376,13 +377,13 @@
         (with-temp-file screen-brightness-file
           (insert (number-to-string v)))
         (message message-format v))))
-  ;;;###autoload
+  
   (defun screen-brighter (&optional step)
     (interactive)
     (unless step (setq step +1))
     (let ((v (+ (screen-brightness-current) step)))
       (screen-brightness-set v "+ brightness: +%d")))
-  ;;;###autoload
+  
   (defun screen-darker (&optional step)
     (interactive)
     (unless step (setq step -1))
@@ -400,17 +401,17 @@
         "/sudo::/sys/class/leds/smc::kbd_backlight/brightness")
   (setq kbd-brightness-max-file
         "/sudo::/sys/class/leds/smc::kbd_backlight/max_brightness")
-  ;;;###autoload
+  
   (defun kbd-brightness-max ()
     (with-temp-buffer
       (insert-file-contents kbd-brightness-max-file)
       (string-to-number (buffer-string))))
-  ;;;###autoload
+  
   (defun kbd-brightness-current ()
     (with-temp-buffer
       (insert-file-contents kbd-brightness-file)
       (string-to-number (buffer-string))))
-  ;;;###autoload
+  
   (defun kbd-brightness-set (v &optional message-format)
     (interactive "nkbd backlight: ")
     (let ((message-format (or message-format "* kbd backlight: %d")))
@@ -418,13 +419,13 @@
         (with-temp-file kbd-brightness-file
           (insert (number-to-string v)))
         (message message-format v))))
-  ;;;###autoload
+  
   (defun kbd-brighter (&optional step)
     (interactive)
     (unless step (setq step +1))
     (let ((v (+ (kbd-brightness-current) step)))
       (kbd-brightness-set v "+ kbd backlight: +%d")))
-  ;;;###autoload
+  
   (defun kbd-darker (&optional step)
     (interactive)
     (unless step (setq step -1))
@@ -465,20 +466,20 @@
 #+END_SRC
 * Keyboard languages
 #+BEGIN_SRC emacs-lisp
-  ;;;###autoload
+  
   (defun keyboard-language (layout &optional variant message)
     (start-process-shell-command
      "keyboard-language" nil
      (format "setxkbmap -layout %s -variant %s"
              layout variant))
     (message message))
-  ;;;###autoload
+  
   (defun keyboard-english () (interactive)
          (keyboard-language "us" "" "English"))
-  ;;;###autoload
+  
   (defun keyboard-kurdish () (interactive)
          (keyboard-language "ir" "ku_ara" "کوردی"))
-  ;;;###autoload
+  
   (defun keyboard-latin-kurdish () (interactive)
          (keyboard-language "ir" "ku" "Kurdî"))
 #+END_SRC
@@ -492,13 +493,13 @@
 * Desktop apps
 #+BEGIN_SRC emacs-lisp
   ;; Functions
-  ;;;###autoload
+  
   (defun desktop-app-open (app &optional args escape)
     (when (and escape args)
       (setq args (escape-string args)))
     (start-process-shell-command
      app nil (concat app " " args)))
-  ;;;###autoload
+  
   (defmacro desktop-app (app &optional escape prompt)
     (let* ((app-str (symbol-name app))
            (prompt (and prompt (format "%s%s: " prompt app-str))))
@@ -507,32 +508,32 @@
          (desktop-app-open ,app-str args ,escape))))
 
   ;; Apps
-  ;;;###autoload
+  
   (desktop-app telegram-desktop)
-  ;;;###autoload
+  
   (desktop-app firefox)
-  ;;;###autoload
+  
   (desktop-app chromium)
-  ;;;###autoload
+  
   (desktop-app surf t "s")
-  ;;;###autoload
+  
   (desktop-app st)
-  ;;;###autoload
+  
   (desktop-app mupdf t "f")
-  ;;;###autoload
+  
   (desktop-app vlc t "f")
-  ;;;###autoload
+  
   (desktop-app gimp t "f")
-  ;;;###autoload
+  
   (defun tor-browser (&optional args)
     (interactive)
     (shell-command
      "cd ~/projects/tor-browser_en-US/ && ./start-tor-browser.desktop"))
-  ;;;###autoload
+  
   (defun tchromium (&optional args)
     (interactive)
     (chromium (concat "--proxy-server=socks://127.0.0.1:9150 " args)))
-  ;;;###autoload
+  
   (defun desktop-app-query (program)
     (interactive
      (list (read-shell-command "Program: ")))
@@ -561,7 +562,7 @@
   (global-unset-key (kbd "C-z"))
 
   ;; Functions
-  ;;;###autoload
+  
   (defun kill-buffers-all () (interactive)  
          (mapc 'kill-buffer (buffer-list))
          (cd "~/")
@@ -590,7 +591,7 @@
                  (kbd "<return>") 'my-dired-uni-open)))
 
   ;; Functions
-  ;;;###autoload
+  
   (defun my-dired-uni-open ()
     (interactive)
     (let ((file (dired-get-file-for-visit)))
@@ -607,13 +608,13 @@
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
        (t (dired-find-file)))))
-  ;;;###autoload
+  
   (defun my-dired-shell-command (program)
     (let ((file (dired-get-file-for-visit)))
       (start-process-shell-command
        "my-dired-shell-command" nil
        (concat program " " (escape-string file)))))
-  ;;;###autoload
+  
   (defun my-dired-run-http-server ()
     (interactive)
     (let ((file (dired-get-file-for-visit)))
@@ -646,12 +647,16 @@
   ;;; allekok-website
   ;; Open website
   (global-set-key (kbd "C-x a")
-                  #'(lambda () (interactive)
-                      (chromium "https://allekok.ir/")))
+                  (lambda () (interactive)
+                    (chromium "--app=https://allekok.ir/")))
   ;; Test server
   (global-set-key (kbd "C-x A")
-                  #'(lambda () (interactive)
-                      (chromium "http://localhost/")))
+                  (lambda () (interactive)
+                    (chromium "--app=http://localhost/")))
+  ;; Open radio
+  (global-set-key (kbd "C-x j")
+                  (lambda () (interactive)
+                    (chromium "--app=https://allekok.github.io/radio/")))
   ;; Show allekok/status
   (global-set-key (kbd "C-x !")
                   #'(lambda () (interactive)
@@ -690,7 +695,7 @@
 
   ;; Functions
   (setq hs-status-all 'show)
-  ;;;###autoload
+  
   (defun hs-toggle-all ()
     (interactive)
     (if (eq 'show hs-status-all)
@@ -711,7 +716,7 @@
   (global-set-key [XF86LaunchB] 'bidi-toggle)
 
   ;; Functions
-  ;;;###autoload
+  
   (defun bidi-toggle ()
     (interactive)
     (setq bidi-paragraph-direction
@@ -727,7 +732,7 @@
                     (git-dir default-directory "status" t)))
 
   ;; Functions
-  ;;;###autoload
+  
   (defun git-dir (dir command &optional rtl)
     (interactive)
     (let ((o (term "/bin/bash")))
@@ -754,7 +759,7 @@
         shr-use-colors nil)
   (setq user-full-name "Payam"
         user-mail-address "payambapiri.97@gmail.com")
-  ;;;###autoload
+
   (defun kurdish-numbers ()
     (interactive)
     (let ((en '("0" "1" "2" "3" "4" "5" "6" "7" "8" "9"))
@@ -774,11 +779,6 @@
      gnutls-verify-error t
      gnutls-min-prime-bits 2048
      gnutls-trustfiles '("/etc/ssl/cert.pem")))
-
-  (defun get-fan-speed ()
-    (interactive)
-    (string-trim (shell-command-to-string
-                  "cat /sys/devices/platform/applesmc.768/fan1_input")))
   (setq-default tab-width 8
                 standard-indent tab-width
                 c-basic-offset tab-width
@@ -796,18 +796,18 @@
   is a list of integers (HIGH LOW USEC PSEC) in the same style
   as (current-time)."
       (nth 5 attributes)))
-  ;;;###autoload
+  
   (defun modif-time (f)
     (let ((m (file-attribute-modification-time
               (file-attributes f))))
       (and m (+ (nth 0 m)
                 (/ (nth 1 m) (expt 2.0 16))))))
-  ;;;###autoload
+  
   (defun modif-time-more-recent (f1 f2)
     (let ((m1 (modif-time f1))
           (m2 (modif-time f2)))
       (or (not m2) (> m1 m2))))
-  ;;;###autoload
+  
   (defun compile-if-necessary (f)
     (let* ((org? (string-suffix-p ".org" f t))
            (el? (string-suffix-p ".el" f t))
@@ -820,7 +820,7 @@
                       (car (org-babel-tangle-file
                             f (concat (substring f 0 -3) "el"))))
                    (byte-compile-file f))))))
-  ;;;###autoload
+  
   (defun my-compile-all ()
     (interactive)
     (mapcar 'compile-if-necessary
