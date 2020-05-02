@@ -2,12 +2,4 @@
 	email = payambapiri.97@gmail.com
 	name = Payam
 [core]
-	editor = emacsclient	
-# Source: https://github.com/wichtounet/dotfiles-git/blob/master/.gitconfig
-[alias]
-	l = log --color --graph \
-	--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
-	--abbrev-commit --
-	s = status
-	a = add
-	c = commit
+	editor = emacsclient
