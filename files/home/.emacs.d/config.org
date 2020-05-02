@@ -782,7 +782,9 @@
   (setq-default tab-width 8
                 standard-indent tab-width
                 c-basic-offset tab-width
-                sgml-basic-offset tab-width)
+                sgml-basic-offset tab-width
+                js-indent-level tab-width
+                css-indent-offset tab-width)
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp
