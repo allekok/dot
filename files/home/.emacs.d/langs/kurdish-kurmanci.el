@@ -10,7 +10,7 @@
 (require 'quail)
 
 (quail-define-package
- "kurdish-kurmanci" "Kurdish-Kurmanci" "Kû" nil "Kurdish-Kurmanci input method.
+ "kurdish-kurmanci" "Kurdish-Kurmanci" "Ku" nil "Kurdish-Kurmanci input method.
 
 Based on Kurdish-Kurmanci table in X Keyboard Configuration DB.
 " nil t t t t nil nil nil nil nil t)

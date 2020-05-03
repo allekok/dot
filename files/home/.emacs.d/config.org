@@ -2,16 +2,15 @@
 #+AUTHOR: Payam <payambapiri.97@gmail.com>
 * ~
 #+BEGIN_SRC emacs-lisp
-  
   (defun mapcar* (function &rest args)
     (if (not (memq nil args))
         (cons (apply function (mapcar 'car args))
               (apply 'mapcar* function
                      (mapcar 'cdr args)))))
-  
+
   (defun replace-string* (from-string to-string)
     (replace-string from-string to-string nil 0 (buffer-size)))
-  
+
   (defun escape-string (string)
     "Backslash escaping escape-worth characters."
     (let* ((escape-worth '(" " "(" ")" "'" "&"))
@@ -57,21 +56,21 @@
        ([?\C-y] . ?\C-v)
        ([?\C-s] . ?\C-f)))
     (dolist (k '(XF86AudioLowerVolume
-		 XF86AudioRaiseVolume
-		 XF86AudioMute
-		 XF86KbdBrightnessUp
-		 XF86KbdBrightnessDown
-		 XF86MonBrightnessUp
-		 XF86MonBrightnessDown))
+                 XF86AudioRaiseVolume
+                 XF86AudioMute
+                 XF86KbdBrightnessUp
+                 XF86KbdBrightnessDown
+                 XF86MonBrightnessUp
+                 XF86MonBrightnessDown))
       (cl-pushnew k exwm-input-prefix-keys))
     (setq exwm-input-global-keys
-	  `(([?\s-!] . keyboard-english)
-	    ([?\s-@] . keyboard-kurdish)
-	    ([?\s-#] . keyboard-latin-kurdish)))
+          `(([?\s-!] . keyboard-english)
+            ([?\s-@] . keyboard-kurdish)
+            ([?\s-#] . keyboard-latin-kurdish)))
     (add-hook 'exwm-update-class-hook
-	      (lambda ()
-		(exwm-workspace-rename-buffer
-		 (format "#%s#" exwm-class-name))))
+              (lambda ()
+                (exwm-workspace-rename-buffer
+                 (format "#%s#" exwm-class-name))))
     (exwm-enable))
 #+END_SRC
 * /package/ async
@@ -99,7 +98,6 @@
                                (c-compile-run-current-file t)))))
 
   ;; Function
-  
   (defun buffer-exists-p (buffer-name)
     (defun buffer-exists-rec (buffer-name buffer-list)
       (if (consp buffer-list)
@@ -107,7 +105,7 @@
               buffer-name
             (buffer-exists-rec buffer-name (cdr buffer-list)))))
     (buffer-exists-rec buffer-name (buffer-list)))
-  
+
   (defun c-compile-run-current-file (&optional run)
     (interactive)
     (save-buffer)
@@ -115,7 +113,7 @@
            (out (substring in 0 -2))
            (compiled? (c-compile-file in out "" "*c-compilation*")))
       (if (and compiled? run) (c-run-file out "" "*c-run*"))))
-  
+
   (defun c-compile-file (in &optional out opts buffer)
     (let* ((out (or out (substring in 0 -2)))
            (command (format "cc %s -o '%s' '%s'" opts out in))
@@ -131,7 +129,7 @@
                 (erase-buffer) (insert result)
                 (compilation-mode))
               (display-buffer buffer))))))
-  
+
   (defun c-run-file (o &optional opts buffer)
     (let ((command (format "'%s' %s" o opts)))
       (shell-command command buffer)
@@ -145,8 +143,7 @@
               (local-set-key (kbd "C-c C-c") 'php-IA)
               (local-set-key (kbd "C-c C-r") 'php-IA-rtl)))
 
-  ;; Function
-  
+  ;; Function  
   (defun php-IA (&optional rtl)
     (interactive)
     (let* ((f (buffer-file-name))
@@ -162,26 +159,23 @@
 * Quail
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path
-	       (expand-file-name "langs" user-emacs-directory))
+               (expand-file-name "langs" user-emacs-directory))
   ;; Input-methods
-  
   (require 'kurdish-sorani)
-  
   (require 'kurdish-kurmanci)
 
   ;; Key-bindings
   (global-set-key (kbd "s-1")
-		  (lambda () (interactive)
-		    (change-input-method nil "English")))
+                  (lambda () (interactive)
+                    (change-input-method nil "English")))
   (global-set-key (kbd "s-2")
-		  (lambda () (interactive)
-		    (change-input-method 'kurdish-sorani "کوردی")))
+                  (lambda () (interactive)
+                    (change-input-method 'kurdish-sorani "کوردی")))
   (global-set-key (kbd "s-3")
-		  (lambda () (interactive)
-		    (change-input-method 'kurdish-kurmanci "Kurdî")))
+                  (lambda () (interactive)
+                    (change-input-method 'kurdish-kurmanci "Kurdî")))
 
   ;; Function
-  
   (defun change-input-method (method &optional message)
     (set-input-method method)
     (message message))
@@ -191,10 +185,10 @@
   (defun memory-free ()
     (format "%.1fG"
             (/ (nth 1 (memory-info)) 1000000.0)))
-  
+
   (defun memory-drop-caches ()
     (interactive)
-    (shell-command "sudo su -c 'echo 1 > /proc/sys/vm/drop_caches'")
+    (shell-command "sudo su -c 'echo 2 > /proc/sys/vm/drop_caches'")
     (setq memory-free (memory-free))
     (mode-line-refresh)
     (message "Memory cleared. (%s)" memory-free))
@@ -228,7 +222,7 @@
   (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
 
   (setq custom-theme-directory
-        (expand-file-name "themes" user-emacs-directory))
+	(expand-file-name "themes" user-emacs-directory))
   (add-to-list 'custom-safe-themes 'allekok-light)
   (add-to-list 'custom-safe-themes 'allekok-dark)
 
@@ -240,25 +234,26 @@
   (defun theme-toggle ()
     (interactive)
     (theme-load* (if (memq 'allekok-light
-                           custom-enabled-themes)
-                     'allekok-dark 'allekok-light)))
+			   custom-enabled-themes)
+		     'allekok-dark 'allekok-light)))
 
   (defun theme-now ()
     (interactive)
     (let ((h (string-to-number
-              (format-time-string "%H")))
-          (theme (if (> (get-light) 2)
-                     'allekok-light 'allekok-dark)))
+	      (format-time-string "%H")))
+	  (theme (if (> (get-light) 2)
+		     'allekok-light 'allekok-dark)))
       (theme-load* theme)))
 
   (defun get-light ()
     (interactive)
     (string-to-number
      (substring (shell-command-to-string
-                 "cat /sys/devices/platform/applesmc.768/light")
-                1 2)))
+		 "cat /sys/devices/platform/applesmc.768/light")
+		1 2)))
 
-  (run-with-timer 0 nil 'theme-now)
+  ;;(run-with-timer 0 nil 'theme-now)
+  (theme-now)
 
   ;;; Mode-line
   (defun mode-line-refresh ()
@@ -267,26 +262,26 @@
       (setq-default
        mode-line-format
        (list
-        " " battery | datetime |
-        ;; Buffer name
-        '(:eval (propertize "%b" 'face
-                            (when (buffer-modified-p)
-                              'font-lock-warning-face)))
-        | "%m" | "%l,%02c" | "%p-%I" |
-        internet? | (when (volume-mute?) "MUTE ")
-        (volume-level) | memory-free))))
+	" " battery | datetime |
+	;; Buffer name
+	'(:eval (propertize "%b" 'face
+			    (when (buffer-modified-p)
+			      'font-lock-warning-face)))
+	| "%m" | "%l,%02c" | "%p-%I" |
+	internet? | (when (volume-mute?) "MUTE ")
+	(volume-level) | memory-free))))
 
   (defun mode-line-refresh-variables ()
     (setq datetime (format-time-string "%H:%M %a-%d-%b")
-          battery battery-mode-line-string
-          internet? (internet?)
-          memory-free (memory-free)))
+	  battery battery-mode-line-string
+	  internet? (internet?)
+	  memory-free (memory-free)))
 
   (setq mode-line-refresh-variables-timer
-        (run-with-timer 0 20
-                        #'(lambda ()
-                            (mode-line-refresh-variables)
-                            (mode-line-refresh))))
+	(run-with-timer 0 20
+			(lambda ()
+			  (mode-line-refresh-variables)
+			  (mode-line-refresh))))
 #+END_SRC
 * Time
 #+BEGIN_SRC emacs-lisp
@@ -305,14 +300,13 @@
   (global-set-key [XF86AudioLowerVolume] 'volume-lower)
 
   ;; Functions
-  
   (defun volume-mute ()
     (interactive)
     (shell-command-to-string
      "amixer set Master toggle")
     (message (if (volume-mute?) "MUTE" "UNMUTE"))
     (mode-line-refresh))
-  
+
   (defun volume-set (v &optional message-format)
     (let ((message-format (or message-format "* volume: %s"))
           (command (concat "amixer set Master "
@@ -320,24 +314,24 @@
       (start-process-shell-command command nil command)
       (mode-line-refresh)
       (message message-format (volume-level))))
-  
+
   (cl-defun volume-raise (&optional (step 2))
     (interactive)
     (let ((nv (+ step (string-to-number (volume-level)))))
       (volume-set nv "+ volume: %s")))
-  
+
   (cl-defun volume-lower (&optional (step -2))
     (interactive)
     (let ((nv (+ step (string-to-number (volume-level)))))
       (volume-set nv "- volume: %s")))
-  
+
   (defun volume-level ()
     (let ((vl (string-trim
                (shell-command-to-string
                 "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
       (unless (string= vl "amixer: Unable to find simple control 'Master',0")
         vl)))
-  
+
   (defun volume-mute? ()
     (when (string= (string-trim
                     (shell-command-to-string
@@ -357,19 +351,18 @@
   (setq screen-brightness-max-file
         "/sudo::/sys/class/backlight/acpi_video0/max_brightness")
 
-  
   (defun screen-brightness-max ()
     (interactive)
     (with-temp-buffer
       (insert-file-contents screen-brightness-max-file)
       (string-to-number (buffer-string))))
-  
+
   (defun screen-brightness-current ()
     (interactive)
     (with-temp-buffer
       (insert-file-contents screen-brightness-file)
       (string-to-number (buffer-string))))
-  
+
   (defun screen-brightness-set (v &optional message-format)
     (interactive "nbrightness: ")
     (let ((message-format (or message-format "* brightness: %d")))
@@ -377,13 +370,13 @@
         (with-temp-file screen-brightness-file
           (insert (number-to-string v)))
         (message message-format v))))
-  
+
   (defun screen-brighter (&optional step)
     (interactive)
     (unless step (setq step +1))
     (let ((v (+ (screen-brightness-current) step)))
       (screen-brightness-set v "+ brightness: +%d")))
-  
+
   (defun screen-darker (&optional step)
     (interactive)
     (unless step (setq step -1))
@@ -444,42 +437,21 @@
   (setq-default major-mode 'text-mode)
   (add-hook 'text-mode-hook 'auto-fill-mode)
 #+END_SRC
-* Org
-#+BEGIN_SRC emacs-lisp
-  (require 'org)
-  (setq org-export-coding-system 'utf-8
-        org-src-window-setup 'current-window
-        org-directory "~/projects/org"
-        org-default-notes-file "~/projects/org/notes.org"
-        org-hide-leading-stars t
-        org-startup-indented t
-        org-confirm-babel-evaluate nil)
-  (add-to-list 'org-file-apps '(directory . emacs))
-  (add-to-list 'org-file-apps '("\\.pdf\\'" . "mupdf %s"))
-  (add-hook 'org-mode-hook 'org-display-inline-images)
-
-  (global-set-key (kbd "C-c c") 'org-capture)
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (setq org-agenda-start-on-weekday nil
-        org-agenda-files '("~/projects/plan.org"
-                           "~/projects/org/notes.org"))
-#+END_SRC
 * Keyboard languages
 #+BEGIN_SRC emacs-lisp
-  
   (defun keyboard-language (layout &optional variant message)
     (start-process-shell-command
      "keyboard-language" nil
      (format "setxkbmap -layout %s -variant %s"
              layout variant))
     (message message))
-  
+
   (defun keyboard-english () (interactive)
          (keyboard-language "us" "" "English"))
-  
+
   (defun keyboard-kurdish () (interactive)
          (keyboard-language "ir" "ku_ara" "کوردی"))
-  
+
   (defun keyboard-latin-kurdish () (interactive)
          (keyboard-language "ir" "ku" "Kurdî"))
 #+END_SRC
@@ -493,13 +465,13 @@
 * Desktop apps
 #+BEGIN_SRC emacs-lisp
   ;; Functions
-  
+
   (defun desktop-app-open (app &optional args escape)
     (when (and escape args)
       (setq args (escape-string args)))
     (start-process-shell-command
      app nil (concat app " " args)))
-  
+
   (defmacro desktop-app (app &optional escape prompt)
     (let* ((app-str (symbol-name app))
            (prompt (and prompt (format "%s%s: " prompt app-str))))
@@ -508,32 +480,25 @@
          (desktop-app-open ,app-str args ,escape))))
 
   ;; Apps
-  
+
   (desktop-app telegram-desktop)
-  
   (desktop-app firefox)
-  
   (desktop-app chromium)
-  
   (desktop-app surf t "s")
-  
   (desktop-app st)
-  
   (desktop-app mupdf t "f")
-  
   (desktop-app vlc t "f")
-  
   (desktop-app gimp t "f")
-  
+
   (defun tor-browser (&optional args)
     (interactive)
     (shell-command
      "cd ~/projects/tor-browser_en-US/ && ./start-tor-browser.desktop"))
-  
+
   (defun tchromium (&optional args)
     (interactive)
     (chromium (concat "--proxy-server=socks://127.0.0.1:9150 " args)))
-  
+
   (defun desktop-app-query (program)
     (interactive
      (list (read-shell-command "Program: ")))
@@ -784,7 +749,9 @@
                 c-basic-offset tab-width
                 sgml-basic-offset tab-width
                 js-indent-level tab-width
-                css-indent-offset tab-width)
+                css-indent-offset tab-width
+                nxml-child-indent tab-width
+                nxml-outline-child-indent tab-width)
 #+END_SRC
 * Compile
 #+BEGIN_SRC emacs-lisp
