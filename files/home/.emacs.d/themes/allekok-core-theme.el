@@ -1,4 +1,6 @@
 (defun get-colorname (LD)
+  (with-temp-file "~/.color-now"
+    (insert LD))
   (let ((colors
 	 (split-string
 	  (with-temp-buffer

@@ -187,7 +187,6 @@
 
 ;;; Remove bars
 (set-frame-parameter nil 'vertical-scroll-bars nil)
-(menu-bar-mode -1)
 (fringe-mode '(0 . 0))
 
 ;;; Theme
@@ -215,18 +214,16 @@
   (interactive)
   (let ((h (string-to-number
 	    (format-time-string "%H")))
-	(theme (if (> (get-light) 2)
+	(theme (if (string= (get-light) "light")
 		   'allekok-light 'allekok-dark)))
     (theme-load* theme)))
 
 (defun get-light ()
   (interactive)
-  (string-to-number
-   (substring (shell-command-to-string
-	       "cat /sys/devices/platform/applesmc.768/light")
-	      1 2)))
+  (with-temp-buffer
+    (insert-file-contents "~/.color-now")
+    (buffer-string)))
 
-;;(run-with-timer 0 nil 'theme-now)
 (theme-now)
 
 ;;; Mode-line
