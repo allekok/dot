@@ -3,13 +3,11 @@ xset r rate 200 60
 
 LIGHT=$(cat /sys/devices/platform/applesmc.768/light)
 LIGHT_NUM=$(echo -n ${LIGHT:1:1})
-COLOR_NOW=
 if [ $LIGHT_NUM -gt 2 ]; then
-    COLOR_NOW="light"
+    export COLOR_NOW="light"
 else
-    COLOR_NOW="dark"
+    export COLOR_NOW="dark"
 fi
-echo -n $COLOR_NOW > "$HOME/.color-now"
 BG_COLOR_FILE="$HOME/.color-$COLOR_NOW"
 BG_COLOR=$(head -1 $BG_COLOR_FILE)
 FG_COLOR=$(head -2 $BG_COLOR_FILE | tail -1)
