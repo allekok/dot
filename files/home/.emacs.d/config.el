@@ -220,9 +220,7 @@
 
 (defun get-light ()
   (interactive)
-  (with-temp-buffer
-    (insert-file-contents "~/.color-now")
-    (buffer-string)))
+  (getenv "COLORNOW"))
 
 (theme-now)
 

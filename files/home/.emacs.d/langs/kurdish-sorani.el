@@ -32,9 +32,9 @@ Based on Kurdish-Sorani table in X Keyboard Configuration DB.
  ("(" ?\))
  (")" ?\()
 
- ("Q" ?X)
- ("W" ?X)
- ("E" ?ه)
+ ("Q" ?`)
+ ("W" ?و)
+ ("E" ?ھ)
  ("R" ?ڕ)
  ("T" ?ط)
  ("Y" ?ێ)
