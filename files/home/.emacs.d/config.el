@@ -662,7 +662,8 @@
               js-indent-level tab-width
               css-indent-offset tab-width
               nxml-child-indent tab-width
-              nxml-outline-child-indent tab-width)
+              nxml-outline-child-indent tab-width
+	      python-indent-offset tab-width)
 
 (unless (fboundp 'file-attribute-modification-time)
   ;;; From 'files.el'
