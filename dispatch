@@ -10,18 +10,14 @@ alias cp='cp -vr' # Add `-i' for interactive
 
 # home
 cd $FILES_HOME_PATH
-for F in $(ls -a)
+for F in $(ls -A)
 do
-    if [ $F != "." ] && [ $F != ".." ]; then
-	cp $F $HOME
-    fi
+    cp $F $HOME
 done	 
 
 # etc
 cd ../../$FILES_ETC_PATH
-for F in $(ls -a)
+for F in $(ls -A)
 do
-    if [ $F != "." ] && [ $F != ".." ]; then
-	sudo cp -vr $F /etc
-    fi
+    sudo cp -vr $F /etc
 done

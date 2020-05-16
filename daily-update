@@ -1,2 +1,6 @@
 #!/bin/sh
-cd $HOME/dot && ./build && git add . && git commit -m "Automatic daily update" && git push
+cd ~/dot
+./build
+git add .
+git commit -m "Automatic daily update"
+git push
