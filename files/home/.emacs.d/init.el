@@ -193,6 +193,11 @@
         (local-ip-address)
       connection)))
 
+(setq display-time-24hr-format t)
+
+(setq battery-mode-line-format "%p")
+(display-battery-mode 1)
+
 ;;; Remove bars
 (set-frame-parameter nil 'vertical-scroll-bars nil)
 (fringe-mode '(0 . 0))
@@ -259,11 +264,6 @@
 		      (lambda ()
 			(mode-line-refresh-variables)
 			(mode-line-refresh))))
-
-(setq display-time-24hr-format t)
-
-(setq battery-mode-line-format "%p")
-(display-battery-mode 1)
 
 ;; Key-bindings
 (global-set-key [XF86AudioMute] 'volume-mute)
