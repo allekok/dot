@@ -1,2 +1,0 @@
-#!/bin/sh
-sudo su -c 'echo '$1' > "/sys/class/leds/smc::kbd_backlight/brightness"'
