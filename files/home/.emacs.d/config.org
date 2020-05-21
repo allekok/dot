@@ -793,4 +793,6 @@
   (put 'downcase-region 'disabled nil)
 
   (server-start)
+
+  (define-key prog-mode-map [XF86AudioPlay] 'compile)
 #+end_src
