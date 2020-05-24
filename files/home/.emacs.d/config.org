@@ -194,7 +194,7 @@
 
   (defun memory-drop-caches ()
     (interactive)
-    (shell-command "sudo su -c 'echo 2 > /proc/sys/vm/drop_caches'")
+    (shell-command "sudo su -c 'echo 1 > /proc/sys/vm/drop_caches'")
     (setq memory-free (memory-free))
     (mode-line-refresh)
     (message "Memory cleared. (%s)" memory-free))
