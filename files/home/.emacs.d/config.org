@@ -788,7 +788,8 @@
 		css-indent-offset tab-width
 		nxml-child-indent tab-width
 		nxml-outline-child-indent tab-width
-		python-indent-offset tab-width)
+		python-indent-offset tab-width
+		python-indent tab-width)
   (put 'upcase-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
 
