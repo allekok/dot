@@ -9,6 +9,9 @@ FILES_ETC_PATH=$FILES_PATH/etc
 alias cp='cp -vf'
 alias mkdir='mkdir -p'
 
+# Clean-up
+rm -rf $FILES_PATH
+
 # home
 mkdir $FILES_HOME_PATH
 cd $FILES_HOME_PATH
