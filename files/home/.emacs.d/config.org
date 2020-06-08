@@ -39,10 +39,6 @@
     (require 'exwm)
     (exwm-input-set-simulation-keys
      '(
-       ([?\C-b] . left)
-       ([?\M-b] . C-left)
-       ([?\C-f] . right)
-       ([?\M-f] . C-right)
        ([?\C-p] . up)
        ([?\C-n] . down)
        ([?\C-a] . home)
