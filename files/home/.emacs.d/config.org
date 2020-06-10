@@ -658,7 +658,7 @@
 	  (fa '("۰" "۱" "۲" "۳" "۴" "۵" "۶" "۷" "۸" "۹"))
 	  (ck '("٠" "١" "٢" "٣" "٤" "٥" "٦" "٧" "٨" "٩")))
       (defun iter (from to)
-	(if from
+	(if (and from to)
 	    (progn (replace-string* (car from) (car to))
 		   (iter (cdr from) (cdr to)))))
       (iter fa ck)
