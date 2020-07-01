@@ -479,6 +479,7 @@
   (desktop-app telegram)
   (desktop-app firefox)
   (desktop-app chromium)
+  (desktop-app brave)
   (desktop-app surf t "s")
   (desktop-app st)
   (desktop-app mupdf t "f")
@@ -584,15 +585,15 @@
   ;; Open website
   (global-set-key (kbd "C-x a")
 		  (lambda () (interactive)
-		    (chromium "--app=https://allekok.ir/")))
+		    (brave "--app=https://allekok.ir/")))
   ;; Test server
   (global-set-key (kbd "C-x A")
 		  (lambda () (interactive)
-		    (chromium "--app=http://localhost/")))
-  ;; Open radio
+		    (brave "--app=http://localhost/")))
+  ;; Open allekok-apps
   (global-set-key (kbd "C-x j")
 		  (lambda () (interactive)
-		    (chromium "--app=https://allekok.github.io/radio/")))
+		    (brave "--app=https://allekok.github.io/")))
   ;; Show allekok/status
   (global-set-key (kbd "C-x !")
 		  #'(lambda () (interactive)

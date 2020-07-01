@@ -1,6 +1,10 @@
 (setq gc-cons-threshold (* 100 1024 1024))
 
-(load (expand-file-name "config" user-emacs-directory))
+(if (file-exists-p (expand-file-name "config.el" user-emacs-directory))
+    (load (expand-file-name "config" user-emacs-directory))
+  (org-babel-load-file (expand-file-name "config.org" user-emacs-directory)))
+
+(setq gc-cons-threshold (* 2 1024 1024))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
