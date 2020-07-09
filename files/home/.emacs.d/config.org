@@ -133,7 +133,7 @@
       (shell-command command buffer)
       (message "") (display-buffer buffer)))
 #+end_src
-* PHP compilation
+* PHP interpretation
 #+begin_src emacs-lisp
   ;; Hook
   (add-hook 'web-mode-hook
@@ -141,7 +141,7 @@
 	      (local-set-key (kbd "C-c C-c") 'php-IA)
 	      (local-set-key (kbd "C-c C-r") 'php-IA-rtl)))
 
-  ;; Function  
+  ;; Function
   (defun php-IA (&optional rtl)
     (interactive)
     (let* ((f (buffer-file-name))
@@ -226,15 +226,15 @@
   (set-frame-parameter nil 'vertical-scroll-bars nil)
   (fringe-mode '(0 . 0))
 
-  ;;; Theme
-  (global-set-key [XF86LaunchA] 'theme-toggle)
+  ;;; Theme: Functions
+  (defun get-light ()
+    (interactive)
+    (string-to-number
+     (shell-command-to-string
+      "LIGHT=$(cat /sys/devices/platform/applesmc.768/light) && 
+  echo -n ${LIGHT:1:1}")))
 
-  (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
-
-  (setq custom-theme-directory
-	(expand-file-name "themes" user-emacs-directory))
-  (add-to-list 'custom-safe-themes 'allekok-light)
-  (add-to-list 'custom-safe-themes 'allekok-dark)
+  (defun get-env-light () (interactive) (getenv "COLORNOW"))
 
   (defun theme-load* (theme)
     "Disable all enabled themes and load `theme'."
@@ -251,17 +251,20 @@
     (interactive)
     (let ((h (string-to-number
 	      (format-time-string "%H")))
-	  (theme (if (string= (get-light) "light")
+	  (theme (if (string= (get-env-light) "light")
 		     'allekok-light 'allekok-dark)))
       (theme-load* theme)))
 
-  (defun get-light ()
-    (interactive)
-    (getenv "COLORNOW"))
-
+  ;;; Theme: Run
+  (global-set-key [XF86LaunchA] 'theme-toggle)
+  (setq custom-theme-directory
+	(expand-file-name "themes" user-emacs-directory))
+  (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
+  (add-to-list 'custom-safe-themes 'allekok-light)
+  (add-to-list 'custom-safe-themes 'allekok-dark)
   (theme-now)
 
-  ;;; Mode-line
+  ;;; Mode-line: Functions
   (defun mode-line-refresh ()
     (interactive)
     (let ((| " | "))
@@ -269,7 +272,6 @@
        mode-line-format
        (list
 	" " battery | datetime |
-	;; Buffer name
 	'(:eval (propertize "%b" 'face
 			    (when (buffer-modified-p)
 			      'font-lock-warning-face)))
@@ -283,6 +285,7 @@
 	  internet? (internet?)
 	  memory-free (memory-free)))
 
+  ;;; Mode-line: Run
   (setq mode-line-refresh-variables-timer
 	(run-with-timer 0 20
 			(lambda ()
@@ -546,23 +549,22 @@
 		 (kbd "<return>") 'my-dired-uni-open)))
 
   ;; Functions
+  (defun string-suffix-list-p (list item)
+    (unless (null list)
+      (if (string-suffix-p (car list) item t) t
+	(string-suffix-list-p (cdr list) item))))
+
   (defun my-dired-uni-open ()
     (interactive)
     (let ((file (dired-get-file-for-visit)))
       (cond
        ((file-directory-p file) (dired-find-file))
-       ((string-suffix-p ".avi" file t) (mpv file))
-       ((string-suffix-p ".mp4" file t) (mpv file))
-       ((string-suffix-p ".m4v" file t) (mpv file))
-       ((string-suffix-p ".mkv" file t) (mpv file))
-       ((string-suffix-p ".webm" file t) (mpv file))
-       ((string-suffix-p ".mp3" file t) (vlc file))
-       ((string-suffix-p ".wav" file t) (vlc file))
-       ((string-suffix-p ".m4a" file t) (vlc file))
+       ((string-suffix-list-p '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
+	(mpv file))
+       ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
+       ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
-       ((string-suffix-p ".jpg" file t) (feh file))
-       ((string-suffix-p ".png" file t) (feh file))
        (t (dired-find-file)))))
 
   (defun my-dired-shell-command (program)
