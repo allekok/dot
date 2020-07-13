@@ -623,12 +623,12 @@
     (if (eq 'show hs-status-all)
 	(progn (hs-hide-all)
 	       (setq hs-status-all 'hide))
-      (progn (hs-show-all)
-	     (setq hs-status-all 'show))))
+      (hs-show-all)
+      (setq hs-status-all 'show)))
 #+end_src
 * bidi-toggle
 #+begin_src emacs-lisp
-  ;; Key-bindings
+  ;; Key bindings
   (global-set-key [XF86LaunchB] 'bidi-toggle)
 
   ;; Functions
@@ -655,21 +655,29 @@
 #+end_src
 * Kurdish tools
 #+begin_src emacs-lisp
+  ;; Key bindings
+  (global-set-key [XF86AudioPrev] 'kurdish-numbers)
+
+  ;; Functions
   (defun kurdish-numbers ()
     (interactive)
     (let ((en '("0" "1" "2" "3" "4" "5" "6" "7" "8" "9"))
 	  (fa '("۰" "۱" "۲" "۳" "۴" "۵" "۶" "۷" "۸" "۹"))
 	  (ck '("٠" "١" "٢" "٣" "٤" "٥" "٦" "٧" "٨" "٩")))
       (defun iter (from to)
-	(if (and from to)
-	    (progn (replace-string* (car from) (car to))
-		   (iter (cdr from) (cdr to)))))
+	(when (and from to)
+	  (replace-string* (car from) (car to))
+	  (iter (cdr from) (cdr to))))
       (iter fa ck)
       (iter en ck)))
-  (global-set-key [XF86AudioPrev] 'kurdish-numbers)
 #+end_src
 * Elisp compilation
 #+begin_src emacs-lisp
+  ;; Hooks
+  (global-set-key [XF86AudioPlay] 'my-compile-all)
+  (add-hook 'kill-emacs-hook 'my-compile-all)
+
+  ;; Functions
   (unless (fboundp 'file-attribute-modification-time)
     ;;; From 'files.el'
     (defsubst file-attribute-modification-time (attributes)
@@ -721,21 +729,16 @@
 	      "langs/kurdish-sorani.el" user-emacs-directory)
 	     (expand-file-name
 	      "langs/kurdish-kurmanci.el" user-emacs-directory))))
-
-  (global-set-key [XF86AudioPlay] 'my-compile-all)
-  (add-hook 'kill-emacs-hook 'my-compile-all)
 #+end_src
 * misc
 #+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
   (setq make-backup-files nil
 	auto-save-interval 100)
   (setq scroll-step 1
 	scroll-conservatively 5)
   (setq tramp-default-method "ssh"
 	tramp-verbose -1)
-
-  (fset 'yes-or-no-p 'y-or-n-p)
-
   (setq show-paren-delay .1)
   (show-paren-mode t)
 
