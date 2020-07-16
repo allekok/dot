@@ -479,6 +479,7 @@
 	 (desktop-app-open ,app-str args ,escape))))
 
   ;; Apps
+  (desktop-app simplescreenrecorder)
   (desktop-app telegram)
   (desktop-app firefox)
   (desktop-app chromium)
