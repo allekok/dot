@@ -588,15 +588,15 @@
   ;; Open website
   (global-set-key (kbd "C-x a")
 		  (lambda () (interactive)
-		    (brave "--app=https://allekok.ir/")))
+		    (chromium "--app=https://allekok.ir/")))
   ;; Test server
   (global-set-key (kbd "C-x A")
 		  (lambda () (interactive)
-		    (brave "--app=http://localhost/")))
+		    (chromium "--app=http://localhost/")))
   ;; Open allekok-apps
   (global-set-key (kbd "C-x j")
 		  (lambda () (interactive)
-		    (brave "--app=https://allekok.github.io/")))
+		    (chromium "--app=https://allekok.github.io/")))
   ;; Show allekok/status
   (global-set-key (kbd "C-x !")
 		  #'(lambda () (interactive)
