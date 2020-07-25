@@ -7,7 +7,12 @@ $port = nth_pair('-port', '5555');
 $path = nth_pair('-path', '.');
 $host = "localhost:{$port}";
 $browser_command =  !$browser ?
-		     DEF_BROWSER . " --app=http://{$host}/" :
-		     "{$browser} http://{$host}/";
+		    DEF_BROWSER . " --app=http://{$host}/" :
+		    "{$browser} http://{$host}/";
 exec("cd {$path} && php -S {$host} & {$browser_command}");
+/*
+ * Local Variables:
+ * mode: web
+ * End:
+ */
 ?>

@@ -2,10 +2,14 @@
 <?php
 require('my-library.php');
 $dir = nth(1, '.');
-if($dir and is_dir($dir))
-{
-    $files = scandir($dir);
-    $index = mt_rand(2, count($files)-1);
-    p($files[$index]);
+if($dir and is_dir($dir)) {
+	$files = scandir($dir);
+	$index = mt_rand(2, count($files)-1);
+	p($files[$index]);
 }
+/*
+ * Local Variables:
+ * mode: web
+ * End:
+ */
 ?>

@@ -4,29 +4,20 @@ require('my-library.php');
 
 $f = nth(1) or die();
 
-$include_path = realpath(__DIR__ . '/..') . '/projects/tewar-2';
+$include_path = '/home/alleko/domains/allekok.ir/allekok/tewar-2';
 require($include_path . '/config.php');
 require($include_path . '/src/backend/library.php');
 
-$lookup = lookup(match_words($f), dict_list());
-foreach ($lookup as $dict=>$res)
-{
-    if(!empty_rec($res))
-    {
-	echo "$dict\n";
-	foreach($res as $w=>$m)
-	{
-	    if($m) echo "\t$w\t$m\n";
+$lookup = lookup($f, dict_list(), -1);
+foreach ($lookup as $point=>$res)
+	if(!empty($res)) {
+		echo "$point\n";
+		foreach($res as $i=>$w)
+			echo "\t$w[0]\t$w[1]\n";
 	}
-    }
-}
-
-function empty_rec ($arr=[])
-{
-    foreach($arr as $o)
-    {
-	if($o) return false;
-    }
-    return true;
-}
+/*
+ * Local Variables:
+ * mode: web
+ * End:
+ */
 ?>
