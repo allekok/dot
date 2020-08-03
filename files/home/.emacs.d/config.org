@@ -85,6 +85,13 @@
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 #+end_src
+* /package/ google-translate
+#+begin_src emacs-lisp
+  (pkg google-translate)
+  (require 'google-translate)
+  (require 'google-translate-default-ui)
+  (global-set-key "\C-ct" 'google-translate-smooth-translate)
+#+end_src
 * C compilation
 #+begin_src emacs-lisp
   ;; Hook
