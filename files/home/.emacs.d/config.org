@@ -227,125 +227,6 @@
   (setq battery-mode-line-format "%p")
   (display-battery-mode 1)
 #+end_src
-* appearance
-#+begin_src emacs-lisp
-  ;;; Remove bars
-  (set-frame-parameter nil 'vertical-scroll-bars nil)
-  (fringe-mode '(0 . 0))
-
-  ;;; Theme: Functions
-  (defun get-light ()
-    (interactive)
-    (string-to-number
-     (shell-command-to-string
-      "LIGHT=$(cat /sys/devices/platform/applesmc.768/light) && 
-  echo -n ${LIGHT:1:1}")))
-
-  (defun get-env-light () (interactive) (getenv "COLORNOW"))
-
-  (defun theme-load* (theme)
-    "Disable all enabled themes and load `theme'."
-    (mapc 'disable-theme custom-enabled-themes)
-    (load-theme theme t))
-
-  (defun theme-toggle ()
-    (interactive)
-    (theme-load* (if (memq 'allekok-light
-			   custom-enabled-themes)
-		     'allekok-dark 'allekok-light)))
-
-  (defun theme-now ()
-    (interactive)
-    (let ((h (string-to-number
-	      (format-time-string "%H")))
-	  (theme (if (string= (get-env-light) "light")
-		     'allekok-light 'allekok-dark)))
-      (theme-load* theme)))
-
-  ;;; Theme: Run
-  (global-set-key [XF86LaunchA] 'theme-toggle)
-  (setq custom-theme-directory
-	(expand-file-name "themes" user-emacs-directory))
-  (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
-  (add-to-list 'custom-safe-themes 'allekok-light)
-  (add-to-list 'custom-safe-themes 'allekok-dark)
-  (theme-now)
-
-  ;;; Mode-line: Functions
-  (defun mode-line-refresh ()
-    (interactive)
-    (let ((| " | "))
-      (setq-default
-       mode-line-format
-       (list
-	" " battery | datetime |
-	'(:eval (propertize "%b" 'face
-			    (when (buffer-modified-p)
-			      'font-lock-warning-face)))
-	| "%m" | "%l,%02c" | "%p-%I" |
-	internet? | (when (volume-mute?) "MUTE ")
-	(volume-level) | memory-free))))
-
-  (defun mode-line-refresh-variables ()
-    (setq datetime (format-time-string "%H:%M %a-%d-%b")
-	  battery battery-mode-line-string
-	  internet? (internet?)
-	  memory-free (memory-free)))
-
-  ;;; Mode-line: Run
-  (setq mode-line-refresh-variables-timer
-	(run-with-timer 0 20
-			(lambda ()
-			  (mode-line-refresh-variables)
-			  (mode-line-refresh))))
-#+end_src
-* volume
-#+begin_src emacs-lisp
-  ;; Key-bindings
-  (global-set-key [XF86AudioMute] 'volume-mute)
-  (global-set-key [XF86AudioRaiseVolume] 'volume-raise)
-  (global-set-key [XF86AudioLowerVolume] 'volume-lower)
-
-  ;; Functions
-  (defun volume-mute ()
-    (interactive)
-    (shell-command-to-string
-     "amixer set Master toggle")
-    (message (if (volume-mute?) "MUTE" "UNMUTE"))
-    (mode-line-refresh))
-
-  (defun volume-set (v &optional message-format)
-    (let ((message-format (or message-format "* volume: %s"))
-	  (command (concat "amixer set Master "
-			   (number-to-string v) "%")))
-      (start-process-shell-command command nil command)
-      (mode-line-refresh)
-      (message message-format (volume-level))))
-
-  (cl-defun volume-raise (&optional (step 2))
-    (interactive)
-    (let ((nv (+ step (string-to-number (volume-level)))))
-      (volume-set nv "+ volume: %s")))
-
-  (cl-defun volume-lower (&optional (step -2))
-    (interactive)
-    (let ((nv (+ step (string-to-number (volume-level)))))
-      (volume-set nv "- volume: %s")))
-
-  (defun volume-level ()
-    (let ((vl (string-trim
-	       (shell-command-to-string
-		"awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
-      (unless (string= vl "amixer: Unable to find simple control 'Master',0")
-	vl)))
-
-  (defun volume-mute? ()
-    (when (string= (string-trim
-		    (shell-command-to-string
-		     "awk -F '[][]' '{print $6}' <(amixer get Master | tail -1)"))
-		   "off")
-      t))
-#+end_src
 * screen brightness
 #+begin_src emacs-lisp
   ;; Key-bindings
@@ -432,6 +313,128 @@
     (let ((v (+ (kbd-brightness-current) step)))
       (kbd-brightness-set v "- kbd backlight: -%d")))
 #+end_src
+* appearance
+#+begin_src emacs-lisp
+  ;;; Remove bars
+  (set-frame-parameter nil 'vertical-scroll-bars nil)
+  (fringe-mode '(0 . 0))
+
+  ;;; Theme: Functions
+  (defun get-light ()
+    (interactive)
+    (string-to-number
+     (shell-command-to-string
+      "LIGHT=$(cat /sys/devices/platform/applesmc.768/light) && 
+  echo -n ${LIGHT:1:1}")))
+
+  (defun get-env-light () (interactive) (getenv "COLORNOW"))
+
+  (defun theme-load* (theme)
+    "Disable all enabled themes and load `theme'."
+    (mapc 'disable-theme custom-enabled-themes)
+    (load-theme theme t))
+
+  (defun theme-toggle ()
+    (interactive)
+    (theme-load* (if (memq 'allekok-light
+			   custom-enabled-themes)
+		     'allekok-dark 'allekok-light)))
+
+  (defun theme-now ()
+    (interactive)
+    (let* ((h (string-to-number
+	      (format-time-string "%H")))
+	   (light (get-env-light))
+	   (theme (if (string= light "light")
+		      'allekok-light
+		    (kbd-brightness-set 5 "")
+		    'allekok-dark)))
+      (theme-load* theme)))
+
+  ;;; Theme: Run
+  (global-set-key [XF86LaunchA] 'theme-toggle)
+  (setq custom-theme-directory
+	(expand-file-name "themes" user-emacs-directory))
+  (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
+  (add-to-list 'custom-safe-themes 'allekok-light)
+  (add-to-list 'custom-safe-themes 'allekok-dark)
+  (theme-now)
+
+  ;;; Mode-line: Functions
+  (defun mode-line-refresh ()
+    (interactive)
+    (let ((| " | "))
+      (setq-default
+       mode-line-format
+       (list
+	" " battery | datetime |
+	'(:eval (propertize "%b" 'face
+			    (when (buffer-modified-p)
+			      'font-lock-warning-face)))
+	| "%m" | "%l,%02c" | "%p-%I" |
+	internet? | (when (volume-mute?) "MUTE ")
+	(volume-level) | memory-free))))
+
+  (defun mode-line-refresh-variables ()
+    (setq datetime (format-time-string "%H:%M %a-%d-%b")
+	  battery battery-mode-line-string
+	  internet? (internet?)
+	  memory-free (memory-free)))
+
+  ;;; Mode-line: Run
+  (setq mode-line-refresh-variables-timer
+	(run-with-timer 0 20
+			(lambda ()
+			  (mode-line-refresh-variables)
+			  (mode-line-refresh))))
+#+end_src
+* volume
+#+begin_src emacs-lisp
+  ;; Key-bindings
+  (global-set-key [XF86AudioMute] 'volume-mute)
+  (global-set-key [XF86AudioRaiseVolume] 'volume-raise)
+  (global-set-key [XF86AudioLowerVolume] 'volume-lower)
+
+  ;; Functions
+  (defun volume-mute ()
+    (interactive)
+    (shell-command-to-string
+     "amixer set Master toggle")
+    (message (if (volume-mute?) "MUTE" "UNMUTE"))
+    (mode-line-refresh))
+
+  (defun volume-set (v &optional message-format)
+    (let ((message-format (or message-format "* volume: %s"))
+	  (command (concat "amixer set Master "
+			   (number-to-string v) "%")))
+      (start-process-shell-command command nil command)
+      (mode-line-refresh)
+      (message message-format (volume-level))))
+
+  (cl-defun volume-raise (&optional (step 2))
+    (interactive)
+    (let ((nv (+ step (string-to-number (volume-level)))))
+      (volume-set nv "+ volume: %s")))
+
+  (cl-defun volume-lower (&optional (step -2))
+    (interactive)
+    (let ((nv (+ step (string-to-number (volume-level)))))
+      (volume-set nv "- volume: %s")))
+
+  (defun volume-level ()
+    (let ((vl (string-trim
+	       (shell-command-to-string
+		"awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
+      (unless (string= vl "amixer: Unable to find simple control 'Master',0")
+	vl)))
+
+  (defun volume-mute? ()
+    (when (string= (string-trim
+		    (shell-command-to-string
+		     "awk -F '[][]' '{print $6}' <(amixer get Master | tail -1)"))
+		   "off")
+      t))
+#+end_src
 * startup
 #+begin_src emacs-lisp
   (setq inhibit-startup-screen t
@@ -443,24 +446,6 @@
 #+begin_src emacs-lisp
   (setq-default major-mode 'text-mode)
   (add-hook 'text-mode-hook 'auto-fill-mode)
-#+end_src
-* X keyboard
-#+begin_src emacs-lisp
-  (defun keyboard-language (layout &optional variant message)
-    (start-process-shell-command
-     "keyboard-language" nil
-     (format "setxkbmap -layout %s -variant %s"
-	     layout variant))
-    (message message))
-
-  (defun keyboard-english () (interactive)
-	 (keyboard-language "us" "" "English"))
-
-  (defun keyboard-kurdish () (interactive)
-	 (keyboard-language "ir" "ku_ara" "کوردی"))
-
-  (defun keyboard-latin-kurdish () (interactive)
-	 (keyboard-language "ir" "ku" "Kurdî"))
 #+end_src
 * font
 #+begin_src emacs-lisp
@@ -514,6 +499,24 @@
     (start-process-shell-command
      program nil program))
   (global-set-key (kbd "M-!") 'desktop-app-query)
+#+end_src
+* X keyboard
+#+begin_src emacs-lisp
+  (defun keyboard-language (layout &optional variant message)
+    (start-process-shell-command
+     "keyboard-language" nil
+     (format "setxkbmap -layout %s -variant %s"
+	     layout variant))
+    (message message))
+
+  (defun keyboard-english () (interactive)
+	 (keyboard-language "us" "" "English"))
+
+  (defun keyboard-kurdish () (interactive)
+	 (keyboard-language "ir" "ku_ara" "کوردی"))
+
+  (defun keyboard-latin-kurdish () (interactive)
+	 (keyboard-language "ir" "ku" "Kurdî"))
 #+end_src
 * utf-8
 #+begin_src emacs-lisp
