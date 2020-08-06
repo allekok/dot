@@ -336,9 +336,12 @@
 
   (defun theme-toggle ()
     (interactive)
-    (theme-load* (if (memq 'allekok-light
+    (theme-load* (if (memq 'allekok-dark
 			   custom-enabled-themes)
-		     'allekok-dark 'allekok-light)))
+		     (progn (kbd-brightness-set 0 "")
+			    'allekok-light)
+		   (kbd-brightness-set 5 "")
+		   'allekok-dark)))
 
   (defun theme-now ()
     (interactive)
@@ -740,6 +743,14 @@
 	      "langs/kurdish-sorani.el" user-emacs-directory)
 	     (expand-file-name
 	      "langs/kurdish-kurmanci.el" user-emacs-directory))))
+#+end_src
+* webcam
+#+begin_src emacs-lisp
+  (defun webcam ()
+    "Show webcam's video in a frame"
+    (interactive)
+    (start-process-shell-command
+     "webcam" nil "ffplay -f video4linux2 -s 640x480 -i /dev/video0"))
 #+end_src
 * misc
 #+begin_src emacs-lisp
