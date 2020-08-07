@@ -23,6 +23,20 @@
 
   ;; `string-trim' function
   (require 'subr-x)
+
+  (defun popup-buffer-name ()
+    (format "popup:%s" (random 1000000)))
+
+  (defun popup (string)
+    (let ((buffer-name (popup-buffer-name)))
+      (while (buffer-exists-p buffer-name)
+	(setq buffer-name (popup-buffer-name)))
+      (generate-new-buffer buffer-name)
+      (with-current-buffer buffer-name
+	(insert string)
+	(beginning-of-buffer))
+      ;; Could use (display-buffer)
+      (switch-to-buffer buffer-name)))
 #+end_src
 * /package/
 #+begin_src emacs-lisp
@@ -620,9 +634,16 @@
 		      (message "'allekok/status' Done!")
 		      (org-mode)
 		      (setq bidi-paragraph-direction 'right-to-left)))
+  ;; Insert text in allekok style
   (defun insert-allekok (string)
     (interactive "sڕستە: ")
     (insert (propertize string 'face 'region)))
+  ;; Tewar
+  (defun my-lookup (word)
+    (interactive "sوشە: ")
+    (popup (string-trim (shell-command-to-string
+			 (format "~/PROG/my-lookup '%s' 50"
+				 (escape-string word))))))
 #+end_src
 * hs-minor-mode
 #+begin_src emacs-lisp
