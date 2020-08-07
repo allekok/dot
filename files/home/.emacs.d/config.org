@@ -609,7 +609,7 @@
   ;; Open allekok-apps
   (global-set-key (kbd "C-x j")
 		  (lambda () (interactive)
-		    (chromium "--app=https://allekok.github.io/")))
+		    (chromium "--app=http://localhost/radio/")))
   ;; Show allekok/status
   (global-set-key (kbd "C-x !")
 		  #'(lambda () (interactive)
@@ -620,6 +620,9 @@
 		      (message "'allekok/status' Done!")
 		      (org-mode)
 		      (setq bidi-paragraph-direction 'right-to-left)))
+  (defun insert-allekok (string)
+    (interactive "sڕستە: ")
+    (insert (propertize string 'face 'region)))
 #+end_src
 * hs-minor-mode
 #+begin_src emacs-lisp
