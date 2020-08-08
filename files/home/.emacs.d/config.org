@@ -25,7 +25,7 @@
   (require 'subr-x)
 
   (defun popup-buffer-name ()
-    (format "popup:%s" (random 1000000)))
+    (format "*popup:%s*" (random 1000000)))
 
   (defun popup (string)
     (let ((buffer-name (popup-buffer-name)))
@@ -620,7 +620,7 @@
   (global-set-key (kbd "C-x A")
 		  (lambda () (interactive)
 		    (chromium "--app=http://localhost/")))
-  ;; Open allekok-apps
+  ;; Open local radio
   (global-set-key (kbd "C-x j")
 		  (lambda () (interactive)
 		    (chromium "--app=http://localhost/radio/")))

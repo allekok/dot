@@ -10,8 +10,8 @@
 (let* ((class '((class color) (min-colors 89)))
        ;; Font
        (font-family "NotoSansMono")
-       (font-size-main 110)
-       (font-size-mini 110)
+       (font-size-main 100)
+       (font-size-mini 100)
        ;; Color
        (colors (get-colorname "dark"))
        (back-color (nth 0 colors))
