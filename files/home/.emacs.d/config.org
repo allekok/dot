@@ -488,6 +488,7 @@
 	 (desktop-app-open ,app-str args ,escape))))
 
   ;; Apps
+  (desktop-app cawbird)
   (desktop-app simplescreenrecorder)
   (desktop-app telegram)
   (desktop-app firefox)
