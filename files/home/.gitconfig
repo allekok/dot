@@ -3,3 +3,5 @@
 	name = Payam
 [core]
 	editor = emacsclient
+[pull]
+	rebase = false
