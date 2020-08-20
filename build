@@ -52,3 +52,7 @@ cd $FILES_ETC_PATH
 cp /etc/issue .
 cp /etc/motd .
 cp /etc/pacman.conf .
+
+# git
+git diff
+git status
