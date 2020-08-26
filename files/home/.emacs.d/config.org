@@ -777,6 +777,31 @@
     (start-process-shell-command
      "webcam" nil "ffplay -f video4linux2 -s 640x480 -i /dev/video0"))
 #+end_src
+* amusement
+#+begin_src emacs-lisp
+  (defun one-of (list)
+    (nth (random (length list)) list))
+
+  ;; Amusements
+  (defun random-file ()
+    (find-file (format "~/%s"
+		       (string-trim
+			(shell-command-to-string
+			 "my-random-file ~")))))
+
+  (defun random-man ()
+    (defun man-list ()
+      (mapcar (lambda (x) (substring x 0 (1+ (string-match ")" x))))
+	      (split-string (shell-command-to-string "man -k ''") "\n" t)))
+    (let ((man-list (man-list)))
+      (man (one-of man-list))))
+
+  (setq amusements '(random-file random-man))
+  (defun amuse-me ()
+    (interactive)
+    (funcall (one-of amusements)))
+  (global-set-key [XF86AudioNext] 'amuse-me)
+#+end_src
 * misc
 #+begin_src emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
