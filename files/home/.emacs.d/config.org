@@ -583,10 +583,8 @@
       (if (string-suffix-p (car list) item t) t
 	(string-suffix-list-p (cdr list) item))))
 
-  (defun my-dired-uni-open ()
-    (interactive)
-    (let ((file (dired-get-file-for-visit)))
-      (cond
+  (defun uni-open (file)
+    (cond
        ((file-directory-p file) (dired-find-file))
        ((string-suffix-list-p '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
 	(mpv file))
@@ -594,7 +592,12 @@
        ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
-       (t (dired-find-file)))))
+       (t (dired-find-file))))
+
+  (defun my-dired-uni-open ()
+    (interactive)
+    (let ((file (dired-get-file-for-visit)))
+      (uni-open file)))
 
   (defun my-dired-shell-command (program)
     (let ((file (dired-get-file-for-visit)))
@@ -784,17 +787,25 @@
 
   ;; Amusements
   (defun random-file ()
-    (find-file (format "~/%s"
-		       (string-trim
-			(shell-command-to-string
-			 "my-random-file ~")))))
+    (defun uni-open (file)
+      (cond
+       ((file-directory-p file) (find-file file))
+       ((string-suffix-list-p '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
+	(mpv file))
+       ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
+       ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
+       ((string-suffix-p ".pdf" file t) (mupdf file))
+       ((string-suffix-p ".xcf" file t) (gimp file))
+       (t (find-file file))))
+    (uni-open (one-of (directory-files "~" t))))
 
   (defun random-man ()
     (defun man-list ()
-      (mapcar (lambda (x) (substring x 0 (1+ (string-match ")" x))))
-	      (split-string (shell-command-to-string "man -k ''") "\n" t)))
-    (let ((man-list (man-list)))
-      (man (one-of man-list))))
+      (mapcar (lambda (x)
+		(substring x 0 (1+ (string-match ")" x))))
+	      (split-string (shell-command-to-string
+			     "man -k ''") "\n" t)))
+    (man (one-of (man-list))))
 
   (setq amusements '(random-file random-man))
   (defun amuse-me ()
