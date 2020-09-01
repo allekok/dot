@@ -817,7 +817,10 @@
 	  (message "yay!")
 	(message "na! (%d)" num))))
 
-  (setq amusements '(random-file random-man random-num))
+  (defun random-config ()
+    (find-file (one-of (directory-files "/etc" t))))
+
+  (setq amusements '(random-file random-man random-num random-config))
   (defun amuse-me ()
     (interactive)
     (funcall (one-of amusements)))
