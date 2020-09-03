@@ -37,6 +37,17 @@
 	(beginning-of-buffer))
       ;; Could use (display-buffer)
       (switch-to-buffer buffer-name)))
+
+  (defun uni-open (file)
+      (cond
+       ((file-directory-p file) (find-file file))
+       ((string-suffix-list-p '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
+	(mpv file))
+       ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
+       ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
+       ((string-suffix-p ".pdf" file t) (mupdf file))
+       ((string-suffix-p ".xcf" file t) (gimp file))
+       (t (find-file file))))
 #+end_src
 * /package/
 #+begin_src emacs-lisp
@@ -71,7 +82,8 @@
 		 XF86KbdBrightnessUp
 		 XF86KbdBrightnessDown
 		 XF86MonBrightnessUp
-		 XF86MonBrightnessDown))
+		 XF86MonBrightnessDown
+		 XF86LaunchB))
       (cl-pushnew k exwm-input-prefix-keys))
     (setq exwm-input-global-keys
 	  `(([?\s-!] . keyboard-english)
@@ -488,7 +500,6 @@
 	 (desktop-app-open ,app-str args ,escape))))
 
   ;; Apps
-  (desktop-app cawbird)
   (desktop-app simplescreenrecorder)
   (desktop-app telegram)
   (desktop-app firefox)
@@ -516,7 +527,7 @@
      (list (read-shell-command "Program: ")))
     (start-process-shell-command
      program nil program))
-  (global-set-key (kbd "M-!") 'desktop-app-query)
+  (global-set-key [XF86LaunchB] 'desktop-app-query)
 #+end_src
 * X keyboard
 #+begin_src emacs-lisp
@@ -671,7 +682,7 @@
 * bidi-toggle
 #+begin_src emacs-lisp
   ;; Key bindings
-  (global-set-key [XF86LaunchB] 'bidi-toggle)
+  (global-set-key [XF86AudioNext] 'bidi-toggle)
 
   ;; Functions
   (defun bidi-toggle ()
@@ -697,9 +708,6 @@
 #+end_src
 * Kurdish tools
 #+begin_src emacs-lisp
-  ;; Key bindings
-  (global-set-key [XF86AudioPrev] 'kurdish-numbers)
-
   ;; Functions
   (defun kurdish-numbers ()
     (interactive)
@@ -787,16 +795,6 @@
 
   ;; Amusements
   (defun random-file ()
-    (defun uni-open (file)
-      (cond
-       ((file-directory-p file) (find-file file))
-       ((string-suffix-list-p '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
-	(mpv file))
-       ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
-       ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
-       ((string-suffix-p ".pdf" file t) (mupdf file))
-       ((string-suffix-p ".xcf" file t) (gimp file))
-       (t (find-file file))))
     (uni-open (one-of (directory-files "~" t))))
 
   (defun random-man ()
@@ -824,7 +822,7 @@
   (defun amuse-me ()
     (interactive)
     (funcall (one-of amusements)))
-  (global-set-key [XF86AudioNext] 'amuse-me)
+  (global-set-key [XF86AudioPrev] 'amuse-me)
 #+end_src
 * misc
 #+begin_src emacs-lisp
