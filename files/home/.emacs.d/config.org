@@ -83,7 +83,10 @@
 		 XF86KbdBrightnessDown
 		 XF86MonBrightnessUp
 		 XF86MonBrightnessDown
-		 XF86LaunchB))
+		 XF86LaunchA
+		 XF86LaunchB
+		 XF86AudioPrev
+		 XF86AudioPlay))
       (cl-pushnew k exwm-input-prefix-keys))
     (setq exwm-input-global-keys
 	  `(([?\s-!] . keyboard-english)
