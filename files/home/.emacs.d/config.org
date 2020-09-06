@@ -809,10 +809,11 @@
     (man (one-of (man-list))))
 
   (defun random-num ()
-    (let* ((num (random 100))
-	   (prompt (format "mod 2=%s | mod 3=%s | mod 5=%s | mod 7=%s | mod 11=%s ? "
+    (let* ((top 30)
+	   (num (random top))
+	   (prompt (format "mod 2=%s | mod 3=%s | mod 5=%s | mod 7=%s | mod 11=%s | top=%s ? "
 			   (% num 2) (% num 3) (% num 5)
-			   (% num 7) (% num 11)))
+			   (% num 7) (% num 11) top))
 	   (ans (read-number prompt)))
       (if (= num ans)
 	  (message "yay!")
