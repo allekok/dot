@@ -633,7 +633,7 @@
   ;; Open website
   (global-set-key (kbd "C-x a")
 		  (lambda () (interactive)
-		    (chromium "--app=https://allekok.ir/")))
+		    (chromium "--app=https://allekok.github.io/")))
   ;; Test server
   (global-set-key (kbd "C-x A")
 		  (lambda () (interactive)
