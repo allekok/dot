@@ -1,3 +1,5 @@
+export PATH="$HOME/PROG:$PATH"
+
 # Include '.bashrc'
 . "$HOME/.bashrc"
 

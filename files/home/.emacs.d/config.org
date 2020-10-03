@@ -51,8 +51,8 @@
 #+end_src
 * /package/
 #+begin_src emacs-lisp
-  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			   ("melpa" . "http://melpa.org/packages/")))
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+			   ("melpa" . "https://melpa.org/packages/")))
   (defmacro pkg (pkg-name)
     (unless (package-installed-p pkg-name)
       (package-install pkg-name)))
@@ -113,13 +113,6 @@
   (pkg web-mode)
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-#+end_src
-* /package/ google-translate
-#+begin_src emacs-lisp
-  (pkg google-translate)
-  (require 'google-translate)
-  (require 'google-translate-default-ui)
-  (global-set-key "\C-ct" 'google-translate-smooth-translate)
 #+end_src
 * C compilation
 #+begin_src emacs-lisp
