@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ~/emacs
 ./autogen.sh
-PKG_CONFIG_PATH="/usr/lib/imagemagick6/pkgconfig" ac_cv_lib_gif_EGifPutExtensionLast=yes ./configure CFLAGS="-O3" --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --with-x-toolkit=gtk3
+PKG_CONFIG_PATH="/usr/lib/imagemagick6/pkgconfig" ac_cv_lib_gif_EGifPutExtensionLast=yes ./configure CFLAGS="-O3" --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib --localstatedir=/var --with-x-toolkit=gtk3 --with-cairo --with-harfbuzz
 sudo make -j$(nproc)
