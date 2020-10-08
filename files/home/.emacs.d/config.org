@@ -684,6 +684,18 @@
     (funcall (one-of amusements)))
   (global-set-key [XF86AudioPlay] 'amuse-me)
 #+end_src
+* calendar
+#+begin_src emacs-lisp
+  (require 'cal-persia)
+  (defun my-calendar-persian-current-date ()
+    (let ((current-date (calendar-persian-from-absolute
+			    (calendar-absolute-from-gregorian
+			     (calendar-current-date)))))
+      (format "%s-%s-%s"
+	      (nth 2 current-date)
+	      (nth 0 current-date)
+	      (nth 1 current-date))))
+#+end_src
 * appearance
 #+begin_src emacs-lisp
   ;;; Remove bars
@@ -749,18 +761,9 @@
 	internet? | (when (volume-mute?) "MUTE ")
 	(volume-level) | memory-free))))
 
-  (defun my-calendar-persian-current-date ()
-    (let ((current-date (calendar-persian-from-absolute
-			    (calendar-absolute-from-gregorian
-			     (calendar-current-date)))))
-      (format "%s-%s-%s"
-	      (nth 2 current-date)
-	      (nth 0 current-date)
-	      (nth 1 current-date))))
-
   (defun mode-line-refresh-variables ()
     (setq datetime (format "%s / %s / %s"
-			   (format-time-string "%-H:%-M / %A")
+			   (format-time-string "%-H:%-M / %a")
 			   (my-calendar-persian-current-date)
 			   (format-time-string "%Y-%-m-%-d"))
 	  battery battery-mode-line-string
