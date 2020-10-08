@@ -745,12 +745,24 @@
 	'(:eval (propertize "%b" 'face
 			    (when (buffer-modified-p)
 			      'font-lock-warning-face)))
-	| "%m" | "%l,%02c" | "%p-%I" |
+	| '(:eval mode-name) | "%l,%02c" | "%p-%I" |
 	internet? | (when (volume-mute?) "MUTE ")
 	(volume-level) | memory-free))))
 
+  (defun my-calendar-persian-current-date ()
+    (let ((current-date (calendar-persian-from-absolute
+			    (calendar-absolute-from-gregorian
+			     (calendar-current-date)))))
+      (format "%s-%s-%s"
+	      (nth 2 current-date)
+	      (nth 0 current-date)
+	      (nth 1 current-date))))
+
   (defun mode-line-refresh-variables ()
-    (setq datetime (format-time-string "%H:%M %a-%d-%b")
+    (setq datetime (format "%s / %s / %s"
+			   (format-time-string "%-H:%-M / %A")
+			   (my-calendar-persian-current-date)
+			   (format-time-string "%Y-%-m-%-d"))
 	  battery battery-mode-line-string
 	  internet? (internet?)
 	  memory-free (memory-free)))
