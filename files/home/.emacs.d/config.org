@@ -385,7 +385,7 @@
 * startup
 #+begin_src emacs-lisp
   (setq inhibit-startup-screen t
-	initial-scratch-message "")
+	initial-scratch-message nil)
   (defun display-startup-echo-area-message ()
     (message "Hi"))
 #+end_src
