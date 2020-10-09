@@ -844,5 +844,7 @@
   (put 'upcase-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
 
+  (start-process-shell-command "bg" nil "feh --zoom fill ~/bg.jpg")
+
   (server-start)
 #+end_src
