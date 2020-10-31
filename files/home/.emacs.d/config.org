@@ -512,8 +512,10 @@
       (if (string-suffix-p (car list) item t) t
 	(string-suffix-list-p (cdr list) item))))
 
-  (defun uni-open (file)
-    (cond
+  (defun my-dired-uni-open ()
+    (interactive)
+    (let ((file (dired-get-file-for-visit)))
+      (cond
        ((file-directory-p file) (dired-find-file))
        ((string-suffix-list-p '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
 	(mpv file))
@@ -521,12 +523,7 @@
        ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
-       (t (dired-find-file))))
-
-  (defun my-dired-uni-open ()
-    (interactive)
-    (let ((file (dired-get-file-for-visit)))
-      (uni-open file)))
+       (t (dired-find-file)))))
 
   (defun my-dired-shell-command (program)
     (let ((file (dired-get-file-for-visit)))
