@@ -568,6 +568,12 @@
   (defun insert-allekok (string)
     (interactive "sڕستە: ")
     (insert (propertize string 'face 'region)))
+  ;; allekok search
+  (defun my-allekok (word)
+    (interactive "sوشە: ")
+    (popup (string-trim (shell-command-to-string
+			 (format "php ~/allekok.php '%s'"
+				 (escape-string word))))))
   ;; Tewar
   (defun my-lookup (word)
     (interactive "sوشە: ")

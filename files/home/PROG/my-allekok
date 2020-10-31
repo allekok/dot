@@ -1,0 +1,100 @@
+#!/usr/bin/php
+<?php
+$api = "https://allekok.ir/dev/tools";
+
+$input = $argv[1];
+$input = urlencode($input);
+
+$request = "{$api}/search.php?q={$input}";
+
+$response = file_get_contents($request);
+$response = json_decode($response, true);
+
+echo "========================\n";
+echo "شاعیران:\n";
+echo "========================\n";
+foreach($response["poets"]["meta"] as $poet) {
+	echo "\t";
+	echo $poet["poet"];
+	echo " -> ";
+	echo "allekok.ir/{$poet["poet_id"]}\n";
+}
+foreach($response["poets"]["context"] as $poet) {
+	echo "\t";
+	echo $poet["poet"];
+	echo " -> ";
+	echo "allekok.ir/{$poet["poet_id"]}\n";
+}
+foreach($response["poets"]["lastChance"] as $poet) {
+	echo "\t";
+	echo $poet["poet"];
+	echo " -> ";
+	echo "allekok.ir/{$poet["poet_id"]}\n";
+}
+
+echo "========================\n";
+echo "کتێبەکان:\n";
+echo "========================\n";
+foreach($response["books"]["meta"] as $book) {
+	echo "\t";
+	echo $book["poet"];
+	echo " / {$book["book"]}";
+	echo " -> ";
+	echo "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}\n";
+}
+foreach($response["books"]["context"] as $book) {
+	echo "\t";
+	echo $book["poet"];
+	echo " / {$book["book"]}";
+	echo " -> ";
+	echo "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}\n";
+}
+foreach($response["books"]["lastChance"] as $book) {
+	echo "\t";
+	echo $book["poet"];
+	echo " / {$book["book"]}";
+	echo " -> ";
+	echo "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}\n";
+}
+
+echo "========================\n";
+echo "شێعرەکان:\n";
+echo "========================\n";
+foreach($response["poems"]["firstChance"]["meta"] as $poem) {
+	echo "\t";
+	echo $poem["poet"];
+	echo " / {$poem["book"]}";
+	echo " / {$poem["poem"]}";
+	echo " -> ";
+	echo "allekok.ir/{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}\n";
+}
+foreach($response["poems"]["firstChance"]["context"] as $poem) {
+	echo "\t";
+	echo $poem["poet"];
+	echo " / {$poem["book"]}";
+	echo " / {$poem["poem"]}";
+	echo " -> ";
+	echo "allekok.ir/{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}\n";
+}
+foreach($response["poems"]["lastChance"]["meta"] as $poem) {
+	echo "\t";
+	echo $poem["poet"];
+	echo " / {$poem["book"]}";
+	echo " / {$poem["poem"]}";
+	echo " -> ";
+	echo "allekok.ir/{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}\n";
+}
+foreach($response["poems"]["lastChance"]["context"] as $poem) {
+	echo "\t";
+	echo $poem["poet"];
+	echo " / {$poem["book"]}";
+	echo " / {$poem["poem"]}";
+	echo " -> ";
+	echo "allekok.ir/{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}\n";
+}
+/*
+ * Local Variables:
+ * mode: web
+ * End:
+ */
+?>
