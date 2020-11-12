@@ -572,7 +572,7 @@
   (defun my-allekok (word)
     (interactive "sوشە: ")
     (popup (string-trim (shell-command-to-string
-			 (format "php ~/allekok.php '%s'"
+			 (format "~/PROG/my-allekok '%s'"
 				 (escape-string word))))))
   ;; Tewar
   (defun my-lookup (word)

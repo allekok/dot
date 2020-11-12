@@ -11,7 +11,7 @@ $response = file_get_contents($request);
 $response = json_decode($response, true);
 
 echo "========================\n";
-echo "شاعیران:\n";
+echo "شاعیران\n";
 echo "========================\n";
 foreach($response["poets"]["meta"] as $poet) {
 	echo "\t";
@@ -33,7 +33,7 @@ foreach($response["poets"]["lastChance"] as $poet) {
 }
 
 echo "========================\n";
-echo "کتێبەکان:\n";
+echo "کتێبەکان\n";
 echo "========================\n";
 foreach($response["books"]["meta"] as $book) {
 	echo "\t";
@@ -58,7 +58,7 @@ foreach($response["books"]["lastChance"] as $book) {
 }
 
 echo "========================\n";
-echo "شێعرەکان:\n";
+echo "شێعرەکان\n";
 echo "========================\n";
 foreach($response["poems"]["firstChance"]["meta"] as $poem) {
 	echo "\t";
