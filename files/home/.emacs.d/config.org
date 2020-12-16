@@ -257,9 +257,9 @@
 
   ;; Functions
   (setq screen-brightness-file
-	"/sudo::/sys/class/backlight/acpi_video0/brightness")
+	"/sys/class/backlight/acpi_video0/brightness")
   (setq screen-brightness-max-file
-	"/sudo::/sys/class/backlight/acpi_video0/max_brightness")
+	"/sys/class/backlight/acpi_video0/max_brightness")
 
   (defun screen-brightness-max ()
     (interactive)
@@ -277,8 +277,7 @@
     (interactive "nbrightness: ")
     (let ((message-format (or message-format "* brightness: %d")))
       (when (and (<= v (screen-brightness-max)) (>= v 0))
-	(with-temp-file screen-brightness-file
-	  (insert (number-to-string v)))
+	(shell-command (format "~/PROG/my-bright %i" v))
 	(message message-format v))))
 
   (defun screen-brighter (&optional step)
@@ -301,9 +300,9 @@
 
   ;; Functions
   (setq kbd-brightness-file
-	"/sudo::/sys/class/leds/smc::kbd_backlight/brightness")
+	"/sys/class/leds/smc::kbd_backlight/brightness")
   (setq kbd-brightness-max-file
-	"/sudo::/sys/class/leds/smc::kbd_backlight/max_brightness")
+	"/sys/class/leds/smc::kbd_backlight/max_brightness")
 
   (defun kbd-brightness-max ()
     (with-temp-buffer
@@ -319,8 +318,7 @@
     (interactive "nkbd backlight: ")
     (let ((message-format (or message-format "* kbd backlight: %d")))
       (when (and (<= v (kbd-brightness-max)) (>= v 0))
-	(with-temp-file kbd-brightness-file
-	  (insert (number-to-string v)))
+	(shell-command (format "~/PROG/my-kbd-bright %i" v))
 	(message message-format v))))
 
   (defun kbd-brighter (&optional step)
@@ -378,7 +376,7 @@
   (defun volume-mute? ()
     (when (string= (string-trim
 		    (shell-command-to-string
-		     "awk -F '[][]' '{print $6}' <(amixer get Master | tail -1)"))
+		     "awk -F '[][]' '{print $4}' <(amixer get Master | tail -1)"))
 		   "off")
       t))
 #+end_src
@@ -400,6 +398,9 @@
     (let ((spec (font-spec :family "NotoNaskhArabicUI")))
       (set-fontset-font nil 'arabic spec)
       (set-fontset-font nil #x200c spec)))
+  (set-fontset-font nil
+		    '(#x1F000 . #x1FAFF)
+		    (font-spec :family "NotoColorEmoji"))
 #+end_src
 * desktop apps
 #+begin_src emacs-lisp
@@ -690,12 +691,12 @@
 * calendar
 #+begin_src emacs-lisp
   (require 'cal-persia)
-  (defun my-calendar-persian-current-date ()
+  (defun my-calendar-kurdish-current-date ()
     (let ((current-date (calendar-persian-from-absolute
 			    (calendar-absolute-from-gregorian
 			     (calendar-current-date)))))
       (format "%s-%s-%s"
-	      (nth 2 current-date)
+	      (+ 1321 (nth 2 current-date))
 	      (nth 0 current-date)
 	      (nth 1 current-date))))
 #+end_src
@@ -761,13 +762,13 @@
 			    (when (buffer-modified-p)
 			      'font-lock-warning-face)))
 	| '(:eval mode-name) | "%l,%02c" | "%p-%I" |
-	internet? | (when (volume-mute?) "MUTE ")
+	internet? | "Vol: " (when (volume-mute?) "MUTE ")
 	(volume-level) | memory-free))))
 
   (defun mode-line-refresh-variables ()
     (setq datetime (format "%s / %s / %s"
 			   (format-time-string "%-H:%-M / %a")
-			   (my-calendar-persian-current-date)
+			   (my-calendar-kurdish-current-date)
 			   (format-time-string "%Y-%-m-%-d"))
 	  battery battery-mode-line-string
 	  internet? (internet?)
