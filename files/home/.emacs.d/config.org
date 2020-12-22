@@ -557,14 +557,12 @@
 		    (chromium "--app=http://localhost/radio/")))
   ;; Show allekok/status
   (global-set-key (kbd "C-x !")
-		  #'(lambda () (interactive)
-		      (switch-to-buffer "allekok/status")
-		      (erase-buffer)
-		      (url-insert-file-contents
-		       "https://allekok.ir/status.php")
-		      (message "'allekok/status' Done!")
-		      (org-mode)
-		      (setq bidi-paragraph-direction 'right-to-left)))
+		  (lambda () (interactive)
+		    (popup (string-trim (shell-command-to-string
+					 (format "~/PROG/my-status"))))
+		    (message "'allekok/status' Done!")
+		    (org-mode)
+		    (setq bidi-paragraph-direction 'right-to-left)))
   ;; Insert text in allekok style
   (defun insert-allekok (string)
     (interactive "sڕستە: ")
@@ -699,6 +697,10 @@
 	      (+ 1321 (nth 2 current-date))
 	      (nth 0 current-date)
 	      (nth 1 current-date))))
+  (global-set-key [XF86AudioPrev]
+		  (lambda ()
+		    (interactive)
+		    (insert (my-calendar-kurdish-current-date))))
 #+end_src
 * appearance
 #+begin_src emacs-lisp

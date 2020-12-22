@@ -15,6 +15,7 @@ foreach ($lookup as $point=>$res)
 		echo "$point\n";
 		foreach($res as $i=>$w) {
 			if(!$l--) break 2;
+			$w = fetch_word($w[0], $w[1]);
 			echo "\t$w[1]\t$w[0]\t$w[2]\n";
 		}
 	}

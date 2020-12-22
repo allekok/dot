@@ -46,7 +46,7 @@
    `(region ((,class (:background ,keyword-color :foreground ,back-color))))
    `(highlight ((,class (:background ,keyword-color :foreground ,back-color))))
    `(hl-line ((,class (:background ,back-color))))
-   `(vertical-border ((,class (:foreground ,fore-color))))
+   `(vertical-border ((,class (:foreground ,keyword-color))))
    `(show-paren-match ((,class (:foreground ,keyword-color
 					    :weight normal))))
    `(font-lock-warning-face ((,class (:foreground ,warn-color))))

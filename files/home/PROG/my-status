@@ -1,0 +1,12 @@
+#!/usr/bin/php
+<?php
+require('my-library.php');
+
+echo file_get_contents("https://allekok.ir/status.php");
+
+/*
+ * Local Variables:
+ * mode: web
+ * End:
+ */
+?>
