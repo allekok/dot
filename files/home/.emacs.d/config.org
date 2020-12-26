@@ -827,7 +827,7 @@
 
   (blink-cursor-mode -1)
   (setq-default fill-column 80
-		line-spacing 2)
+		line-spacing 3)
   (auto-image-file-mode)
 
   (when (boundp 'image-map)
