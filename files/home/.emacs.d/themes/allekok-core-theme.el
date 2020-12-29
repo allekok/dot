@@ -58,7 +58,7 @@
    `(font-lock-warning-face ((,class (:foreground ,warn-color))))
    `(font-lock-keyword-face ((,class (:foreground ,keyword-color))))
    `(font-lock-builtin-face ((,class (:foreground ,fore-color))))
-   `(font-lock-function-name-face ((,class (:foreground ,keyword-color :weight bold))))
+   `(font-lock-function-name-face ((,class (:foreground ,fore-color :weight bold))))
    `(font-lock-string-face ((,class :foreground ,fore-color)))
    `(font-lock-comment-face ((,class :background ,back-color)))
    `(font-lock-variable-name-face ((,class :foreground ,fore-color)))

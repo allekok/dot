@@ -56,6 +56,9 @@
   (defmacro pkg (pkg-name)
     (unless (package-installed-p pkg-name)
       (package-install pkg-name)))
+
+  ;;;; TODO:::: PACKAGE MANAGER
+  ;;;  Download using git and compile and add and load
 #+end_src
 * /package/ exwm
 #+begin_src emacs-lisp
