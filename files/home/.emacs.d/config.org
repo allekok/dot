@@ -52,13 +52,10 @@
 * /package/
 #+begin_src emacs-lisp
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			   ("melpa" . "https://melpa.org/packages/")))
+			   ("melpa-stable" . "https://stable.melpa.org/packages/")))
   (defmacro pkg (pkg-name)
     (unless (package-installed-p pkg-name)
       (package-install pkg-name)))
-
-  ;;;; TODO:::: PACKAGE MANAGER
-  ;;;  Download using git and compile and add and load
 #+end_src
 * /package/ exwm
 #+begin_src emacs-lisp
@@ -802,7 +799,7 @@
 #+begin_src emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq make-backup-files nil
-	auto-save-interval 100)
+	auto-save-interval 0)
   (setq scroll-step 1
 	scroll-conservatively 5)
   (setq tramp-default-method "ssh"
