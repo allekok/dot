@@ -48,6 +48,16 @@
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
        (t (find-file file))))
+
+  (defun number-of-lines (file-path)
+    (string-to-number
+     (string-trim
+      (shell-command-to-string
+       (format "wc -l '%s'" file-path)))))
+
+  (defun random-line ()
+    (interactive)
+    (goto-line (random (number-of-lines buffer-file-name))))
 #+end_src
 * /package/
 #+begin_src emacs-lisp
@@ -654,16 +664,10 @@
   (defun one-of (list)
     (nth (random (length list)) list))
 
-  (defun number-of-lines (file-path)
-    (string-to-number
-     (string-trim
-      (shell-command-to-string
-       (format "wc -l '%s'" file-path)))))
-
   ;; Amusements
-  (defun random-line ()
-    (interactive)
-    (goto-line (random (number-of-lines buffer-file-name))))
+  (defun random-wiki ()
+    (chromium (format "https://%s.wikipedia.org/wiki/Special:Random"
+		      (one-of '("ckb" "en" "fa")))))
 
   (defun random-file ()
     (uni-open (one-of (directory-files "~" t))))
@@ -690,10 +694,18 @@
   (defun random-config ()
     (find-file (one-of (directory-files "/etc" t))))
 
-  (setq amusements '(random-file random-man random-num random-config))
+  ;; Run
+  (setq amusements '(random-file
+		     random-man
+		     random-num
+		     random-config
+		     random-wiki))
+
   (defun amuse-me ()
     (interactive)
     (funcall (one-of amusements)))
+
+  ;; Global Key for `amuse-me'
   (global-set-key [XF86AudioPlay] 'amuse-me)
 #+end_src
 * calendar
