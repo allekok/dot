@@ -124,6 +124,11 @@
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
   #+end_src
+* /package/ org-bullets
+  #+begin_src emacs-lisp
+    (pkg org-bullets)
+    (add-hook 'org-mode-hook 'org-bullets-mode)
+  #+end_src
 * C compilation
   #+begin_src emacs-lisp
     ;; Hook
@@ -220,6 +225,7 @@
 * org
   #+begin_src emacs-lisp
     (setq org-src-window-setup 'current-window)
+    (setq org-startup-folded t)
   #+end_src
 * memory
   #+begin_src emacs-lisp
@@ -407,10 +413,10 @@
     (when (eq 'x (window-system))
       (let ((spec (font-spec :family "NotoNaskhArabicUI")))
 	(set-fontset-font nil 'arabic spec)
-	(set-fontset-font nil #x200c spec)))
-    (set-fontset-font nil
-		      '(#x1F000 . #x1FAFF)
-		      (font-spec :family "NotoColorEmoji"))
+	(set-fontset-font nil #x200c spec))
+      (set-fontset-font nil
+			'(#x1F000 . #x1FAFF)
+			(font-spec :family "NotoColorEmoji")))
   #+end_src
 * desktop apps
   #+begin_src emacs-lisp
