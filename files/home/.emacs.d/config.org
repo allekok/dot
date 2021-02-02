@@ -455,11 +455,11 @@
 
     (defun tchromium (&optional args)
       (interactive)
-      (chromium (concat "--proxy-server=socks://127.0.0.1:9050 " args)))
+      (chromium (concat "--proxy-server=socks://127.0.0.1:9150 " args)))
 
     (defun tbrave (&optional args)
       (interactive)
-      (brave (concat "--proxy-server=socks://127.0.0.1:9050 " args)))
+      (brave (concat "--proxy-server=socks://127.0.0.1:9150 " args)))
 
     (defun desktop-app-query (program)
       (interactive
@@ -821,7 +821,9 @@
   #+begin_src emacs-lisp
     (fset 'yes-or-no-p 'y-or-n-p)
     (setq make-backup-files nil
-	  auto-save-interval 99999999)
+	  auto-save-interval 99999999
+	  auto-save-timeout 99999999
+	  auto-save-default nil)
     (setq scroll-step 1
 	  scroll-conservatively 5)
     (setq tramp-default-method "ssh"
