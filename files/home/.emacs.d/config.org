@@ -413,10 +413,7 @@
     (when (eq 'x (window-system))
       (let ((spec (font-spec :family "NotoNaskhArabicUI")))
 	(set-fontset-font nil 'arabic spec)
-	(set-fontset-font nil #x200c spec))
-      (set-fontset-font nil
-			'(#x1F000 . #x1FAFF)
-			(font-spec :family "NotoColorEmoji")))
+	(set-fontset-font nil #x200c spec)))
   #+end_src
 * desktop apps
   #+begin_src emacs-lisp
