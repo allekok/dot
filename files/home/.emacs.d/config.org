@@ -452,11 +452,11 @@
 
     (defun tchromium (&optional args)
       (interactive)
-      (chromium (concat "--proxy-server=socks://127.0.0.1:9150 " args)))
+      (chromium (concat "--proxy-server=socks://127.0.0.1:9050 " args)))
 
     (defun tbrave (&optional args)
       (interactive)
-      (brave (concat "--proxy-server=socks://127.0.0.1:9150 " args)))
+      (brave (concat "--proxy-server=socks://127.0.0.1:9050 " args)))
 
     (defun desktop-app-query (program)
       (interactive
