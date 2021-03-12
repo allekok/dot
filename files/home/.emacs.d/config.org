@@ -568,10 +568,6 @@
     (global-set-key (kbd "C-x A")
 		    (lambda () (interactive)
 		      (chromium "--app=http://localhost/")))
-    ;; Open local radio
-    (global-set-key (kbd "C-x j")
-		    (lambda () (interactive)
-		      (chromium "--app=http://localhost/radio/")))
     ;; Show allekok/status
     (global-set-key (kbd "C-x !")
 		    (lambda () (interactive)
