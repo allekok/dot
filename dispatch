@@ -3,7 +3,6 @@
 # Constants
 FILES_PATH=files
 FILES_HOME_PATH="$FILES_PATH/home"
-FILES_ETC_PATH="$FILES_PATH/etc"
 
 # Aliases
 alias cp='cp -vr' # Add `-i' for interactive
@@ -13,11 +12,4 @@ cd $FILES_HOME_PATH
 for F in $(ls -A)
 do
     cp $F $HOME
-done	 
-
-# etc
-cd ../../$FILES_ETC_PATH
-for F in $(ls -A)
-do
-    sudo cp -vr $F /etc
 done
