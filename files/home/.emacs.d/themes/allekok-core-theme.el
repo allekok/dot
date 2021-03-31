@@ -16,8 +16,8 @@
 (let* ((class '((class color) (min-colors 89)))
        ;; Font
        (font-family "SourceCodePro")
-       (font-size-main 105)
-       (font-size-mini 100)
+       (font-size-main 110)
+       (font-size-mini 105)
        ;; Color
        (colors (get-colorname allekok-theme))
        (back-color (nth 0 colors))

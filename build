@@ -3,6 +3,7 @@
 # Constants
 FILES_PATH=files
 FILES_HOME_PATH=$FILES_PATH/home
+FILES_ETC_PATH=$FILES_PATH/etc
 
 # Aliases
 alias cp='cp -vf'
@@ -15,9 +16,12 @@ rm -rf $FILES_PATH
 mkdir $FILES_HOME_PATH
 cd $FILES_HOME_PATH
 
-cp ~/.zshrc .
+cp ~/.bash_profile .
+cp ~/.bashrc .
 cp ~/.gitconfig .
+cp ~/.xinitrc .
 cp ~/.Xresources .
+cp ~/.asoundrc .
 
 # .emacs.d
 mkdir .emacs.d
@@ -41,6 +45,14 @@ cp ~/.color-dark .
 # PROG
 mkdir PROG
 cp -r ~/PROG/* PROG
+
+# /etc
+cd ../..
+mkdir $FILES_ETC_PATH
+cd $FILES_ETC_PATH
+cp /etc/issue .
+cp /etc/motd .
+cp /etc/pacman.conf .
 
 # git
 git diff

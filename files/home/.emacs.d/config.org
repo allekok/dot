@@ -67,6 +67,47 @@
       (unless (package-installed-p pkg-name)
 	(package-install pkg-name)))
   #+end_src
+* /package/ exwm
+  #+begin_src emacs-lisp
+    (pkg exwm)
+    (when (eq 'x (window-system))
+      (require 'exwm)
+      (exwm-input-set-simulation-keys
+       '(
+	 ([?\C-p] . up)
+	 ([?\C-n] . down)
+	 ([?\C-a] . home)
+	 ([?\C-e] . end)
+	 ([?\M-v] . prior)
+	 ([?\C-v] . next)
+	 ([?\C-d] . delete)
+	 ([?\C-k] . (S-end delete))
+	 ([?\C-w] . ?\C-x)
+	 ([?\M-w] . ?\C-c)
+	 ([?\C-y] . ?\C-v)
+	 ([?\C-s] . ?\C-f)))
+      (dolist (k '(XF86AudioLowerVolume
+		   XF86AudioRaiseVolume
+		   XF86AudioMute
+		   XF86KbdBrightnessUp
+		   XF86KbdBrightnessDown
+		   XF86MonBrightnessUp
+		   XF86MonBrightnessDown
+		   XF86LaunchA
+		   XF86LaunchB
+		   XF86AudioPrev
+		   XF86AudioPlay))
+	(cl-pushnew k exwm-input-prefix-keys))
+      (setq exwm-input-global-keys
+	    `(([?\s-!] . keyboard-english)
+	      ([?\s-@] . keyboard-kurdish)
+	      ([?\s-#] . keyboard-latin-kurdish)))
+      (add-hook 'exwm-update-class-hook
+		(lambda ()
+		  (exwm-workspace-rename-buffer
+		   (format "#%s#" exwm-class-name))))
+      (exwm-enable))
+  #+end_src
 * /package/ async
   #+begin_src emacs-lisp
     (pkg async)
@@ -166,13 +207,13 @@
     (require 'kurdish-kurmanci)
 
     ;; Key-bindings
-    (global-set-key (kbd "s-!")
+    (global-set-key (kbd "s-1")
 		    (lambda () (interactive)
 		      (change-input-method nil "English")))
-    (global-set-key (kbd "s-@")
+    (global-set-key (kbd "s-2")
 		    (lambda () (interactive)
 		      (change-input-method 'kurdish-sorani "کوردی")))
-    (global-set-key (kbd "s-#")
+    (global-set-key (kbd "s-3")
 		    (lambda () (interactive)
 		      (change-input-method 'kurdish-kurmanci "Kurdî")))
 
@@ -223,6 +264,137 @@
   #+begin_src emacs-lisp
     (setq battery-mode-line-format "%p")
     (display-battery-mode 1)
+  #+end_src
+* screen brightness
+  #+begin_src emacs-lisp
+    ;; Key-bindings
+    (global-set-key [XF86MonBrightnessUp] 'screen-brighter)
+    (global-set-key [XF86MonBrightnessDown] 'screen-darker)
+
+    ;; Functions
+    (setq screen-brightness-file
+	  "/sys/class/backlight/acpi_video0/brightness")
+    (setq screen-brightness-max-file
+	  "/sys/class/backlight/acpi_video0/max_brightness")
+
+    (defun screen-brightness-max ()
+      (interactive)
+      (with-temp-buffer
+	(insert-file-contents screen-brightness-max-file)
+	(string-to-number (buffer-string))))
+
+    (defun screen-brightness-current ()
+      (interactive)
+      (with-temp-buffer
+	(insert-file-contents screen-brightness-file)
+	(string-to-number (buffer-string))))
+
+    (defun screen-brightness-set (v &optional message-format)
+      (interactive "nbrightness: ")
+      (let ((message-format (or message-format "* brightness: %d")))
+	(when (and (<= v (screen-brightness-max)) (>= v 0))
+	  (shell-command (format "~/PROG/my-bright %i" v))
+	  (message message-format v))))
+
+    (defun screen-brighter (&optional step)
+      (interactive)
+      (unless step (setq step +1))
+      (let ((v (+ (screen-brightness-current) step)))
+	(screen-brightness-set v "+ brightness: +%d")))
+
+    (defun screen-darker (&optional step)
+      (interactive)
+      (unless step (setq step -1))
+      (let ((v (+ (screen-brightness-current) step)))
+	(screen-brightness-set v "- brightness: -%d")))
+  #+end_src
+* keyboard brightness
+  #+begin_src emacs-lisp
+    ;; Key-bindings
+    (global-set-key [XF86KbdBrightnessUp] 'kbd-brighter)
+    (global-set-key [XF86KbdBrightnessDown] 'kbd-darker)
+
+    ;; Functions
+    (setq kbd-brightness-file
+	  "/sys/class/leds/smc::kbd_backlight/brightness")
+    (setq kbd-brightness-max-file
+	  "/sys/class/leds/smc::kbd_backlight/max_brightness")
+
+    (defun kbd-brightness-max ()
+      (with-temp-buffer
+	(insert-file-contents kbd-brightness-max-file)
+	(string-to-number (buffer-string))))
+
+    (defun kbd-brightness-current ()
+      (with-temp-buffer
+	(insert-file-contents kbd-brightness-file)
+	(string-to-number (buffer-string))))
+
+    (defun kbd-brightness-set (v &optional message-format)
+      (interactive "nkbd backlight: ")
+      (let ((message-format (or message-format "* kbd backlight: %d")))
+	(when (and (<= v (kbd-brightness-max)) (>= v 0))
+	  (shell-command (format "~/PROG/my-kbd-bright %i" v))
+	  (message message-format v))))
+
+    (defun kbd-brighter (&optional step)
+      (interactive)
+      (unless step (setq step +1))
+      (let ((v (+ (kbd-brightness-current) step)))
+	(kbd-brightness-set v "+ kbd backlight: +%d")))
+
+    (defun kbd-darker (&optional step)
+      (interactive)
+      (unless step (setq step -1))
+      (let ((v (+ (kbd-brightness-current) step)))
+	(kbd-brightness-set v "- kbd backlight: -%d")))
+  #+end_src
+* volume
+  #+begin_src emacs-lisp
+    ;; Key-bindings
+    (global-set-key [XF86AudioMute] 'volume-mute)
+    (global-set-key [XF86AudioRaiseVolume] 'volume-raise)
+    (global-set-key [XF86AudioLowerVolume] 'volume-lower)
+
+    ;; Functions
+    (defun volume-mute ()
+      (interactive)
+      (shell-command-to-string
+       "amixer set Master toggle")
+      (message (if (volume-mute?) "MUTE" "UNMUTE"))
+      (mode-line-refresh))
+
+    (defun volume-set (v &optional message-format)
+      (let ((message-format (or message-format "* volume: %s"))
+	    (command (concat "amixer set Master "
+			     (number-to-string v) "%")))
+	(start-process-shell-command command nil command)
+	(mode-line-refresh)
+	(message message-format (volume-level))))
+
+    (cl-defun volume-raise (&optional (step 2))
+      (interactive)
+      (let ((nv (+ step (string-to-number (volume-level)))))
+	(volume-set nv "+ volume: %s")))
+
+    (cl-defun volume-lower (&optional (step -2))
+      (interactive)
+      (let ((nv (+ step (string-to-number (volume-level)))))
+	(volume-set nv "- volume: %s")))
+
+    (defun volume-level ()
+      (let ((vl (string-trim
+		 (shell-command-to-string
+		  "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
+	(unless (string= vl "amixer: Unable to find simple control 'Master',0")
+	  vl)))
+
+    (defun volume-mute? ()
+      (when (string= (string-trim
+		      (shell-command-to-string
+		       "awk -F '[][]' '{print $6}' <(amixer get Master | tail -1)"))
+		     "off")
+	t))
   #+end_src
 * startup
   #+begin_src emacs-lisp
@@ -292,6 +464,24 @@
       (start-process-shell-command
        program nil program))
     (global-set-key [XF86LaunchB] 'desktop-app-query)
+  #+end_src
+* X keyboard
+  #+begin_src emacs-lisp
+    (defun keyboard-language (layout &optional variant message)
+      (start-process-shell-command
+       "keyboard-language" nil
+       (format "setxkbmap -layout %s -variant %s"
+	       layout variant))
+      (message message))
+
+    (defun keyboard-english () (interactive)
+	   (keyboard-language "us" "" "English"))
+
+    (defun keyboard-kurdish () (interactive)
+	   (keyboard-language "ir" "ku_ara" "کوردی"))
+
+    (defun keyboard-latin-kurdish () (interactive)
+	   (keyboard-language "ir" "ku" "Kurdî"))
   #+end_src
 * utf-8
   #+begin_src emacs-lisp
@@ -539,18 +729,20 @@
   #+end_src
 * appearance
   #+begin_src emacs-lisp
-    ;;; Frame Title
-    (setq frame-title-format "emacs")
-
-    ;;; Dimentions
-    (set-frame-parameter nil 'width 105)
-    (set-frame-parameter nil 'height 35)
-
     ;;; Remove bars
     (set-frame-parameter nil 'vertical-scroll-bars nil)
     (fringe-mode '(0 . 0))
 
     ;;; Theme: Functions
+    (defun get-light ()
+      (interactive)
+      (string-to-number
+       (shell-command-to-string
+	"LIGHT=$(cat /sys/devices/platform/applesmc.768/light) && 
+    echo -n ${LIGHT:1:1}")))
+
+    (defun get-env-light () (interactive) (getenv "COLORNOW"))
+
     (defun theme-load* (theme)
       "Disable all enabled themes and load `theme'."
       (mapc 'disable-theme custom-enabled-themes)
@@ -560,16 +752,19 @@
       (interactive)
       (theme-load* (if (memq 'allekok-dark
 			     custom-enabled-themes)
-		       'allekok-light
+		       (progn (kbd-brightness-set 0 "")
+			      'allekok-light)
+		     (kbd-brightness-set 5 "")
 		     'allekok-dark)))
 
     (defun theme-now ()
       (interactive)
       (let* ((h (string-to-number
 		 (format-time-string "%H")))
-	     (light "light")
+	     (light (get-env-light))
 	     (theme (if (string= light "light")
 			'allekok-light
+		      (kbd-brightness-set 5 "")
 		      'allekok-dark)))
 	(theme-load* theme)))
 
@@ -589,15 +784,20 @@
 	(setq-default
 	 mode-line-format
 	 (list
-	  " " datetime |
+	  " " battery | datetime |
 	  '(:eval (propertize "%b" 'face
 			      (when (buffer-modified-p)
 				'font-lock-warning-face)))
 	  | '(:eval mode-name) | "%l,%02c" | "%p-%I" |
-	  internet? | memory-free))))
+	  internet? | "Vol: " (when (volume-mute?) "MUTE ")
+	  (volume-level) | memory-free))))
 
     (defun mode-line-refresh-variables ()
-      (setq datetime (format "%s" (my-calendar-kurdish-current-date))
+      (setq datetime (format "%s / %s / %s"
+			     (format-time-string "%-H:%-M / %a")
+			     (my-calendar-kurdish-current-date)
+			     (format-time-string "%Y-%-m-%-d"))
+	    battery battery-mode-line-string
 	    internet? (internet?)
 	    memory-free (memory-free)))
 
