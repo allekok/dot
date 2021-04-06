@@ -359,10 +359,11 @@
     ;; Functions
     (defun volume-mute ()
       (interactive)
-      (shell-command-to-string
-       "amixer set Master toggle")
-      (message (if (volume-mute?) "MUTE" "UNMUTE"))
-      (mode-line-refresh))
+      (let* ((volume-mute? (volume-mute?))
+	     (shell-command (if volume-mute? "amixer set Master unmute;amixer set Speaker unmute;amixer set Headphone unmute" "amixer set Master mute")))
+	(shell-command-to-string shell-command)
+	(message (if volume-mute? "UNMUTE" "MUTE"))
+	(mode-line-refresh)))
 
     (defun volume-set (v &optional message-format)
       (let ((message-format (or message-format "* volume: %s"))
@@ -433,7 +434,7 @@
 
     ;; Apps
     (desktop-app simplescreenrecorder)
-    (desktop-app telegram)
+    (desktop-app telegram-desktop)
     (desktop-app firefox)
     (desktop-app chromium)
     (desktop-app brave)
