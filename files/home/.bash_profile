@@ -1,4 +1,4 @@
-export PATH="$HOME/PROG:$PATH"
+export PATH="$HOME/PROG:$HOME/go/bin:$PATH"
 
 # Include '.bashrc'
 . "$HOME/.bashrc"
