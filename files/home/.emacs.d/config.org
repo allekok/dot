@@ -108,12 +108,6 @@
 		   (format "#%s#" exwm-class-name))))
       (exwm-enable))
   #+end_src
-* /package/ async
-  #+begin_src emacs-lisp
-    (pkg async)
-    (require 'async)
-    (dired-async-mode t)
-  #+end_src
 * /package/ markdown-mode
   #+begin_src emacs-lisp
     (pkg markdown-mode)
