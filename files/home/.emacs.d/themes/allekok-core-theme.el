@@ -17,7 +17,7 @@
        ;; Font
        (font-family "SourceCodePro")
        (font-size-main 110)
-       (font-size-mini 105)
+       (font-size-mini 90)
        ;; Color
        (colors (get-colorname allekok-theme))
        (back-color (nth 0 colors))
@@ -31,7 +31,7 @@
 		       :background ,back-color
 		       :foreground ,fore-color
 		       :height ,font-size-main
-		       :weight bold))))
+		       :weight medium))))
    `(mode-line ((,class (:foreground
 			 ,fore-color
 			 :background ,back-color
@@ -52,25 +52,25 @@
    `(region ((,class (:background ,keyword-color :foreground ,back-color))))
    `(highlight ((,class (:background ,keyword-color :foreground ,back-color))))
    `(hl-line ((,class (:background ,back-color))))
-   `(vertical-border ((,class (:foreground ,keyword-color))))
+   `(vertical-border ((,class (:foreground ,warn-color))))
    `(show-paren-match ((,class (:foreground ,keyword-color
 					    :weight bold))))
    `(font-lock-warning-face ((,class (:foreground ,warn-color))))
    `(font-lock-keyword-face ((,class (:foreground ,keyword-color))))
    `(font-lock-builtin-face ((,class (:foreground ,fore-color))))
-   `(font-lock-function-name-face ((,class (:foreground ,fore-color :weight bold))))
+   `(font-lock-function-name-face ((,class (:foreground ,fore-color :weight medium))))
    `(font-lock-string-face ((,class :foreground ,fore-color)))
    `(font-lock-comment-face ((,class :background ,back-color)))
    `(font-lock-variable-name-face ((,class :foreground ,fore-color)))
-   `(font-lock-constant-face ((,class :foreground ,keyword-color :weight bold)))
+   `(font-lock-constant-face ((,class :foreground ,keyword-color :weight medium)))
    `(minibuffer-prompt ((,class :foreground ,keyword-color)))
-   `(link ((,class (:foreground ,keyword-color :weight bold))))
+   `(link ((,class (:foreground ,keyword-color :weight medium))))
    `(header-line ((,class (:background ,back-color))))
-   `(eww-valid-certificate ((,class (:foreground ,keyword-color :weight bold))))
+   `(eww-valid-certificate ((,class (:foreground ,keyword-color :weight medium))))
    `(isearch ((,class (:underline t))))
    `(isearch-fail ((,class (:strike-through t))))
    `(lazy-highlight ((,class (:underline t :foreground ,keyword-color))))
-   `(eshell-prompt ((,class (:foreground ,keyword-color :weight bold))))
+   `(eshell-prompt ((,class (:foreground ,keyword-color :weight medium))))
    `(dired-async-message ((,class (:foreground ,keyword-color))))
    `(web-mode-html-tag-face ((,class (:foreground ,fore-color))))
    `(web-mode-html-attr-name-face ((,class (:foreground ,fore-color))))

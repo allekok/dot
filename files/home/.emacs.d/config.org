@@ -810,7 +810,7 @@
     (fset 'yes-or-no-p 'y-or-n-p)
     (setq make-backup-files nil
 	  auto-save-interval 99999999
-	  auto-save-timeout 99999999
+	  auto-save-timeout  99999999
 	  auto-save-default nil)
     (setq scroll-step 1
 	  scroll-conservatively 5)
