@@ -571,6 +571,10 @@
 		      (message "'allekok/status' Done!")
 		      (org-mode)
 		      (setq bidi-paragraph-direction 'right-to-left)))
+    ;; my-functions
+    (global-set-key (kbd "C-x j")
+		    (lambda () (interactive)
+		      (chromium "--app=http://localhost/my-functions/site/")))
     ;; Insert text in allekok style
     (defun insert-allekok (string)
       (interactive "sڕستە: ")
@@ -818,6 +822,10 @@
 	  tramp-verbose -1)
     (setq show-paren-delay .1)
     (show-paren-mode t)
+
+    (global-prettify-symbols-mode)
+    (global-goto-address-mode)
+    (global-subword-mode)
 
     ;; Close keys
     (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
