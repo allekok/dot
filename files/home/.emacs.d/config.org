@@ -58,6 +58,12 @@
     (defun random-line ()
       (interactive)
       (goto-line (random (number-of-lines buffer-file-name))))
+
+    (defun find-file-as-root (file)
+      (interactive "F")
+      (find-file (concat
+		  "/sudo::"
+		  (expand-file-name file))))
   #+end_src
 * /package/
   #+begin_src emacs-lisp
@@ -432,13 +438,13 @@
     (desktop-app firefox)
     (desktop-app chromium)
     (desktop-app brave)
-    (desktop-app surf t "s")
     (desktop-app st)
-    (desktop-app mupdf t "f")
-    (desktop-app vlc t "f")
-    (desktop-app mpv t "f")
-    (desktop-app gimp t "f")
-    (desktop-app feh t "f")
+    (desktop-app surf t "F")
+    (desktop-app mupdf t "F")
+    (desktop-app vlc t "F")
+    (desktop-app mpv t "F")
+    (desktop-app gimp t "F")
+    (desktop-app feh t "F")
 
     (defun tor-browser (&optional args)
       (interactive)
@@ -508,16 +514,18 @@
     (global-set-key (kbd "C-x C-d") 'dired)
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)
     (add-hook 'dired-mode-hook
-	      #'(lambda ()
-		  (local-set-key
-		   (kbd "!") #'(lambda (program)
-				 (interactive
-				  (list (read-shell-command "Program: ")))
-				 (my-dired-shell-command program)))
-		  (local-set-key
-		   (kbd "@") 'my-dired-run-http-server)
-		  (local-set-key
-		   (kbd "<return>") 'my-dired-uni-open)))
+	      (lambda ()
+		(local-set-key
+		 (kbd "!") #'(lambda (program)
+			       (interactive
+				(list (read-shell-command "Program: ")))
+			       (my-dired-shell-command program)))
+		(local-set-key
+		 (kbd "@") 'my-dired-run-http-server)
+		(local-set-key
+		 (kbd "<return>") 'my-dired-uni-open)
+		(local-set-key
+		 (kbd ")") 'my-dired-find-file-as-root)))
 
     ;; Functions
     (defun string-suffix-list-p (list item)
@@ -551,6 +559,10 @@
 	    (st (concat "php -S localhost:8081 -t "
 			(escape-string file)
 			" & chromium --app=http://localhost:8081")))))
+
+    (defun my-dired-find-file-as-root ()
+      (interactive)
+      (find-file-as-root (dired-get-file-for-visit)))
   #+end_src
 * allekok
   #+begin_src emacs-lisp
