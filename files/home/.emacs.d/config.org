@@ -60,7 +60,7 @@
       (goto-line (random (number-of-lines buffer-file-name))))
 
     (defun find-file-as-root (file)
-      (interactive "F")
+      (interactive (list (read-file-name "Find file as root: ")))
       (find-file (concat
 		  "/sudo::"
 		  (expand-file-name file))))
@@ -516,16 +516,16 @@
     (add-hook 'dired-mode-hook
 	      (lambda ()
 		(local-set-key
-		 (kbd "!") #'(lambda (program)
-			       (interactive
-				(list (read-shell-command "Program: ")))
-			       (my-dired-shell-command program)))
+		 (kbd "!") (lambda (program)
+			     (interactive
+			      (list (read-shell-command "Program: ")))
+			     (my-dired-shell-command program)))
 		(local-set-key
 		 (kbd "@") 'my-dired-run-http-server)
 		(local-set-key
 		 (kbd "<return>") 'my-dired-uni-open)
 		(local-set-key
-		 (kbd ")") 'my-dired-find-file-as-root)))
+		 (kbd "#") 'my-dired-find-file-as-root)))
 
     ;; Functions
     (defun string-suffix-list-p (list item)
