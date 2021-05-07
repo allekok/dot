@@ -68,6 +68,7 @@
   #+end_src
 * /package/
   #+begin_src emacs-lisp
+    (package-initialize)
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
 			     ("melpa-stable" . "https://stable.melpa.org/packages/")))
     (defmacro pkg (pkg-name)
@@ -837,8 +838,8 @@
     (show-paren-mode t)
 
     (global-prettify-symbols-mode)
-    (global-goto-address-mode)
     (global-subword-mode)
+    (global-goto-address-mode)
 
     ;; Close keys
     (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
