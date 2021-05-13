@@ -5,3 +5,5 @@
 	editor = emacsclient
 [pull]
 	rebase = false
+[init]
+	defaultBranch = main

@@ -856,8 +856,7 @@
     (global-set-key (kbd "C-z") 'undo)
     (global-set-key (kbd "C-S-z") 'undo-redo)
 
-    (electric-indent-mode 1)
-    (electric-pair-mode 1)
+    (electric-indent-mode)
 
     (blink-cursor-mode -1)
     (setq-default fill-column 80
