@@ -45,6 +45,7 @@
 	(mpv file))
        ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
        ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
+       ((string-suffix-list-p '(".doc" ".docx" ".odt" ".ppt" ".pptx" ".odp") file) (libreoffice file))
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
        (t (find-file file))))
@@ -447,6 +448,7 @@
     (desktop-app mpv t "F")
     (desktop-app gimp t "F")
     (desktop-app feh t "F")
+    (desktop-app libreoffice t "F")
 
     (defun tor-browser (&optional args)
       (interactive)
@@ -544,6 +546,7 @@
 	  (mpv file))
 	 ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
 	 ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
+	 ((string-suffix-list-p '(".doc" ".docx" ".odt" ".ppt" ".pptx" ".odp") file) (libreoffice file))
 	 ((string-suffix-p ".pdf" file t) (mupdf file))
 	 ((string-suffix-p ".xcf" file t) (gimp file))
 	 (t (dired-find-file)))))
