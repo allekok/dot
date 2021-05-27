@@ -415,9 +415,10 @@
 * font
   #+begin_src emacs-lisp
     (when (eq 'x (window-system))
-      (let ((spec (font-spec :family "NotoNaskhArabicUI")))
-	(set-fontset-font nil 'arabic spec)
-	(set-fontset-font nil #x200c spec)))
+      (let ((ara (font-spec :family "NotoNaskhArabicUI"))
+	    (dev (font-spec :family "NotoSansDevanagari" :script "devanagari")))
+	(set-fontset-font nil 'arabic ara)
+	(set-fontset-font nil 'devanagari dev)))
   #+end_src
 * desktop apps
   #+begin_src emacs-lisp
@@ -895,6 +896,8 @@
 		  python-indent tab-width)
     (put 'upcase-region 'disabled nil)
     (put 'downcase-region 'disabled nil)
+
+    (setq arabic-shaper-ZWNJ-handling 'as-space)
 
     (server-start)
   #+end_src
