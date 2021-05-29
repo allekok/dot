@@ -830,12 +830,19 @@
 
     (defun mode-line-hide ()
       (interactive)
-      (mapc
-       (lambda (b)
-	 (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
-	   (with-current-buffer b
-	     (delete-region (point-min) (point-max)))))
-       (buffer-list)))
+      (let ((pass nil))
+	(mapc
+	 (lambda (b)
+	   (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
+	     (with-current-buffer b
+	       (when (and (> (string-width (buffer-string)) 0)
+			  (string= (substring (buffer-string) 0 1) " "))
+		 (setq pass t)
+		 (delete-region (point-min) (point-max))))))
+	 (buffer-list))
+	(when (eq pass t)
+	  (cancel-timer mode-line-hide-timer)
+	  (setq mode-line-hide-timer nil))))
 
     (defun mode-line-show ()
       (interactive)
@@ -846,11 +853,13 @@
 	     (delete-region (point-min) (point-max))
 	     (insert (get-mode-line)))))
        (buffer-list))
-      (run-with-timer 3 nil 'mode-line-hide))
-
-    (global-set-key (kbd "C-x :") 'mode-line-show)
+      (when (eq mode-line-hide-timer nil)
+	(setq mode-line-hide-timer
+	      (run-with-timer 5 1 'mode-line-hide))))
 
     ;;; Mode-line: Run
+    (global-set-key (kbd "C-x :") 'mode-line-show)
+    (setq mode-line-hide-timer nil)
     (mode-line-empty)
 
     ;;; Misc
