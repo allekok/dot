@@ -240,7 +240,6 @@
       (interactive)
       (shell-command "sudo su -c 'echo 1 > /proc/sys/vm/drop_caches'")
       (setq memory-free (memory-free))
-      (mode-line-refresh)
       (message "Memory cleared. (%s)" memory-free))
   #+end_src
 * internet
@@ -365,15 +364,13 @@
       (let* ((volume-mute? (volume-mute?))
 	     (shell-command (if volume-mute? "amixer set Master unmute;amixer set Speaker unmute;amixer set Headphone unmute" "amixer set Master mute")))
 	(shell-command-to-string shell-command)
-	(message (if volume-mute? "UNMUTE" "MUTE"))
-	(mode-line-refresh)))
+	(message (if volume-mute? "UNMUTE" "MUTE"))))
 
     (defun volume-set (v &optional message-format)
       (let ((message-format (or message-format "* volume: %s"))
 	    (command (concat "amixer set Master "
 			     (number-to-string v) "%")))
 	(start-process-shell-command command nil command)
-	(mode-line-refresh)
 	(message message-format (volume-level))))
 
     (cl-defun volume-raise (&optional (step 2))
@@ -405,7 +402,7 @@
     (setq inhibit-startup-screen t
 	  initial-scratch-message nil)
     (defun display-startup-echo-area-message ()
-      (message "Hi"))
+      (message ""))
   #+end_src
 * default buffer
   #+begin_src emacs-lisp
@@ -795,37 +792,80 @@
     (theme-now)
 
     ;;; Mode-line: Functions
-    (defun mode-line-refresh ()
+    (defun mode-line-empty ()
       (interactive)
-      (let ((| (propertize " | " 'face 'font-lock-keyword-face)))
-	(setq-default
-	 mode-line-format
-	 (list
-	  " " battery | datetime |
-	  '(:eval (propertize "%b" 'face
-			      (when (buffer-modified-p)
-				'font-lock-warning-face)))
-	  | '(:eval mode-name) | "%l,%02c" | "%p-%I" |
-	  internet? | "Vol: " (when (volume-mute?) "MUTE ")
-	  (volume-level) | memory-free))))
+      (setq-default mode-line-format ""))
 
-    (defun mode-line-refresh-variables ()
-      (setq datetime (format "%s / %s / %s"
-			     (format-time-string "%-H:%-M / %a")
-			     (my-calendar-kurdish-current-date)
-			     (format-time-string "%Y-%-m-%-d"))
-	    battery battery-mode-line-string
-	    internet? (internet?)
-	    memory-free (memory-free)))
+    (defun get-mode-line ()
+      (interactive)
+      (let ((| " | "))
+	(propertize
+	 (format-mode-line 
+	  (list
+	   " "
+	   battery-mode-line-string
+	   |
+	   (format "%s / %s / %s"
+		   (format-time-string "%-H:%-M / %a")
+		   (my-calendar-kurdish-current-date)
+		   (format-time-string "%Y-%-m-%-d"))
+	   |
+	   (propertize "%b" 'face
+		       (when (buffer-modified-p)
+			 'font-lock-warning-face))
+	   |
+	   '(:eval mode-name)
+	   |
+	   "%l,%02c"
+	   |
+	   "%p-%I"
+	   |
+	   (internet?)
+	   |
+	   "Vol: " (when (volume-mute?) "MUTE ") (volume-level)
+	   |
+	   (memory-free)))
+	 'face
+	 '((:height 90)))))
+
+    (defun mode-line-hide ()
+      (interactive)
+      (mapc
+       (lambda (b)
+	 (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
+	   (with-current-buffer b
+	     (delete-region (point-min) (point-max)))))
+       (buffer-list)))
+
+    (defun mode-line-show ()
+      (interactive)
+      (mapc
+       (lambda (b)
+	 (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
+	   (with-current-buffer b
+	     (delete-region (point-min) (point-max))
+	     (insert (get-mode-line)))))
+       (buffer-list))
+      (run-with-timer 3 nil 'mode-line-hide))
+
+    (global-set-key (kbd "C-x :") 'mode-line-show)
 
     ;;; Mode-line: Run
-    (mode-line-refresh-variables)
-    (mode-line-refresh)
-    (setq mode-line-refresh-variables-timer
-	  (run-with-timer 5 20
-			  (lambda ()
-			    (mode-line-refresh-variables)
-			    (mode-line-refresh))))
+    (mode-line-empty)
+
+    ;;; Misc
+    ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93
+    (add-hook 'minibuffer-setup-hook
+	      (lambda ()
+		(make-local-variable 'face-remapping-alist)
+		(add-to-list 'face-remapping-alist '(default (:height 90)))))
+
+    (mapc
+     (lambda (b)
+       (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
+	 (with-current-buffer b
+	   (setq-local face-remapping-alist '((default (:height 90)))))))
+     (buffer-list))
   #+end_src
 * misc
   #+begin_src emacs-lisp
@@ -861,6 +901,8 @@
     (global-set-key (kbd "C-S-z") 'undo-redo)
 
     (electric-indent-mode)
+    (electric-pair-mode)
+    (electric-quote-mode)
 
     (blink-cursor-mode -1)
     (setq-default fill-column 80

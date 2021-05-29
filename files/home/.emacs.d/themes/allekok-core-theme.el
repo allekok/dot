@@ -17,7 +17,7 @@
        ;; Font
        (font-family "SourceCodePro")
        (font-size-main 110)
-       (font-size-mini 90)
+       (font-size-mini 1)
        ;; Color
        (colors (get-colorname allekok-theme))
        (back-color (nth 0 colors))
@@ -33,21 +33,17 @@
 		       :height ,font-size-main
 		       :weight medium))))
    `(mode-line ((,class (:foreground
-			 ,fore-color
+			 ,back-color
 			 :background ,back-color
 			 :height ,font-size-mini
 			 :weight bold
-			 :box (:color
-			       ,back-color
-			       :line-width 2)))))
+			 :box nil))))
    `(mode-line-inactive ((,class (:foreground
-				  ,fore-color
+				  ,back-color
 				  :background ,back-color
 				  :height ,font-size-mini
 				  :weight bold
-				  :box (:color
-					,back-color
-					:line-width 2)))))
+				  :box nil))))
    `(cursor ((,class (:background ,keyword-color))))
    `(region ((,class (:background ,keyword-color :foreground ,back-color))))
    `(highlight ((,class (:background ,keyword-color :foreground ,back-color))))
