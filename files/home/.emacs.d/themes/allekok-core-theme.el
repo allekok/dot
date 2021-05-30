@@ -49,8 +49,7 @@
    `(highlight ((,class (:background ,keyword-color :foreground ,back-color))))
    `(hl-line ((,class (:background ,back-color))))
    `(vertical-border ((,class (:foreground ,warn-color))))
-   `(show-paren-match ((,class (:foreground ,keyword-color
-					    :weight bold))))
+   `(show-paren-match ((,class (:weight bold))))
    `(font-lock-warning-face ((,class (:foreground ,warn-color))))
    `(font-lock-keyword-face ((,class (:foreground ,keyword-color))))
    `(font-lock-builtin-face ((,class (:foreground ,fore-color))))
