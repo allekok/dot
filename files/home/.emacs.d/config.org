@@ -855,7 +855,7 @@
        (buffer-list))
       (when (eq mode-line-hide-timer nil)
 	(setq mode-line-hide-timer
-	      (run-with-timer 5 1 'mode-line-hide))))
+	      (run-with-timer 10 1 'mode-line-hide))))
 
     ;;; Mode-line: Run
     (global-set-key (kbd "C-x :") 'mode-line-show)
