@@ -233,8 +233,8 @@
 * memory
   #+begin_src emacs-lisp
     (defun memory-free ()
-      (format "%.1fG"
-	      (/ (nth 1 (memory-info)) 1000000.0)))
+      (format "%.3fG"
+	      (/ (nth 1 (memory-info)) 1e6)))
 
     (defun memory-drop-caches ()
       (interactive)
