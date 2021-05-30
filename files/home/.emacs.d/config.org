@@ -911,7 +911,6 @@
 
     (electric-indent-mode)
     (electric-pair-mode)
-    (electric-quote-mode)
 
     (blink-cursor-mode -1)
     (setq-default fill-column 80
