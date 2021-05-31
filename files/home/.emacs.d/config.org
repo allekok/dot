@@ -845,7 +845,7 @@
     (global-set-key (kbd "C-x :") 'mode-line-show)
     (setq mode-line-hide-timer nil)
     (mode-line-empty)
-    (run-with-timer 1 15 'mode-line-show)
+    (run-with-timer 2 15 'mode-line-show)
 
     ;;; Misc
     ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93
