@@ -828,39 +828,24 @@
 	 'face
 	 '((:height 90)))))
 
-    (defun mode-line-hide ()
-      (interactive)
-      (let ((pass nil))
-	(mapc
-	 (lambda (b)
-	   (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
-	     (with-current-buffer b
-	       (when (and (> (string-width (buffer-string)) 0)
-			  (string= (substring (buffer-string) 0 1) " "))
-		 (setq pass t)
-		 (delete-region (point-min) (point-max))))))
-	 (buffer-list))
-	(when (eq pass t)
-	  (cancel-timer mode-line-hide-timer)
-	  (setq mode-line-hide-timer nil))))
-
     (defun mode-line-show ()
       (interactive)
       (mapc
        (lambda (b)
 	 (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
 	   (with-current-buffer b
+	     (when (or (string= (buffer-string) "")
+		       (and (> (string-width (buffer-string)) 0)
+			  (string= (substring (buffer-string) 0 1) " ")))
 	     (delete-region (point-min) (point-max))
-	     (insert (get-mode-line)))))
-       (buffer-list))
-      (when (eq mode-line-hide-timer nil)
-	(setq mode-line-hide-timer
-	      (run-with-timer 10 1 'mode-line-hide))))
+	     (insert (get-mode-line))))))
+       (buffer-list)))
 
     ;;; Mode-line: Run
     (global-set-key (kbd "C-x :") 'mode-line-show)
     (setq mode-line-hide-timer nil)
     (mode-line-empty)
+    (run-with-timer 1 15 'mode-line-show)
 
     ;;; Misc
     ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93
