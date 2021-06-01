@@ -589,7 +589,7 @@
     ;; my-functions
     (global-set-key (kbd "C-x j")
 		    (lambda () (interactive)
-		      (chromium "--app=http://localhost/my-functions/site/")))
+		      (chromium "--app=http://localhost/srv/my-functions/site/")))
     ;; Insert text in allekok style
     (defun insert-allekok (string)
       (interactive "sڕستە: ")
