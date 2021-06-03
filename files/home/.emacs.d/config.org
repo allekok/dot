@@ -66,6 +66,11 @@
 		  "/sudo::"
 		  (expand-file-name file)))
       (message "Opening as root"))
+
+    (defun in-list? (x L)
+      (cond ((null L) L)
+	    ((equal x (car L)) t)
+	    (t (in-list? x (cdr L)))))
   #+end_src
 * /package/
   #+begin_src emacs-lisp
@@ -451,7 +456,7 @@
     (defun tor-browser (&optional args)
       (interactive)
       (shell-command
-       "cd ~/projects/tor-browser_en-US/ && ./start-tor-browser.desktop"))
+       "cd ~/tor-browser_en-US/ && ./start-tor-browser.desktop"))
 
     (defun tchromium (&optional args)
       (interactive)
@@ -836,16 +841,19 @@
 	   (with-current-buffer b
 	     (when (or (string= (buffer-string) "")
 		       (and (> (string-width (buffer-string)) 0)
-			  (string= (substring (buffer-string) 0 1) " ")))
-	     (delete-region (point-min) (point-max))
-	     (insert (get-mode-line))))))
+			    (or (in-list? (buffer-string)
+					  '("Quit" "All buffers killed."))
+				(in-list? (substring (buffer-string) 0 1)
+					  '(" " "+" "-")))))
+	       (delete-region (point-min) (point-max))
+	       (insert (get-mode-line))))))
        (buffer-list)))
 
     ;;; Mode-line: Run
     (global-set-key (kbd "C-x :") 'mode-line-show)
     (setq mode-line-hide-timer nil)
     (mode-line-empty)
-    (run-with-timer 2 15 'mode-line-show)
+    (run-with-timer 2 12 'mode-line-show)
 
     ;;; Misc
     ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93
