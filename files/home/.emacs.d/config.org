@@ -840,18 +840,18 @@
 	 (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
 	   (with-current-buffer b
 	     (when (or (string= (buffer-string) "")
-		       (or (in-list? (buffer-string)
-				     '("Quit"
-				       "All buffers killed."
-				       '(No changes need to be saved)))
-			   (and (> (string-width (buffer-string)) 0)
-				(in-list? (substring (buffer-string) 0 1)
-					  '(" " "+" "-")))
-			   (and (> (string-width (buffer-string)) 6)
-				(in-list? (substring (buffer-string) 0 5)
-					  '("Wrote "))))
-		       (delete-region (point-min) (point-max))
-		       (insert (get-mode-line)))))))
+		       (in-list? (buffer-string)
+				 '("Quit"
+				   "All buffers killed."
+				   "(No changes need to be saved)"))
+		       (and (> (string-width (buffer-string)) 0)
+			    (in-list? (substring (buffer-string) 0 1)
+				      '(" " "+" "-")))
+		       (and (> (string-width (buffer-string)) 6)
+			    (in-list? (substring (buffer-string) 0 5)
+				      '("Wrote "))))
+	       (delete-region (point-min) (point-max))
+	       (insert (get-mode-line))))))
        (buffer-list)))
 
     ;;; Mode-line: Run
