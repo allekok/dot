@@ -797,9 +797,18 @@
     (theme-now)
 
     ;;; Mode-line: Functions
-    (defun mode-line-empty ()
+    (defun empty-mode-line ()
       (interactive)
       (setq-default mode-line-format ""))
+
+    (defun empty-echo-area ()
+      (interactive)
+      (mapc
+       (lambda (b)
+	 (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
+	   (with-current-buffer b
+	     (delete-region (point-min) (point-max)))))
+       (buffer-list)))
 
     (defun get-mode-line ()
       (interactive)
@@ -855,9 +864,9 @@
        (buffer-list)))
 
     ;;; Mode-line: Run
+    (empty-mode-line)
     (global-set-key (kbd "C-x :") 'mode-line-show)
     (setq mode-line-timer (run-with-timer 2 12 'mode-line-show))
-    (mode-line-empty)
 
     ;;; Misc
     ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93
