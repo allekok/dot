@@ -852,7 +852,10 @@
 		       (in-list? (buffer-string)
 				 '("Quit"
 				   "All buffers killed."
-				   "(No changes need to be saved)"))
+				   "(No changes need to be saved)"
+				   "English"
+				   "کوردی"
+				   "Kurdî"))
 		       (and (> (string-width (buffer-string)) 0)
 			    (in-list? (substring (buffer-string) 0 1)
 				      '(" " "+" "-")))
