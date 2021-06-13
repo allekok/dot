@@ -688,7 +688,7 @@
 
     ;; Amusements
     (defun random-wiki ()
-      (chromium (format "https://%s.wikipedia.org/wiki/Special:Random"
+      (chromium (format "--app=https://%s.wikipedia.org/wiki/Special:Random"
 			(one-of '("ckb" "en" "fa")))))
 
     (defun random-file ()
@@ -699,7 +699,8 @@
 	(mapcar (lambda (x)
 		  (substring x 0 (1+ (string-match ")" x))))
 		(split-string (shell-command-to-string
-			       "man -k ''") "\n" t)))
+			       "man -k ''")
+			      "\n" t)))
       (man (one-of (man-list))))
 
     (defun random-num ()
@@ -716,12 +717,16 @@
     (defun random-config ()
       (find-file (one-of (directory-files "/etc" t))))
 
+    (defun random-poem ()
+      (chromium "--app=https://allekok.ir/script/php/random-poem.php?redirect"))
+
     ;; Run
     (setq amusements '(random-file
 		       random-man
 		       random-num
 		       random-config
-		       random-wiki))
+		       random-wiki
+		       random-poem))
 
     (defun amuse-me ()
       (interactive)
@@ -872,7 +877,7 @@
     ;;; Mode-line: Run
     (empty-mode-line)
     (global-set-key (kbd "C-x :") 'mode-line-show)
-    (setq mode-line-timer (run-with-timer 2 12 'mode-line-show))
+    (setq mode-line-timer (run-with-timer 1 10 'mode-line-show))
 
     ;;; Misc
     ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93
@@ -960,6 +965,8 @@
     (put 'downcase-region 'disabled nil)
 
     (setq arabic-shaper-ZWNJ-handling 'as-space)
+
+    (setq Man-notify-method 'pushy)
 
     (server-start)
   #+end_src
