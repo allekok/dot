@@ -647,16 +647,26 @@
 * git
   #+begin_src emacs-lisp
     ;; Key bindings
-    (global-set-key (kbd "s-`")
-		    (lambda () (interactive)
-		      (git-dir default-directory "status" t)))
+    (global-set-key (kbd "C-x g d")   'git-diff)
+    (global-set-key (kbd "C-x g s")   'git-status)
+    (global-set-key (kbd "C-x g a p") 'git-add-p)
+    (global-set-key (kbd "C-x g a a") 'git-add-a)
+    (global-set-key (kbd "C-x g c")   'git-commit)
 
     ;; Functions
-    (defun git-dir (dir command &optional rtl)
-      (interactive)
+    (defun git (dir command &optional rtl)
       (let ((o (term "/bin/bash")))
 	(term-send-string o (format "git %s\n" command))
 	(setq bidi-display-reordering rtl)))
+
+    (defun git-current-dir (command)
+      (git default-directory command t))
+
+    (defun git-diff   () (interactive) (git-current-dir "diff"))
+    (defun git-status () (interactive) (git-current-dir "status"))
+    (defun git-add-p  () (interactive) (git-current-dir "add -p"))
+    (defun git-add-a  () (interactive) (git-current-dir "add -A"))
+    (defun git-commit () (interactive) (git-current-dir "commit"))
   #+end_src
 * Kurdish tools
   #+begin_src emacs-lisp
