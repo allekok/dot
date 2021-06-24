@@ -814,7 +814,7 @@
     ;;; Mode-line: Functions
     (defun empty-mode-line ()
       (interactive)
-      (setq-default mode-line-format ""))
+      (setq-default mode-line-format '()))
 
     (defun empty-echo-area ()
       (interactive)
