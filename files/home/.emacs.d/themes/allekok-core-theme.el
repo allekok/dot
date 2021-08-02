@@ -36,13 +36,11 @@
 			 ,back-color
 			 :background ,back-color
 			 :height ,font-size-mini
-			 :weight bold
 			 :box nil))))
    `(mode-line-inactive ((,class (:foreground
 				  ,back-color
 				  :background ,back-color
 				  :height ,font-size-mini
-				  :weight bold
 				  :box nil))))
    `(cursor ((,class (:background ,keyword-color))))
    `(region ((,class (:background ,fore-color :foreground ,back-color))))
@@ -50,14 +48,14 @@
    `(hl-line ((,class (:background ,back-color))))
    `(vertical-border ((,class (:foreground ,warn-color))))
    `(show-paren-match ((,class (:foreground ,keyword-color :weight bold))))
-   `(font-lock-warning-face ((,class (:foreground ,keyword-color))))
-   `(font-lock-keyword-face ((,class (:foreground ,keyword-color))))
-   `(font-lock-builtin-face ((,class (:foreground ,keyword-color))))
-   `(font-lock-function-name-face ((,class (:foreground ,fore-color :weight bold))))
+   `(font-lock-warning-face ((,class (:foreground ,warn-color))))
+   `(font-lock-keyword-face ((,class (:foreground ,fore-color))))
+   `(font-lock-builtin-face ((,class (:foreground ,fore-color))))
+   `(font-lock-function-name-face ((,class (:foreground ,fore-color))))
    `(font-lock-string-face ((,class :foreground ,fore-color)))
    `(font-lock-comment-face ((,class :background ,back-color)))
    `(font-lock-variable-name-face ((,class :foreground ,fore-color)))
-   `(font-lock-constant-face ((,class :foreground ,keyword-color :weight medium)))
+   `(font-lock-constant-face ((,class :foreground ,fore-color :weight medium)))
    `(minibuffer-prompt ((,class :foreground ,fore-color)))
    `(link ((,class (:foreground ,keyword-color :weight medium))))
    `(header-line ((,class (:background ,back-color))))
@@ -69,10 +67,10 @@
    `(dired-async-message ((,class (:foreground ,keyword-color))))
    `(web-mode-html-tag-face ((,class (:foreground ,fore-color))))
    `(web-mode-html-attr-name-face ((,class (:foreground ,fore-color))))
-   `(error ((,class (:foreground ,keyword-color))))
+   `(error ((,class (:foreground ,warn-color))))
    `(compilation-info ((,class (:foreground ,keyword-color))))
-   `(org-todo ((,class (:foreground ,keyword-color))))
-   `(org-done ((,class (:foreground ,fore-color))))
+   `(org-todo ((,class (:foreground ,warn-color))))
+   `(org-done ((,class (:foreground ,keyword-color))))
    `(font-lock-type-face ((,class (:foreground ,fore-color))))
    `(org-document-title ((,class (:foreground ,keyword-color))))
    `(org-document-info ((,class (:foreground ,keyword-color))))
