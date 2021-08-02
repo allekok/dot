@@ -14,7 +14,7 @@
     (defun escape-string (string)
       "Backslash escaping escape-worth characters."
       (let* ((escape-worth '(" " "(" ")" "'" "&"))
-	     (to (mapcar #'(lambda (o) (format "\\%s" o))
+	     (to (mapcar (lambda (o) (format "\\%s" o))
 			 escape-worth)))
 	(with-temp-buffer
 	  (insert string)
@@ -617,8 +617,8 @@
     ;; Hooks
     (add-hook 'prog-mode-hook 'hs-minor-mode)
     (add-hook 'hs-minor-mode-hook
-	      #'(lambda ()
-		  (local-set-key (kbd "s-~") 'hs-toggle-all)))
+	      (lambda ()
+		(local-set-key (kbd "s-~") 'hs-toggle-all)))
 
     ;; Functions
     (setq hs-status-all 'show)
@@ -941,7 +941,7 @@
 
     (blink-cursor-mode -1)
     (setq-default fill-column 80
-		  line-spacing 15)
+		  line-spacing 2)
     (auto-image-file-mode)
 
     (when (boundp 'image-map)

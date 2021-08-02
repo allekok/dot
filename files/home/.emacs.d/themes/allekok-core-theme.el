@@ -44,7 +44,7 @@
 				  :height ,font-size-mini
 				  :weight bold
 				  :box nil))))
-   `(cursor ((,class (:background ,fore-color))))
+   `(cursor ((,class (:background ,keyword-color))))
    `(region ((,class (:background ,fore-color :foreground ,back-color))))
    `(highlight ((,class (:background ,keyword-color :foreground ,back-color))))
    `(hl-line ((,class (:background ,back-color))))
