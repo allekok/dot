@@ -77,13 +77,15 @@
     (package-initialize)
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
 			     ("melpa-stable" . "https://stable.melpa.org/packages/")))
-    (defmacro pkg (pkg-name)
+    (defun pkg (pkg-name)
       (unless (package-installed-p pkg-name)
+	(unless (assoc pkg-name package-archive-contents)
+	  (package-refresh-contents))
 	(package-install pkg-name)))
   #+end_src
 * /package/ exwm
   #+begin_src emacs-lisp
-    (pkg exwm)
+    (pkg 'exwm)
     (when (eq 'x (window-system))
       (require 'exwm)
       (exwm-input-set-simulation-keys
@@ -124,17 +126,17 @@
   #+end_src
 * /package/ markdown-mode
   #+begin_src emacs-lisp
-    (pkg markdown-mode)
+    (pkg 'markdown-mode)
   #+end_src
 * /package/ web-mode
   #+begin_src emacs-lisp
-    (pkg web-mode)
+    (pkg 'web-mode)
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
   #+end_src
 * /package/ org-bullets
   #+begin_src emacs-lisp
-    (pkg org-bullets)
+    (pkg 'org-bullets)
     (add-hook 'org-mode-hook 'org-bullets-mode)
   #+end_src
 * C compilation
@@ -184,27 +186,6 @@
       (let ((command (format "'%s' %s" o opts)))
 	(shell-command command buffer)
 	(message "") (display-buffer buffer)))
-  #+end_src
-* PHP interpretation
-  #+begin_src emacs-lisp
-    ;; Hook
-    (add-hook 'web-mode-hook
-	      (lambda ()
-		(local-set-key (kbd "C-c C-c") 'php-IA)
-		(local-set-key (kbd "C-c C-r") 'php-IA-rtl)))
-
-    ;; Function
-    (defun php-IA (&optional rtl)
-      (interactive)
-      (let* ((f (buffer-file-name))
-	     (tr (term "/bin/bash"))
-	     (rq (format "require('%s');\n" f)))
-
-	(setq bidi-display-reordering rtl)
-	(term-send-string tr "php -a\n")
-	(term-send-string tr rq)))
-
-    (defun php-IA-rtl () (interactive) (php-IA t))
   #+end_src
 * Kurdish keyboard for emacs
   #+begin_src emacs-lisp
