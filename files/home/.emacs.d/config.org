@@ -24,8 +24,11 @@
     ;; `string-trim' function
     (require 'subr-x)
 
+    (setq popup-buffer-name-id -1)
+
     (defun popup-buffer-name ()
-      (format "*popup:%s*" (random 1000000)))
+      (setq popup-buffer-name-id (1+ popup-buffer-name-id))
+      (format "*popup:%s*" popup-buffer-name-id))
 
     (defun popup (string)
       (let ((buffer-name (popup-buffer-name)))
@@ -75,8 +78,10 @@
 * /package/
   #+begin_src emacs-lisp
     (package-initialize)
-    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			     ("melpa-stable" . "https://stable.melpa.org/packages/")))
+    (setq package-archives '(("gnu" .
+			      "https://elpa.gnu.org/packages/")
+			     ("melpa-stable" .
+			      "https://stable.melpa.org/packages/")))
     (defun pkg (pkg-name)
       (unless (package-installed-p pkg-name)
 	(unless (assoc pkg-name package-archive-contents)
