@@ -139,11 +139,6 @@
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
   #+end_src
-* /package/ org-bullets
-  #+begin_src emacs-lisp
-    (pkg 'org-bullets)
-    (add-hook 'org-mode-hook 'org-bullets-mode)
-  #+end_src
 * C compilation
   #+begin_src emacs-lisp
     ;; Hook
