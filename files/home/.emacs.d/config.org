@@ -398,8 +398,9 @@
 * font
   #+begin_src emacs-lisp
     (when (eq 'x (window-system))
-      (let ((ara (font-spec :family "NotoNaskhArabicUI"))
-	    (dev (font-spec :family "NotoSansDevanagari" :script "devanagari")))
+      (let ((ara (font-spec :family "Vazir-Code-WOL"))
+	    (dev (font-spec :family "NotoSansDevanagari"
+			    :script "devanagari")))
 	(set-fontset-font nil 'arabic ara)
 	(set-fontset-font nil 'devanagari dev)))
   #+end_src
@@ -868,7 +869,7 @@
     ;;; Mode-line: Run
     (empty-mode-line)
     (global-set-key (kbd "C-x :") 'mode-line-show)
-    (setq mode-line-timer (run-with-timer 1 10 'mode-line-show))
+    (setq mode-line-timer (run-with-timer 1 7 'mode-line-show))
 
     ;;; Misc
     ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93

@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ~/emacs
 ./autogen.sh
-./configure CFLAGS="-O3"
+./configure CFLAGS="-O3" --with-native-compilation
 sudo make -j$(nproc)
