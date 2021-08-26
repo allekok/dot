@@ -398,7 +398,7 @@
 * font
   #+begin_src emacs-lisp
     (when (eq 'x (window-system))
-      (let ((ara (font-spec :family "Vazir-Code-WOL"))
+      (let ((ara (font-spec :family "Vazir"))
 	    (dev (font-spec :family "NotoSansDevanagari"
 			    :script "devanagari")))
 	(set-fontset-font nil 'arabic ara)
