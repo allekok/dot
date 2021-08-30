@@ -31,7 +31,7 @@
 		       :background ,back-color
 		       :foreground ,fore-color
 		       :height ,font-size-main
-		       :weight medium))))
+		       :weight normal))))
    `(mode-line ((,class (:foreground
 			 ,back-color
 			 :background ,back-color

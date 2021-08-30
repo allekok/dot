@@ -395,15 +395,6 @@
     (setq-default major-mode 'text-mode)
     (add-hook 'text-mode-hook 'auto-fill-mode)
   #+end_src
-* font
-  #+begin_src emacs-lisp
-    (when (eq 'x (window-system))
-      (let ((ara (font-spec :family "Vazir"))
-	    (dev (font-spec :family "NotoSansDevanagari"
-			    :script "devanagari")))
-	(set-fontset-font nil 'arabic ara)
-	(set-fontset-font nil 'devanagari dev)))
-  #+end_src
 * desktop apps
   #+begin_src emacs-lisp
     ;; Functions
@@ -884,6 +875,15 @@
 	 (with-current-buffer b
 	   (setq-local face-remapping-alist '((default (:height 90)))))))
      (buffer-list))
+  #+end_src
+* font
+  #+begin_src emacs-lisp
+    (when (eq 'x (window-system))
+      (let ((ara (font-spec :family "Vazir"))
+	    (dev (font-spec :family "NotoSansDevanagari"
+			    :script "devanagari")))
+	(set-fontset-font nil 'arabic ara)
+	(set-fontset-font nil 'devanagari dev)))
   #+end_src
 * misc
   #+begin_src emacs-lisp
