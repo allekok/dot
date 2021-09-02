@@ -922,7 +922,7 @@
     (electric-pair-mode)
 
     (blink-cursor-mode -1)
-    (setq-default fill-column 80
+    (setq-default fill-column 70
 		  line-spacing 2)
     (auto-image-file-mode)
 
