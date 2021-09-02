@@ -1,4 +1,4 @@
-PS1='\W '
+PS1='\033[7;32m \w \033[0m '
 EDITOR=emacsclient
 HISTCONTROL=ignoreboth
 HISTSIZE=-1
