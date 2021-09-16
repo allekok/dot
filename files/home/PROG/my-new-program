@@ -1,19 +1,24 @@
 #!/usr/bin/php
 <?php
-require('my-library.php');
+require("my-library.php");
+
 $arg = nth(1);
-if($arg and !file_exists($arg)) {
-	file_put_contents(
-		$arg,
-		"#!/usr/bin/php\n<?php\nrequire('my-library.php');\n\n
+if(!$arg or file_exists($arg))
+	die();
+
+file_put_contents(
+	$arg,
+	"#!/usr/bin/php\n<?php\nrequire(\"my-library.php\");
+
+
 /*
  * Local Variables:
  * mode: web
  * End:
  */
 ?>");
-	exec("sudo chmod +x '$arg'");
-}
+exec("sudo chmod +x \"$arg\"");
+
 /*
  * Local Variables:
  * mode: web

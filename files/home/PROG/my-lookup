@@ -1,24 +1,27 @@
 #!/usr/bin/php
 <?php
-require('my-library.php');
+require("my-library.php");
 
-$include_path = '/home/alleko/domains/allekok.ir/tewar-2';
-require($include_path . '/config.php');
-require($include_path . '/src/backend/library.php');
+$include_path = "/home/alleko/domains/allekok.ir/tewar-2";
+require($include_path . "/config.php");
+require($include_path . "/src/backend/library.php");
 
 $f = sanitize_string(nth(1)) or die();
 $l = nth(2, 1);
 
 $lookup = lookup($f, dict_list(), $l);
-foreach ($lookup as $point=>$res)
-if(!empty($res)) {
-	echo "$point\n";
-	foreach($res as $i=>$w) {
-		if(!$l--) break 2;
+foreach($lookup as $point => $res) {
+	if(empty($res))
+		continue;
+	p("$point");
+	foreach($res as $i => $w) {
+		if(!$l--)
+			break 2;
 		$w = fetch_word($w[0], $w[1]);
-		echo "\t$w[1]\t$w[0]\t$w[2]\n";
+		p("\t$w[1]\t$w[0]\t$w[2]");
 	}
 }
+
 /*
  * Local Variables:
  * mode: web

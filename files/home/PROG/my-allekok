@@ -1,5 +1,7 @@
 #!/usr/bin/php
 <?php
+require("my-library.php");
+
 $api = "https://allekok.ir/dev/tools";
 
 $input = $argv[1];
@@ -10,88 +12,89 @@ $request = "{$api}/search.php?q={$input}";
 $response = file_get_contents($request);
 $response = json_decode($response, true);
 
-echo "========================\n";
-echo "شاعیران\n";
-echo "========================\n";
+p("========= شاعیران =========");
 foreach($response["poets"]["meta"] as $poet) {
-	echo "\t";
-	echo $poet["poet"];
-	echo " -> ";
-	echo "allekok.ir/{$poet["poet_id"]}\n";
+	p("\t" .
+	  $poet["poet"] .
+	  " -> " .
+	  "allekok.ir/{$poet["poet_id"]}");
 }
 foreach($response["poets"]["context"] as $poet) {
-	echo "\t";
-	echo $poet["poet"];
-	echo " -> ";
-	echo "allekok.ir/{$poet["poet_id"]}\n";
+	p("\t" .
+	  $poet["poet"] .
+	  " -> " .
+	  "allekok.ir/{$poet["poet_id"]}");
 }
 foreach($response["poets"]["lastChance"] as $poet) {
-	echo "\t";
-	echo $poet["poet"];
-	echo " -> ";
-	echo "allekok.ir/{$poet["poet_id"]}\n";
+	p("\t" .
+	  $poet["poet"] .
+	  " -> " .
+	  "allekok.ir/{$poet["poet_id"]}");
 }
+p();
 
-echo "========================\n";
-echo "کتێبەکان\n";
-echo "========================\n";
+p("========= کتێبەکان =========");
 foreach($response["books"]["meta"] as $book) {
-	echo "\t";
-	echo $book["poet"];
-	echo " / {$book["book"]}";
-	echo " -> ";
-	echo "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}\n";
+	p("\t" .
+	  $book["poet"] .
+	  " / {$book["book"]}" .
+	  " -> " .
+	  "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}");
 }
 foreach($response["books"]["context"] as $book) {
-	echo "\t";
-	echo $book["poet"];
-	echo " / {$book["book"]}";
-	echo " -> ";
-	echo "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}\n";
+	p("\t" .
+	  $book["poet"] .
+	  " / {$book["book"]}" .
+	  " -> " .
+	  "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}");
 }
 foreach($response["books"]["lastChance"] as $book) {
-	echo "\t";
-	echo $book["poet"];
-	echo " / {$book["book"]}";
-	echo " -> ";
-	echo "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}\n";
+	p("\t" .
+	  $book["poet"] .
+	  " / {$book["book"]}" .
+	  " -> " .
+	  "allekok.ir/{$book["poet_id"]}/{$book["book_id"]}");
 }
+p();
 
-echo "========================\n";
-echo "شێعرەکان\n";
-echo "========================\n";
+p("========= شیعرەکان =========");
 foreach($response["poems"]["firstChance"]["meta"] as $poem) {
-	echo "\t";
-	echo $poem["poet"];
-	echo " / {$poem["book"]}";
-	echo " / {$poem["poem"]}";
-	echo " -> ";
-	echo "allekok.ir/{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}\n";
+	p("\t" .
+	  $poem["poet"] .
+	  " / {$poem["book"]}" .
+	  " / {$poem["poem"]}" .
+	  " -> " .
+	  "allekok.ir/" .
+	  "{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}");
 }
 foreach($response["poems"]["firstChance"]["context"] as $poem) {
-	echo "\t";
-	echo $poem["poet"];
-	echo " / {$poem["book"]}";
-	echo " / {$poem["poem"]}";
-	echo " -> ";
-	echo "allekok.ir/{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}\n";
+	p("\t" .
+	  $poem["poet"] .
+	  " / {$poem["book"]}" .
+	  " / {$poem["poem"]}" .
+	  " -> " .
+	  "allekok.ir/" .
+	  "{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}");
 }
 foreach($response["poems"]["lastChance"]["meta"] as $poem) {
-	echo "\t";
-	echo $poem["poet"];
-	echo " / {$poem["book"]}";
-	echo " / {$poem["poem"]}";
-	echo " -> ";
-	echo "allekok.ir/{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}\n";
+	p("\t" .
+	  $poem["poet"] .
+	  " / {$poem["book"]}" .
+	  " / {$poem["poem"]}" .
+	  " -> " .
+	  "allekok.ir/" .
+	  "{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}");
 }
 foreach($response["poems"]["lastChance"]["context"] as $poem) {
-	echo "\t";
-	echo $poem["poet"];
-	echo " / {$poem["book"]}";
-	echo " / {$poem["poem"]}";
-	echo " -> ";
-	echo "allekok.ir/{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}\n";
+	p("\t" .
+	  $poem["poet"] .
+	  " / {$poem["book"]}" .
+	  " / {$poem["poem"]}" .
+	  " -> " .
+	  "allekok.ir/" .
+	  "{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}");
 }
+
 /*
  * Local Variables:
  * mode: web
