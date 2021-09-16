@@ -2,7 +2,7 @@
 <?php
 require('my-library.php');
 
-$include_path = getenv('HOME') . '/tewar-2';
+$include_path = '/home/alleko/domains/allekok.ir/tewar-2';
 require($include_path . '/config.php');
 require($include_path . '/src/backend/library.php');
 
