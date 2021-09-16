@@ -13,7 +13,7 @@ $lookup = lookup($f, dict_list(), $l);
 foreach($lookup as $point => $res) {
 	if(empty($res))
 		continue;
-	p("$point");
+	p($point);
 	foreach($res as $i => $w) {
 		if(!$l--)
 			break 2;

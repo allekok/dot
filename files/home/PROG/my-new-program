@@ -6,17 +6,16 @@ $arg = nth(1);
 if(!$arg or file_exists($arg))
 	die();
 
-file_put_contents(
-	$arg,
-	"#!/usr/bin/php\n<?php\nrequire(\"my-library.php\");
-
-
-/*
- * Local Variables:
- * mode: web
- * End:
- */
-?>");
+file_put_contents($arg,
+		  "#!/usr/bin/php\n" .
+		  "<?php\nrequire(\"my-library.php\");\n" .
+		  "\n\n\n" .
+		  "/*\n" .
+		  "* Local Variables:\n" .
+		  "* mode: web\n" .
+		  "* End:\n" .
+		  "*/\n" .
+		  "?>\n");
 exec("sudo chmod +x \"$arg\"");
 
 /*
