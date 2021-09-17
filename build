@@ -44,7 +44,7 @@ cp ~/.color-dark .
 
 # PROG
 mkdir PROG
-cp -r ~/PROG/* PROG
+cp ~/PROG/* PROG
 
 # /etc
 cd ../..
