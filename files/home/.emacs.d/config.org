@@ -46,9 +46,13 @@
        ((file-directory-p file) (find-file file))
        ((string-suffix-list-p '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
 	(mpv file))
-       ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
-       ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
-       ((string-suffix-list-p '(".doc" ".docx" ".odt" ".ppt" ".pptx" ".odp") file) (libreoffice file))
+       ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file)
+	(vlc file))
+       ((string-suffix-list-p '(".jpg" ".png") file)
+	(feh file))
+       ((string-suffix-list-p
+	 '(".doc" ".docx" ".odt" ".ppt" ".pptx" ".odp") file)
+	(libreoffice file))
        ((string-suffix-p ".pdf" file t) (mupdf file))
        ((string-suffix-p ".xcf" file t) (gimp file))
        (t (find-file file))))
@@ -144,7 +148,8 @@
     ;; Hook
     (add-hook 'c-mode-hook
 	      (lambda ()
-		(local-set-key (kbd "C-c C-c") 'c-compile-run-current-file)
+		(local-set-key (kbd "C-c C-c")
+			       'c-compile-run-current-file)
 		(local-set-key (kbd "C-c C-r")
 			       (lambda () (interactive)
 				 (c-compile-run-current-file t)))))
@@ -236,10 +241,12 @@
 
     (defun internet? ()
       "Check Internet Connection"
-      (let ((connection (car (last (split-string
-				    (string-trim
-				     (shell-command-to-string
-				      "nmcli connect|head -2|tail -1")))))))
+      (let ((connection (car
+			 (last
+			  (split-string
+			   (string-trim
+			    (shell-command-to-string
+			     "nmcli connect | head -2 | tail -1")))))))
 	(if (not (string= "--" connection))
 	    (local-ip-address)
 	  connection)))
@@ -348,7 +355,12 @@
     (defun volume-mute ()
       (interactive)
       (let* ((volume-mute? (volume-mute?))
-	     (shell-command (if volume-mute? "amixer set Master unmute;amixer set Speaker unmute;amixer set Headphone unmute" "amixer set Master mute")))
+	     (shell-command
+	      (if volume-mute?
+		  (concat "amixer set Master unmute;"
+			  "amixer set Speaker unmute;"
+			  "amixer set Headphone unmute")
+		"amixer set Master mute")))
 	(shell-command-to-string shell-command)
 	(message (if volume-mute? "UNMUTE" "MUTE"))))
 
@@ -372,16 +384,19 @@
     (defun volume-level ()
       (let ((vl (string-trim
 		 (shell-command-to-string
-		  "awk -F '[][]' '{print $2}' <(amixer get Master | tail -1)"))))
-	(unless (string= vl "amixer: Unable to find simple control 'Master',0")
+		  (concat "awk -F '[][]' '{print $2}' "
+			  "<(amixer get Master | tail -1)")))))
+	(unless (string=
+		 "amixer: Unable to find simple control 'Master',0"
+		 vl)
 	  vl)))
 
     (defun volume-mute? ()
-      (when (string= (string-trim
-		      (shell-command-to-string
-		       "awk -F '[][]' '{print $6}' <(amixer get Master | tail -1)"))
-		     "off")
-	t))
+      (string= (string-trim
+		(shell-command-to-string
+		 (concat "awk -F '[][]' '{print $6}' "
+			 "<(amixer get Master | tail -1)")))
+	       "off"))
   #+end_src
 * startup
   #+begin_src emacs-lisp
@@ -518,11 +533,14 @@
       (let ((file (dired-get-file-for-visit)))
 	(cond
 	 ((file-directory-p file) (dired-find-file))
-	 ((string-suffix-list-p '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
+	 ((string-suffix-list-p
+	   '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
 	  (mpv file))
 	 ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
 	 ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
-	 ((string-suffix-list-p '(".doc" ".docx" ".odt" ".ppt" ".pptx" ".odp") file) (libreoffice file))
+	 ((string-suffix-list-p
+	   '(".doc" ".docx" ".odt" ".ppt" ".pptx" ".odp") file)
+	  (libreoffice file))
 	 ((string-suffix-p ".pdf" file t) (mupdf file))
 	 ((string-suffix-p ".xcf" file t) (gimp file))
 	 (t (dired-find-file)))))
@@ -550,15 +568,18 @@
     ;;; allekok-website
     ;; Open website
     (global-set-key (kbd "C-x a")
-		    (lambda () (interactive)
+		    (lambda ()
+		      (interactive)
 		      (chromium "--app=https://allekok.github.io/")))
     ;; Test server
     (global-set-key (kbd "C-x A")
-		    (lambda () (interactive)
+		    (lambda ()
+		      (interactive)
 		      (chromium "--app=http://localhost/")))
     ;; Show allekok/status
     (global-set-key (kbd "C-x !")
-		    (lambda () (interactive)
+		    (lambda ()
+		      (interactive)
 		      (popup (string-trim (shell-command-to-string
 					   (format "~/PROG/my-status"))))
 		      (message "'allekok/status' Done!")
@@ -566,8 +587,10 @@
 		      (setq bidi-paragraph-direction 'right-to-left)))
     ;; my-functions
     (global-set-key (kbd "C-x j")
-		    (lambda () (interactive)
-		      (chromium "--app=http://localhost/srv/my-functions/site/")))
+		    (lambda ()
+		      (interactive)
+		      (chromium
+		       "--app=http://localhost/srv/my-functions/site/")))
     ;; Insert text in allekok style
     (defun insert-allekok (string)
       (interactive "sڕستە: ")
@@ -671,8 +694,9 @@
 
     ;; Amusements
     (defun random-wiki ()
-      (chromium (format "--app=https://%s.wikipedia.org/wiki/Special:Random"
-			(one-of '("ckb" "en" "fa")))))
+      (chromium (format
+		 "--app=https://%s.wikipedia.org/wiki/Special:Random"
+		 (one-of '("ckb" "en" "fa")))))
 
     (defun random-file ()
       (uni-open (one-of (directory-files "~" t))))
@@ -689,7 +713,8 @@
     (defun random-num ()
       (let* ((top 30)
 	     (num (random top))
-	     (prompt (format "mod 2=%s | mod 3=%s | mod 5=%s | mod 7=%s | mod 11=%s | top=%s ? "
+	     (prompt (format (concat "mod 2=%s | mod 3=%s | mod 5=%s | "
+				     "mod 7=%s | mod 11=%s | top=%s ? ")
 			     (% num 2) (% num 3) (% num 5)
 			     (% num 7) (% num 11) top))
 	     (ans (read-number prompt)))
@@ -701,7 +726,8 @@
       (find-file (one-of (directory-files "/etc" t))))
 
     (defun random-poem ()
-      (chromium "--app=https://allekok.ir/script/php/random-poem.php?redirect"))
+      (chromium
+       "--app=https://allekok.ir/script/php/random-poem.php?redirect"))
 
     ;; Run
     (setq amusements '(random-file
@@ -779,7 +805,8 @@
     (global-set-key [XF86LaunchA] 'theme-toggle)
     (setq custom-theme-directory
 	  (expand-file-name "themes" user-emacs-directory))
-    (add-to-list 'load-path (expand-file-name "themes" user-emacs-directory))
+    (add-to-list 'load-path (expand-file-name "themes"
+					      user-emacs-directory))
     (add-to-list 'custom-safe-themes 'allekok-light)
     (add-to-list 'custom-safe-themes 'allekok-dark)
     (theme-now)
@@ -793,7 +820,8 @@
       (interactive)
       (mapc
        (lambda (b)
-	 (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
+	 (when (or (minibufferp b) (string-match-p " *Echo Area"
+						   (buffer-name b)))
 	   (with-current-buffer b
 	     (delete-region (point-min) (point-max)))))
        (buffer-list)))
@@ -834,7 +862,8 @@
       (interactive)
       (mapc
        (lambda (b)
-	 (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
+	 (when (or (minibufferp b) (string-match-p " *Echo Area"
+						   (buffer-name b)))
 	   (with-current-buffer b
 	     (when (or (string= (buffer-string) "")
 		       (in-list? (buffer-string)
@@ -867,11 +896,13 @@
     (add-hook 'minibuffer-setup-hook
 	      (lambda ()
 		(make-local-variable 'face-remapping-alist)
-		(add-to-list 'face-remapping-alist '(default (:height 90)))))
+		(add-to-list 'face-remapping-alist
+			     '(default (:height 90)))))
 
     (mapc
      (lambda (b)
-       (when (or (minibufferp b) (string-match-p " *Echo Area" (buffer-name b)))
+       (when (or (minibufferp b) (string-match-p " *Echo Area"
+						 (buffer-name b)))
 	 (with-current-buffer b
 	   (setq-local face-remapping-alist '((default (:height 90)))))))
      (buffer-list))
