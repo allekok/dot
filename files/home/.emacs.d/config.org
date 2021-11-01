@@ -237,7 +237,8 @@
   #+begin_src emacs-lisp
     (defun local-ip-address ()
       "Private IP Address"
-      (string-trim (shell-command-to-string "hostname -i")))
+      (string-trim (shell-command-to-string
+		    "ip addr show wlp3s0 | awk 'FNR == 3 {print $2}'")))
 
     (defun internet? ()
       "Check Internet Connection"

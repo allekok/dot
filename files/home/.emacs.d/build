@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ~/emacs
 ./autogen.sh
-./configure CC="gcc -flto -O3 -march=native" CFLAGS="" --with-native-compilation
+./configure CC="gcc -flto -O3 -march=native" CFLAGS=""
 sudo make -j$(nproc)
