@@ -1,0 +1,138 @@
+1 -> Download and Write
+  Download latest "archlinux.iso" from "archlinux.org"
+  $ dd if={archlinux.iso} of=/dev/sd{x} bs=1M status=progress
+  "/dev/sd{x}" = USB drive
+
+2 -> IF NOT ARCH FOR BUILDING OFFLINE REPOSITORY
+  Install "virtualbox"
+  Run until step 8 and then go back to step 3
+
+3 -> Partitioning
+  $ cgdisk /dev/sda
+  New partition: 512M EFI System (EF00)
+  New partition: Linux Filesystem (8300)
+
+4 -> Format
+  $ mkfs.fat -F 32 /dev/sda1
+  $ mkfs.ext4 /dev/sda2
+
+5 -> Mount
+  $ mount /dev/sda2 /mnt
+  $ mkdir /mnt/boot
+  $ mount /dev/sda1 /mnt/boot
+
+6 -> Copy offline repository
+  $ mkdir /hard
+  $ mount /dev/sd{x}1 /hard
+  $ cp -r /hard/pkg /mnt/
+  $ cd /mnt/pkg
+  $ repo-add pkg.db.tar.gz *.zst *.xz
+  $ cd
+
+7 -> Modify pacman configuration for using offline repository
+  $ nano /etc/pacman.conf
+  Comment out (Add #) All repositories
+  Add:
+	[pkg]
+  	SigLevel = Never
+  	Server = file:///mnt/pkg
+
+8 -> Install operating system
+  $ pacman -Sy
+  $ pacstrap -i /mnt base base-devel linux-headers dkms \
+    	     	     broadcom-wl-dkms linux linux-firmware \
+		     networkmanager nano
+  "pacstrap" command will download packages and their dependencies to
+  "/mnt/var/cache/pacman/pkg". We can use these packages for building
+  an offline repository:
+  $ mkdir /hard
+  $ mount /dev/sd{x}1 /hard
+  $ rm -r /hard/pkg
+  $ cp -r /mnt/var/cache/pacman/pkg /hard
+  $ umount /hard
+  If we just wanted the repository then exit this installation and
+  reboot to new installation using usb.
+
+9 -> Generating "fstab"
+  $ genfstab -U /mnt >> /mnt/etc/fstab
+
+10 -> Switch to new system
+  $ arch-chroot /mnt
+
+11 -> Locale configuration
+  $ nano /etc/locale.gen
+  Use [C-w] for search
+  Uncomment "en_US.UTF-8"
+  Save and exit: [C-o], Enter, [C-x]
+  $ locale-gen
+  $ echo LANG=en_US.UTF-8 > /etc/locale.conf
+  $ export LANG=en_US.UTF-8
+
+12 -> Hostname
+  $ echo {Hostname} > /etc/hostname
+
+13 -> Password and Users
+  $ passwd  # Specify password for "root" user
+  $ useradd -m -g root -G wheel -s /bin/bash {username}
+  "-m" for making home directory
+  $ passwd {username}
+
+14 -> Sudo
+  $ EDITOR=nano visudo
+  Search for ([C-w]) "%wheel". Uncomment the line below "## Same thing
+  without a password"
+
+15 -> Boot loader
+  $ bootctl --path=/boot install
+  $ blkid -s PARTUUID -o value /dev/sda2 > \
+    	  /boot/loader/entries/arch.conf
+  "/dev/sda2" = root partition
+  $ nano /boot/loader/entries/arch.conf
+  File content:
+       title	Arch
+       linux	/vmlinuz-linux
+       initrd	/initramfs-linux.img
+       options	root=PARTUUID={The current content of the file} rw
+
+16 -> Enable Network Manager
+  $ systemctl enable NetworkManager
+
+17 -> Exit and reboot to new system
+  $ exit
+  $ umount -R /mnt
+  $ reboot
+
+18 -> Connect to Wifi
+  $ nmcli dev wifi list  # List wifi devices
+  $ nmcli dev wifi connect {SSID} password {pass}
+
+19 -> Install X server
+  $ sudo pacman -S xorg-server xorg-xinit xorg-xset
+
+20 -> Install Intel microcode
+  $ sudo pacman -S intel-ucode
+  $ nano /boot/loader/entries/arch.conf
+  Add "initrd /intel-ucode.img" Before "initrd /initramfs-linux.img"
+
+21 -> Intel graphics
+  $ sudo pacman -S mesa xf86-video-intel
+
+22 -> TLP (Saving battery on laptop):
+  $ sudo pacman -S tlp
+  $ sudo systemctl enable tlp
+
+23 -> Date/Time
+  $ timedatectl set-ntp true
+  $ timedatectl list-timezones  # List timezones
+  $ timedatectl set-timezone Asia/Tehran
+
+24 -> Bash completion
+  $ sudo pacman -S bash-completion
+
+25 -> Sound
+  $ sudo pacman -S alsa-utils pulseaudio pulseaudio-alsa
+  "amixer" is in "alsa-utils" package
+
+26 -> Install Emacs build dependencies
+  $ sudo pacman -S gtk3 libxpm giflib  # Install "gtk4" if supported
+  Or install some other X toolkit
