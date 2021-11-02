@@ -10,10 +10,11 @@
 (require 'quail)
 
 (quail-define-package
- "kurdish-sorani" "Kurdish-Sorani" "ئا" nil "Kurdish-Sorani input method.
-
-Based on Kurdish-Sorani table in X Keyboard Configuration DB.
-" nil t t t t nil nil nil nil nil t)
+ "kurdish-sorani" "Kurdish-Sorani"
+ "ئا" nil
+ "Kurdish-Sorani input method.
+Based on Kurdish-Sorani table in X Keyboard Configuration DB."
+ nil t t t t nil nil nil nil nil t)
 
 (quail-define-rules
  ("`" ?`)
