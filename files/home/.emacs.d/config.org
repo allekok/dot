@@ -133,10 +133,6 @@
 		   (format "#%s#" exwm-class-name))))
       (exwm-enable))
   #+end_src
-* /package/ markdown-mode
-  #+begin_src emacs-lisp
-    (pkg 'markdown-mode)
-  #+end_src
 * /package/ web-mode
   #+begin_src emacs-lisp
     (pkg 'web-mode)
@@ -968,7 +964,7 @@
     (setq send-mail-function 'smtpmail-send-it
 	  smtpmail-smtp-server "smtp.gmail.com"
 	  smtpmail-smtp-service 587)
-    (setq inferior-lisp-program "/usr/local/bin/scm")
+    (setq inferior-lisp-program "/usr/bin/sbcl")
     (setq gnus-select-method '(nntp "news.gwene.org"))
     (with-eval-after-load 'gnutls
       (setq
