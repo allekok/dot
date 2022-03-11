@@ -1,7 +1,13 @@
 export PATH="$HOME/PROG:$HOME/go/bin:$PATH"
+export EDITOR=emacsclient
+export HISTCONTROL=ignoreboth
+export HISTSIZE=-1
 
-# Include '.bashrc'
-. "$HOME/.bashrc"
+alias em='startx 2> /dev/null'
+alias e='emacsclient'
+
+shopt -s histappend
+shopt -s globstar
 
 # Run X server and emacs
-em
+# em

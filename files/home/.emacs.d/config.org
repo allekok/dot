@@ -761,6 +761,7 @@
   #+begin_src emacs-lisp
     ;;; Remove bars
     (set-frame-parameter nil 'vertical-scroll-bars nil)
+    (menu-bar-mode -1)
     (fringe-mode '(0 . 0))
 
     ;;; Theme: Functions
