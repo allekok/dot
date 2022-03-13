@@ -914,6 +914,65 @@
 	(set-fontset-font nil 'arabic ara)
 	(set-fontset-font nil 'devanagari dev)))
   #+end_src
+* compile
+  #+begin_src emacs-lisp
+    (unless (fboundp 'file-attribute-modification-time)
+      ;;; From 'files.el'
+      (defsubst file-attribute-modification-time (attributes)
+	"The modification time in ATTRIBUTES returned by `file-attributes'.
+    This is the time of the last change to the file's contents, and
+    is a list of integers (HIGH LOW USEC PSEC) in the same style
+    as (current-time)."
+	(nth 5 attributes)))
+
+    (defun modif-time (f)
+      (let ((m (file-attribute-modification-time
+		(file-attributes f))))
+	(and m (+ (nth 0 m)
+		  (/ (nth 1 m) (expt 2.0 16))))))
+
+    (defun modif-time-more-recent (f1 f2)
+      (let ((m1 (modif-time f1))
+	    (m2 (modif-time f2)))
+	(or (not m2) (> m1 m2))))
+
+    (defun compile-if-necessary (f)
+      (let* ((org? (string-suffix-p ".org" f t))
+	     (el? (string-suffix-p ".el" f t))
+	     (o (concat (substring f 0 (if org? -3 -2)) "elc"))
+	     (compile? (modif-time-more-recent f o)))
+	(if compile?
+	    (progn (setq byte-compile-warnings nil)
+		   (if org?
+		       (byte-compile-file
+			(car (org-babel-tangle-file
+			      f (concat (substring f 0 -3) "el"))))
+		     (byte-compile-file f))))))
+
+    (defun my-compile-all ()
+      (interactive)
+      (mapcar 'compile-if-necessary
+	      (list
+	       (expand-file-name
+		"init.el" user-emacs-directory)
+	       (expand-file-name
+		"config.el" user-emacs-directory)
+	       (expand-file-name
+		"themes/allekok-core-theme.el" user-emacs-directory)
+	       (expand-file-name
+		"themes/allekok-dark-theme.el" user-emacs-directory)
+	       (expand-file-name
+		"themes/allekok-light-theme.el" user-emacs-directory)
+	       (expand-file-name
+		"langs/kurdish-sorani.el" user-emacs-directory)
+	       (expand-file-name
+		"langs/kurdish-kurmanci.el" user-emacs-directory))))
+
+    (global-set-key (kbd "C-x c")
+		    (lambda () (interactive) (message (format "%s" (my-compile-all)))))
+    (add-hook 'kill-emacs-hook 'my-compile-all)
+    (my-compile-all)
+  #+end_src
 * misc
   #+begin_src emacs-lisp
     (fset 'yes-or-no-p 'y-or-n-p)
