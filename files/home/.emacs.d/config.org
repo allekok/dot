@@ -85,7 +85,8 @@
     (setq package-archives '(("gnu" .
 			      "https://elpa.gnu.org/packages/")
 			     ("melpa-stable" .
-			      "https://stable.melpa.org/packages/")))
+			      "https://stable.melpa.org/packages/"))
+	  package-native-compile t)
     (defun pkg (pkg-name)
       (unless (package-installed-p pkg-name)
 	(unless (assoc pkg-name package-archive-contents)
@@ -193,8 +194,12 @@
     (add-to-list 'load-path
 		 (expand-file-name "langs" user-emacs-directory))
     ;; Input-methods
-    (require 'kurdish-sorani)
-    (require 'kurdish-kurmanci)
+    (load (comp-lookup-eln
+	   (expand-file-name "kurdish-sorani.el"
+			     (concat user-emacs-directory "langs"))))
+    (load (comp-lookup-eln
+	   (expand-file-name "kurdish-kurmanci.el"
+			     (concat user-emacs-directory "langs"))))
 
     ;; Key-bindings
     (global-set-key (kbd "s-1")
@@ -887,7 +892,7 @@
     ;;; Mode-line: Run
     (empty-mode-line)
     (global-set-key (kbd "C-x :") 'mode-line-show)
-    (setq mode-line-timer (run-with-timer 0 7 'mode-line-show))
+    (setq mode-line-timer (run-with-timer 0 5 'mode-line-show))
 
     ;;; Misc
     ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93
@@ -916,15 +921,7 @@
   #+end_src
 * compile
   #+begin_src emacs-lisp
-    (unless (fboundp 'file-attribute-modification-time)
-      ;;; From 'files.el'
-      (defsubst file-attribute-modification-time (attributes)
-	"The modification time in ATTRIBUTES returned by `file-attributes'.
-    This is the time of the last change to the file's contents, and
-    is a list of integers (HIGH LOW USEC PSEC) in the same style
-    as (current-time)."
-	(nth 5 attributes)))
-
+    (setq native-comp-speed 3)
     (defun modif-time (f)
       (let ((m (file-attribute-modification-time
 		(file-attributes f))))
@@ -939,15 +936,15 @@
     (defun compile-if-necessary (f)
       (let* ((org? (string-suffix-p ".org" f t))
 	     (el? (string-suffix-p ".el" f t))
-	     (o (concat (substring f 0 (if org? -3 -2)) "elc"))
+	     (o-path (concat (substring f 0 (if org? -3 -2)) "el"))
+	     (o (and (file-exists-p o-path) (comp-lookup-eln o-path)))
 	     (compile? (modif-time-more-recent f o)))
 	(if compile?
 	    (progn (setq byte-compile-warnings nil)
 		   (if org?
-		       (byte-compile-file
-			(car (org-babel-tangle-file
-			      f (concat (substring f 0 -3) "el"))))
-		     (byte-compile-file f))))))
+		       (progn (org-babel-tangle-file f o-path)
+			      (native-compile o-path))
+		     (native-compile f))))))
 
     (defun my-compile-all ()
       (interactive)
@@ -956,7 +953,7 @@
 	       (expand-file-name
 		"init.el" user-emacs-directory)
 	       (expand-file-name
-		"config.el" user-emacs-directory)
+		"config.org" user-emacs-directory)
 	       (expand-file-name
 		"themes/allekok-core-theme.el" user-emacs-directory)
 	       (expand-file-name
@@ -971,7 +968,6 @@
     (global-set-key (kbd "C-x c")
 		    (lambda () (interactive) (message (format "%s" (my-compile-all)))))
     (add-hook 'kill-emacs-hook 'my-compile-all)
-    (my-compile-all)
   #+end_src
 * misc
   #+begin_src emacs-lisp

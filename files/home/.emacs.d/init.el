@@ -1,9 +1,8 @@
 (setq gc-cons-threshold (* 100 1024 1024))
 
-(cond ((file-exists-p (expand-file-name "config.elc" user-emacs-directory))
-       (load (expand-file-name "config.elc" user-emacs-directory)))
-      ((file-exists-p (expand-file-name "config.el" user-emacs-directory))
-       (load (expand-file-name "config.el" user-emacs-directory)))
+(cond ((file-exists-p (expand-file-name "config.el" user-emacs-directory))
+       (load (comp-lookup-eln
+	      (expand-file-name "config.el" user-emacs-directory))))
       (t (org-babel-load-file
 	  (expand-file-name "config.org" user-emacs-directory))))
 
@@ -14,7 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(web-mode elisp--witness--lisp))
+ '(package-selected-packages '(exwm web-mode elisp--witness--lisp))
  '(warning-suppress-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
