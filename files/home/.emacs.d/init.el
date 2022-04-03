@@ -1,12 +1,8 @@
-(setq gc-cons-threshold (* 100 1024 1024))
-
-(cond ((file-exists-p (expand-file-name "config.el" user-emacs-directory))
-       (load (comp-lookup-eln
-	      (expand-file-name "config.el" user-emacs-directory))))
-      (t (org-babel-load-file
-	  (expand-file-name "config.org" user-emacs-directory))))
-
-(setq gc-cons-threshold (* 2 1024 1024))
+(let ((el-file (expand-file-name "config.el" user-emacs-directory))
+      (org-file (expand-file-name "config.org" user-emacs-directory)))
+  
+  (or (and (file-exists-p el-file) (load el-file))
+      (org-babel-load-file org-path)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

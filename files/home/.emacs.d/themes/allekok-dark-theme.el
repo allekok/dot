@@ -6,8 +6,6 @@
 (deftheme allekok-dark)
 
 (setq allekok-theme 'allekok-dark)
-(load (comp-lookup-eln
-       (expand-file-name "allekok-core-theme.el"
-			 (concat user-emacs-directory "themes"))))
+(load "allekok-core-theme.el")
 
 ;;; allekok-dark-theme.el  ends here

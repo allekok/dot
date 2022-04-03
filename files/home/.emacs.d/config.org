@@ -194,12 +194,8 @@
     (add-to-list 'load-path
 		 (expand-file-name "langs" user-emacs-directory))
     ;; Input-methods
-    (load (comp-lookup-eln
-	   (expand-file-name "kurdish-sorani.el"
-			     (concat user-emacs-directory "langs"))))
-    (load (comp-lookup-eln
-	   (expand-file-name "kurdish-kurmanci.el"
-			     (concat user-emacs-directory "langs"))))
+    (require 'kurdish-sorani)
+    (require 'kurdish-kurmanci)
 
     ;; Key-bindings
     (global-set-key (kbd "s-1")
