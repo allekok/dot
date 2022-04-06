@@ -976,6 +976,7 @@
 	  scroll-conservatively 5)
     (setq tramp-default-method "ssh"
 	  tramp-verbose -1)
+    (setq completions-detailed t)
     (setq show-paren-delay .1)
     (show-paren-mode t)
 
