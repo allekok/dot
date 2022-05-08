@@ -15,7 +15,7 @@
 
 (let* ((class '((class color) (min-colors 89)))
        ;; Font
-       (font-family "SourceCodePro")
+       (font-family "NotoSansMono")
        (font-size-main 110)
        (font-size-mini 1)
        ;; Color

@@ -3,5 +3,4 @@
 charge_now=$(cat /sys/class/power_supply/BAT0/charge_now)
 charge_full=$(cat /sys/class/power_supply/BAT0/charge_full)
 
-
 echo "scale=2 ; $charge_now / $charge_full" | bc

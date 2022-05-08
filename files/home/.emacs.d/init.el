@@ -2,7 +2,7 @@
       (org-file (expand-file-name "config.org" user-emacs-directory)))
   
   (or (and (file-exists-p el-file) (load el-file))
-      (org-babel-load-file org-path)))
+      (and (require 'org) (org-babel-load-file org-path))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
