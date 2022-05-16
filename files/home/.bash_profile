@@ -11,3 +11,4 @@ shopt -s globstar
 
 # Run X server and emacs
 # em
+. "$HOME/.cargo/env"
