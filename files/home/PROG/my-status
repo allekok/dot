@@ -3,10 +3,4 @@
 require("my-library.php");
 
 p(file_get_contents("https://allekok.ir/status.php"));
-
-/*
- * Local Variables:
- * mode: web
- * End:
- */
 ?>

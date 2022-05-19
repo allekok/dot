@@ -12,10 +12,4 @@ $browser_command =  !$browser ?
 		    DEF_BROWSER . " http://{$host}/" :
 		    "{$browser} http://{$host}/";
 exec("cd {$path} && php -S {$host} & {$browser_command}");
-
-/*
- * Local Variables:
- * mode: web
- * End:
- */
 ?>

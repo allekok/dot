@@ -17,10 +17,4 @@ file_put_contents($arg,
 		  "*/\n" .
 		  "?>\n");
 exec("sudo chmod +x \"$arg\"");
-
-/*
- * Local Variables:
- * mode: web
- * End:
- */
 ?>

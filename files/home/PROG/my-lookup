@@ -21,10 +21,4 @@ foreach($lookup as $point => $res) {
 		p("\t$w[1]\t$w[0]\t$w[2]");
 	}
 }
-
-/*
- * Local Variables:
- * mode: web
- * End:
- */
 ?>

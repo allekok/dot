@@ -139,6 +139,7 @@
     (pkg 'web-mode)
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+    (add-to-list 'interpreter-mode-alist '("php" . web-mode))
   #+end_src
 * C compilation
   #+begin_src emacs-lisp
@@ -938,8 +939,9 @@
 	(if compile?
 	    (progn (setq byte-compile-warnings nil)
 		   (if org?
-		       (progn (org-babel-tangle-file f o-path)
-			      (native-compile o-path))
+		       (progn
+			 (and (require 'org) (org-babel-tangle-file f o-path))
+			 (native-compile o-path))
 		     (native-compile f))))))
 
     (defun my-compile-all ()

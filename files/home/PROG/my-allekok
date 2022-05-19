@@ -94,10 +94,4 @@ foreach($response["poems"]["lastChance"]["context"] as $poem) {
 	  "allekok.ir/" .
 	  "{$poem["poet_id"]}/{$poem["book_id"]}/{$poem["poem_id"]}");
 }
-
-/*
- * Local Variables:
- * mode: web
- * End:
- */
 ?>
