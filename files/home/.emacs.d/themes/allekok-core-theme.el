@@ -17,7 +17,7 @@
        ;; Font
        (font-family "NotoSansMono")
        (font-size-main 110)
-       (font-size-mini 1)
+       (font-size-mini 90)
        ;; Color
        (colors (get-colorname allekok-theme))
        (back-color (nth 0 colors))
@@ -33,12 +33,12 @@
 		       :height ,font-size-main
 		       :weight normal))))
    `(mode-line ((,class (:foreground
-			 ,back-color
+			 ,fore-color
 			 :background ,back-color
 			 :height ,font-size-mini
 			 :box nil))))
    `(mode-line-inactive ((,class (:foreground
-				  ,back-color
+				  ,fore-color
 				  :background ,back-color
 				  :height ,font-size-mini
 				  :box nil))))

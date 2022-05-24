@@ -251,11 +251,12 @@
 * time
   #+begin_src emacs-lisp
     (setq display-time-24hr-format t)
+    (display-time)
   #+end_src
 * battery
   #+begin_src emacs-lisp
     (setq battery-mode-line-format "%p")
-    (display-battery-mode 1)
+    (display-battery-mode)
   #+end_src
 * screen brightness
   #+begin_src emacs-lisp
@@ -764,16 +765,7 @@
     (menu-bar-mode -1)
     (fringe-mode '(0 . 0))
 
-    ;;; Theme: Functions
-    (defun get-light ()
-      (interactive)
-      (string-to-number
-       (shell-command-to-string
-	"LIGHT=$(cat /sys/devices/platform/applesmc.768/light) && 
-    echo -n ${LIGHT:1:1}")))
-
-    (defun get-env-light () (interactive) (getenv "COLORNOW"))
-
+    ;;; Theme
     (defun theme-load* (theme)
       "Disable all enabled themes and load `theme'."
       (mapc 'disable-theme custom-enabled-themes)
@@ -781,129 +773,25 @@
 
     (defun theme-toggle ()
       (interactive)
-      (theme-load* (if (memq 'allekok-dark
-			     custom-enabled-themes)
-		       (progn (kbd-brightness-set 0 "")
-			      'allekok-light)
-		     (kbd-brightness-set 5 "")
-		     'allekok-dark)))
+      (theme-load*
+       (if (memq 'allekok-light custom-enabled-themes)
+	   (progn (kbd-brightness-set 5 "") 'allekok-dark)
+	 (kbd-brightness-set 0 "") 'allekok-light)))
 
-    (defun theme-now ()
-      (interactive)
-      (let* ((h (string-to-number
-		 (format-time-string "%H")))
-	     (light (get-env-light))
-	     (theme (if (string= light "light")
-			'allekok-light
-		      (kbd-brightness-set 5 "")
-		      'allekok-dark)))
-	(theme-load* theme)))
-
-    ;;; Theme: Run
     (global-set-key [XF86LaunchA] 'theme-toggle)
-    (setq custom-theme-directory
-	  (expand-file-name "themes" user-emacs-directory))
-    (add-to-list 'load-path (expand-file-name "themes"
-					      user-emacs-directory))
+    (setq themes-path (expand-file-name "themes" user-emacs-directory))
+    (setq custom-theme-directory themes-path)
+    (add-to-list 'load-path themes-path)
     (add-to-list 'custom-safe-themes 'allekok-light)
     (add-to-list 'custom-safe-themes 'allekok-dark)
-    (theme-now)
+    (theme-toggle)
 
-    ;;; Mode-line: Functions
-    (defun empty-mode-line ()
-      (interactive)
-      (setq-default mode-line-format '()))
-
-    (defun empty-echo-area ()
-      (interactive)
-      (mapc
-       (lambda (b)
-	 (when (or (minibufferp b) (string-match-p " *Echo Area"
-						   (buffer-name b)))
-	   (with-current-buffer b
-	     (delete-region (point-min) (point-max)))))
-       (buffer-list)))
-
-    (defun get-mode-line ()
-      (interactive)
-      (let ((| " | "))
-	(propertize
-	 (format-mode-line 
-	  (list
-	   " "
-	   battery-mode-line-string
-	   |
-	   (format "%s / %s / %s"
-		   (format-time-string "%-H:%-M / %a")
-		   (my-calendar-kurdish-current-date)
-		   (format-time-string "%Y-%-m-%-d"))
-	   |
-	   (propertize "%b" 'face
-		       (when (buffer-modified-p)
-			 'font-lock-warning-face))
-	   |
-	   '(:eval mode-name)
-	   |
-	   "%l,%02c"
-	   |
-	   "%p-%I"
-	   |
-	   (internet?)
-	   |
-	   "Vol: " (when (volume-mute?) "MUTE ") (volume-level)
-	   |
-	   (memory-free)))
-	 'face
-	 '((:height 90)))))
-
-    (defun mode-line-show ()
-      (interactive)
-      (mapc
-       (lambda (b)
-	 (when (or (minibufferp b) (string-match-p " *Echo Area"
-						   (buffer-name b)))
-	   (with-current-buffer b
-	     (when (or (string= (buffer-string) "")
-		       (in-list? (buffer-string)
-				 '("Quit"
-				   "All buffers killed."
-				   "(No changes need to be saved)"
-				   "English"
-				   "کوردی"
-				   "Kurdî"))
-		       (and (> (string-width (buffer-string)) 0)
-			    (in-list? (substring (buffer-string) 0 1)
-				      '(" " "+" "-")))
-		       (and (> (string-width (buffer-string)) 6)
-			    (in-list? (substring (buffer-string) 0 6)
-				      '("Wrote ")))
-		       (and (> (string-width (buffer-string)) 8)
-			    (in-list? (substring (buffer-string) 0 8)
-				      '("Loading "))))
-	       (delete-region (point-min) (point-max))
-	       (insert (get-mode-line))))))
-       (buffer-list)))
-
-    ;;; Mode-line: Run
-    (empty-mode-line)
-    (global-set-key (kbd "C-x :") 'mode-line-show)
-    (setq mode-line-timer (run-with-timer 0 5 'mode-line-show))
-
-    ;;; Misc
-    ;;; From: https://github.com/oneKelvinSmith/monokai-emacs/issues/93
-    (add-hook 'minibuffer-setup-hook
-	      (lambda ()
-		(make-local-variable 'face-remapping-alist)
-		(add-to-list 'face-remapping-alist
-			     '(default (:height 90)))))
-
-    (mapc
-     (lambda (b)
-       (when (or (minibufferp b) (string-match-p " *Echo Area"
-						 (buffer-name b)))
-	 (with-current-buffer b
-	   (setq-local face-remapping-alist '((default (:height 90)))))))
-     (buffer-list))
+    ;;; Mode-line
+    (setq-default mode-line-format `(,@mode-line-format
+				     ,(format " %s %s %s "
+					      (format-time-string "%a")
+					      (my-calendar-kurdish-current-date)
+					      (format-time-string "%Y-%-m-%-d"))))
   #+end_src
 * font
   #+begin_src emacs-lisp
@@ -913,57 +801,6 @@
 			    :script "devanagari")))
 	(set-fontset-font nil 'arabic ara)
 	(set-fontset-font nil 'devanagari dev)))
-  #+end_src
-* compile
-  #+begin_src emacs-lisp
-    (setq native-comp-speed 3)
-    (defun modif-time (f)
-      (let ((m (file-attribute-modification-time
-		(file-attributes f))))
-	(and m (+ (nth 0 m)
-		  (/ (nth 1 m) (expt 2.0 16))))))
-
-    (defun modif-time-more-recent (f1 f2)
-      (let ((m1 (modif-time f1))
-	    (m2 (modif-time f2)))
-	(or (not m2) (> m1 m2))))
-
-    (defun compile-if-necessary (f)
-      (let* ((org? (string-suffix-p ".org" f t))
-	     (el? (string-suffix-p ".el" f t))
-	     (o-path (concat (substring f 0 (if org? -3 -2)) "el"))
-	     (o (and (file-exists-p o-path) (comp-lookup-eln o-path)))
-	     (compile? (modif-time-more-recent f o)))
-	(if compile?
-	    (progn (setq byte-compile-warnings nil)
-		   (if org?
-		       (progn
-			 (and (require 'org) (org-babel-tangle-file f o-path))
-			 (native-compile o-path))
-		     (native-compile f))))))
-
-    (defun my-compile-all ()
-      (interactive)
-      (mapcar 'compile-if-necessary
-	      (list
-	       (expand-file-name
-		"init.el" user-emacs-directory)
-	       (expand-file-name
-		"config.org" user-emacs-directory)
-	       (expand-file-name
-		"themes/allekok-core-theme.el" user-emacs-directory)
-	       (expand-file-name
-		"themes/allekok-dark-theme.el" user-emacs-directory)
-	       (expand-file-name
-		"themes/allekok-light-theme.el" user-emacs-directory)
-	       (expand-file-name
-		"langs/kurdish-sorani.el" user-emacs-directory)
-	       (expand-file-name
-		"langs/kurdish-kurmanci.el" user-emacs-directory))))
-
-    (global-set-key (kbd "C-x c")
-		    (lambda () (interactive) (message (format "%s" (my-compile-all)))))
-    (add-hook 'kill-emacs-hook 'my-compile-all)
   #+end_src
 * misc
   #+begin_src emacs-lisp

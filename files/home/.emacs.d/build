@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ~/emacs
 ./autogen.sh
-CC="gcc -flto -O3 -march=native" CFLAGS="" ./configure --with-native-compilation --with-wide-int --with-sound=alsa --with-x --with-json
-sudo make NATIVE_FULL_AOT=1 -j$(nproc)
+./configure
+sudo make -j$(nproc)
