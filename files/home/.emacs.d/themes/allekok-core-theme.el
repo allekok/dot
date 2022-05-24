@@ -17,7 +17,7 @@
        ;; Font
        (font-family "NotoSansMono")
        (font-size-main 110)
-       (font-size-mini 90)
+       (font-size-mini 95)
        ;; Color
        (colors (get-colorname allekok-theme))
        (back-color (nth 0 colors))
