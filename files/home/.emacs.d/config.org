@@ -250,12 +250,11 @@
   #+end_src
 * time
   #+begin_src emacs-lisp
-    (setq display-time-24hr-format t)
+    (setq display-time-format "[%R]")
     (display-time)
   #+end_src
 * battery
   #+begin_src emacs-lisp
-    (setq battery-mode-line-format "%p")
     (display-battery-mode)
   #+end_src
 * screen brightness
@@ -787,11 +786,11 @@
     (theme-toggle)
 
     ;;; Mode-line
-    (setq-default mode-line-format `(,@mode-line-format
-				     ,(format " %s %s %s "
-					      (format-time-string "%a")
-					      (my-calendar-kurdish-current-date)
-					      (format-time-string "%Y-%-m-%-d"))))
+    (add-to-list 'global-mode-string
+		 (format "[%s %s]"
+			 (format-time-string "%a %Y-%-m-%-d")
+			 (my-calendar-kurdish-current-date))
+		 t)
   #+end_src
 * font
   #+begin_src emacs-lisp
