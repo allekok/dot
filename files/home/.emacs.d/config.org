@@ -98,8 +98,7 @@
       (pkg 'exwm)
       (require 'exwm)
       (exwm-input-set-simulation-keys
-       '(
-	 ([?\C-p] . up)
+       '(([?\C-p] . up)
 	 ([?\C-n] . down)
 	 ([?\C-a] . home)
 	 ([?\C-e] . end)
@@ -128,9 +127,7 @@
 	      ([?\s-@] . keyboard-kurdish)
 	      ([?\s-#] . keyboard-latin-kurdish)))
       (add-hook 'exwm-update-class-hook
-		(lambda ()
-		  (exwm-workspace-rename-buffer
-		   (format "#%s#" exwm-class-name))))
+		(lambda () (exwm-workspace-rename-buffer exwm-class-name)))
       (exwm-enable))
   #+end_src
 * /package/ web-mode
@@ -250,7 +247,8 @@
   #+end_src
 * time
   #+begin_src emacs-lisp
-    (setq display-time-format "[%R]")
+    (setq display-time-format "[%R]"
+	  display-time-default-load-average nil)
     (display-time)
   #+end_src
 * battery
@@ -774,8 +772,14 @@
       (interactive)
       (theme-load*
        (if (memq 'allekok-light custom-enabled-themes)
-	   (progn (kbd-brightness-set 5 "") 'allekok-dark)
-	 (kbd-brightness-set 0 "") 'allekok-light)))
+	   (progn
+	     (setenv "GTK_THEME" "Adwaita:dark")
+	     (kbd-brightness-set 5 "")
+	     'allekok-dark)
+	 (progn
+	   (setenv "GTK_THEME" "Adwaita")
+	   (kbd-brightness-set 0 "")
+	   'allekok-light))))
 
     (global-set-key [XF86LaunchA] 'theme-toggle)
     (setq themes-path (expand-file-name "themes" user-emacs-directory))

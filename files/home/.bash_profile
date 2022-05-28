@@ -9,6 +9,7 @@ alias e='emacsclient'
 shopt -s histappend
 shopt -s globstar
 
-# Run X server and emacs
-# em
 . "$HOME/.cargo/env"
+
+# Run X server and emacs
+em

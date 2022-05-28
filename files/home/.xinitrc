@@ -1,6 +1,7 @@
 #!/bin/sh
 export _JAVA_AWT_WM_NONREPARENTING=1
 
+export GTK_THEME=Adwaita
 export COLORNOW="light"
 BG_COLOR_FILE="$HOME/.color-$COLORNOW"
 BG_COLOR=$(head -1 $BG_COLOR_FILE)
