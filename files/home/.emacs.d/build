@@ -3,3 +3,4 @@ cd ~/emacs
 ./autogen.sh
 ./configure
 sudo make -j$(nproc)
+sudo make install
