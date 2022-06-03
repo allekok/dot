@@ -1,6 +1,7 @@
 (defun get-colorname (LD)
   (let ((color (if (eq LD 'allekok-dark)
-		   "dark" "light")))
+		   "dark"
+		 "light")))
     (setenv "COLORNOW" color)
     (let ((colors
 	   (split-string
