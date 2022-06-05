@@ -643,6 +643,7 @@
     (global-set-key (kbd "C-x g a p") 'git-add-p)
     (global-set-key (kbd "C-x g a a") 'git-add-a)
     (global-set-key (kbd "C-x g c")   'git-commit)
+    (global-set-key (kbd "C-x g l")   'git-log)
 
     ;; Functions
     (defun git (dir command &optional rtl)
@@ -658,6 +659,7 @@
     (defun git-add-p  () (interactive) (git-current-dir "add -p"))
     (defun git-add-a  () (interactive) (git-current-dir "add -A"))
     (defun git-commit () (interactive) (git-current-dir "commit"))
+    (defun git-log    () (interactive) (git-current-dir "log"))
   #+end_src
 * Kurdish tools
   #+begin_src emacs-lisp
