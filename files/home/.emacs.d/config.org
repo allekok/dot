@@ -402,7 +402,7 @@
   #+end_src
 * default buffer
   #+begin_src emacs-lisp
-    (setq-default major-mode 'text-mode)
+    (setq-default major-mode 'fundamental-mode)
     (add-hook 'text-mode-hook 'auto-fill-mode)
   #+end_src
 * desktop apps
@@ -682,7 +682,7 @@
       "Show webcam's video in a frame"
       (interactive)
       (start-process-shell-command
-       "webcam" nil "ffplay -f video4linux2 -s 640x480 -i /dev/video0"))
+       "webcam" nil "ffplay -f video4linux2 -i /dev/video0"))
   #+end_src
 * amusement
   #+begin_src emacs-lisp

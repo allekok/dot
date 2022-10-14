@@ -10,3 +10,4 @@ xset r rate 200 60
 xrdb -merge ~/.Xresources
 
 exec emacs --no-site-lisp --no-site-file --no-splash -bg $BG_COLOR -fs
+# exec gnome-session
