@@ -885,3 +885,7 @@
 
     (server-start)
   #+end_src
+* work
+#+begin_src emacs-lisp
+  (load (expand-file-name "work.el" user-emacs-directory))
+#+end_src
