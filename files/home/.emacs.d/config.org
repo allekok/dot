@@ -436,6 +436,13 @@
     (desktop-app feh t "F")
     (desktop-app libreoffice t "F")
 
+    (defun hiddify (&optional args)
+      (interactive)
+      (start-process-shell-command
+       "Hiddify"
+       nil
+       "sudo ~/Hiddify-Linux-x64.AppImage"))
+
     (defun tor-browser (&optional args)
       (interactive)
       (shell-command
@@ -443,7 +450,7 @@
 
     (defun tchromium (&optional args)
       (interactive)
-      (chromium (concat "--proxy-server=socks://127.0.0.1:9050 " args)))
+      (chromium (concat "--proxy-server=socks://127.0.0.1:10808 " args)))
 
     (defun tbrave (&optional args)
       (interactive)
@@ -576,7 +583,7 @@
 		    (lambda ()
 		      (interactive)
 		      (popup (string-trim (shell-command-to-string
-					   (format "~/PROG/my-status"))))
+					   "~/PROG/my-status")))
 		      (message "'allekok/status' Done!")
 		      (org-mode)
 		      (setq bidi-paragraph-direction 'right-to-left)))
@@ -883,9 +890,11 @@
 
     (setq Man-notify-method 'pushy)
 
+    (save-place-mode)
+
     (server-start)
   #+end_src
 * work
 #+begin_src emacs-lisp
-  (load (expand-file-name "work.el" user-emacs-directory))
+  ;; (load (expand-file-name "work.el" user-emacs-directory))
 #+end_src

@@ -1,4 +1,4 @@
-export PATH="$HOME/PROG:$HOME/go/bin:$PATH"
+export PATH="$HOME/PROG:$HOME/go/bin:$HOME/v2rayNG-master/android-ndk-r26b:$PATH"
 export EDITOR=emacsclient
 export HISTCONTROL=ignoreboth
 export HISTSIZE=-1

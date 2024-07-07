@@ -2,7 +2,7 @@
 <?php
 require("my-library.php");
 
-const DEF_BROWSER = "firefox";
+const DEF_BROWSER = "chromium";
 
 $browser = nth_pair("-browser");
 $port = nth_pair("-port", "5555");
