@@ -97,19 +97,20 @@
     (when (eq 'x (window-system))
       (pkg 'exwm)
       (require 'exwm)
-      (exwm-input-set-simulation-keys
-       '(([?\C-p] . up)
-	 ([?\C-n] . down)
-	 ([?\C-a] . home)
-	 ([?\C-e] . end)
-	 ([?\M-v] . prior)
-	 ([?\C-v] . next)
-	 ([?\C-d] . delete)
-	 ([?\C-k] . (S-end delete))
-	 ([?\C-w] . ?\C-x)
-	 ([?\M-w] . ?\C-c)
-	 ([?\C-y] . ?\C-v)
-	 ([?\C-s] . ?\C-f)))
+      (dolist (key '(([?\C-p] . up)
+		     ([?\C-n] . down)
+		     ([?\C-a] . home)
+		     ([?\C-e] . end)
+		     ([?\M-v] . prior)
+		     ([?\C-v] . next)
+		     ([?\C-d] . delete)
+		     ([?\C-k] . (S-end delete))
+		     ([?\C-w] . ?\C-x)
+		     ([?\M-w] . ?\C-c)
+		     ([?\C-y] . ?\C-v)
+		     ([?\C-s] . ?\C-f)))
+	(exwm-input-set-simulation-key (car key) (cdr key)))
+  
       (dolist (k '(XF86AudioLowerVolume
 		   XF86AudioRaiseVolume
 		   XF86AudioMute
@@ -450,7 +451,7 @@
 
     (defun tchromium (&optional args)
       (interactive)
-      (chromium (concat "--proxy-server=socks://127.0.0.1:10808 " args)))
+      (chromium (concat "--proxy-server=socks://127.0.0.1:2334 " args)))
 
     (defun tbrave (&optional args)
       (interactive)
