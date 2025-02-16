@@ -264,9 +264,11 @@
 
     ;; Functions
     (setq screen-brightness-file
-	  "/sys/class/backlight/acpi_video0/brightness")
+	  "/sys/class/backlight/intel_backlight/brightness")
     (setq screen-brightness-max-file
-	  "/sys/class/backlight/acpi_video0/max_brightness")
+	  "/sys/class/backlight/intel_backlight/max_brightness")
+    (setq screen-brightness-step
+	  (/ (screen-brightness-max) 20))
 
     (defun screen-brightness-max ()
       (interactive)
@@ -287,16 +289,14 @@
 	  (shell-command (format "~/PROG/my-bright %i" v))
 	  (message message-format v))))
 
-    (defun screen-brighter (&optional step)
+    (defun screen-brighter ()
       (interactive)
-      (unless step (setq step +1))
-      (let ((v (+ (screen-brightness-current) step)))
+      (let ((v (+ (screen-brightness-current) screen-brightness-step)))
 	(screen-brightness-set v "+ brightness: +%d")))
 
-    (defun screen-darker (&optional step)
+    (defun screen-darker ()
       (interactive)
-      (unless step (setq step -1))
-      (let ((v (+ (screen-brightness-current) step)))
+      (let ((v (- (screen-brightness-current) screen-brightness-step)))
 	(screen-brightness-set v "- brightness: -%d")))
   #+end_src
 * keyboard brightness
@@ -310,6 +310,8 @@
 	  "/sys/class/leds/smc::kbd_backlight/brightness")
     (setq kbd-brightness-max-file
 	  "/sys/class/leds/smc::kbd_backlight/max_brightness")
+    (setq kbd-brightness-step
+	  (/ (kbd-brightness-max) 20))
 
     (defun kbd-brightness-max ()
       (with-temp-buffer
@@ -328,16 +330,14 @@
 	  (shell-command (format "~/PROG/my-kbd-bright %i" v))
 	  (message message-format v))))
 
-    (defun kbd-brighter (&optional step)
+    (defun kbd-brighter ()
       (interactive)
-      (unless step (setq step +1))
-      (let ((v (+ (kbd-brightness-current) step)))
+      (let ((v (+ (kbd-brightness-current) kbd-brightness-step)))
 	(kbd-brightness-set v "+ kbd backlight: +%d")))
 
-    (defun kbd-darker (&optional step)
+    (defun kbd-darker ()
       (interactive)
-      (unless step (setq step -1))
-      (let ((v (+ (kbd-brightness-current) step)))
+      (let ((v (+ (kbd-brightness-current) kbd-brightness-step)))
 	(kbd-brightness-set v "- kbd backlight: -%d")))
   #+end_src
 * volume
