@@ -267,14 +267,15 @@
 	  "/sys/class/backlight/intel_backlight/brightness")
     (setq screen-brightness-max-file
 	  "/sys/class/backlight/intel_backlight/max_brightness")
-    (setq screen-brightness-step
-	  (/ (screen-brightness-max) 20))
 
     (defun screen-brightness-max ()
       (interactive)
       (with-temp-buffer
 	(insert-file-contents screen-brightness-max-file)
 	(string-to-number (buffer-string))))
+
+    (setq screen-brightness-step
+	  (/ (screen-brightness-max) 20))
 
     (defun screen-brightness-current ()
       (interactive)
@@ -310,13 +311,14 @@
 	  "/sys/class/leds/smc::kbd_backlight/brightness")
     (setq kbd-brightness-max-file
 	  "/sys/class/leds/smc::kbd_backlight/max_brightness")
-    (setq kbd-brightness-step
-	  (/ (kbd-brightness-max) 20))
 
     (defun kbd-brightness-max ()
       (with-temp-buffer
 	(insert-file-contents kbd-brightness-max-file)
 	(string-to-number (buffer-string))))
+
+    (setq kbd-brightness-step
+	  (/ (kbd-brightness-max) 25))
 
     (defun kbd-brightness-current ()
       (with-temp-buffer
@@ -337,7 +339,7 @@
 
     (defun kbd-darker ()
       (interactive)
-      (let ((v (+ (kbd-brightness-current) kbd-brightness-step)))
+      (let ((v (- (kbd-brightness-current) kbd-brightness-step)))
 	(kbd-brightness-set v "- kbd backlight: -%d")))
   #+end_src
 * volume
@@ -442,7 +444,7 @@
       (start-process-shell-command
        "Hiddify"
        nil
-       "sudo ~/Hiddify-Linux-x64.AppImage"))
+       "sudo hiddify"))
 
     (defun tor-browser (&optional args)
       (interactive)
