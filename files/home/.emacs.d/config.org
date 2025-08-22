@@ -444,7 +444,7 @@
       (start-process-shell-command
        "Hiddify"
        nil
-       "sudo hiddify"))
+       "sudo ~/Hiddify-Linux-x64.AppImage"))
 
     (defun tor-browser (&optional args)
       (interactive)
