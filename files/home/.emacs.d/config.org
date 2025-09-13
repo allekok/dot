@@ -426,7 +426,7 @@
 
     ;; Apps
     (desktop-app simplescreenrecorder)
-    (desktop-app telegram-desktop)
+    (desktop-app Telegram)
     (desktop-app firefox)
     (desktop-app chromium)
     (desktop-app brave)
@@ -595,7 +595,7 @@
 		    (lambda ()
 		      (interactive)
 		      (chromium
-		       "--app=http://localhost/srv/my-functions/site/")))
+		       "--app=file:///home/payam/my-functions/site/index.html")))
     ;; Insert text in allekok style
     (defun insert-allekok (string)
       (interactive "sڕستە: ")
