@@ -413,16 +413,16 @@
     ;; Functions
     (defun desktop-app-open (app &optional args escape)
       (when (and escape args)
-	(setq args (escape-string args)))
+    	(setq args (escape-string args)))
       (start-process-shell-command
        app nil (concat app " " args)))
 
     (defmacro desktop-app (app &optional escape prompt)
       (let* ((app-str (symbol-name app))
-	     (prompt (and prompt (format "%s%s: " prompt app-str))))
-	`(defun ,app (&optional args)
-	   (interactive ,prompt)
-	   (desktop-app-open ,app-str args ,escape))))
+    	     (prompt (and prompt (format "%s%s: " prompt app-str))))
+    	`(defun ,app (&optional args)
+    	   (interactive ,prompt)
+    	   (desktop-app-open ,app-str args ,escape))))
 
     ;; Apps
     (desktop-app simplescreenrecorder)
@@ -438,6 +438,13 @@
     (desktop-app gimp t "F")
     (desktop-app feh t "F")
     (desktop-app libreoffice t "F")
+
+    (defun mobofix ()
+      (interactive)
+      (start-process-shell-command
+       "mobofix"
+       nil
+       "cd ~/mobofix && npm start"))
 
     (defun hiddify (&optional args)
       (interactive)
