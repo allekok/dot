@@ -521,55 +521,55 @@
     (global-set-key (kbd "C-x C-d") 'dired)
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)
     (add-hook 'dired-mode-hook
-	      (lambda ()
-		(local-set-key
-		 (kbd "!") (lambda (program)
-			     (interactive
-			      (list (read-shell-command "Program: ")))
-			     (my-dired-shell-command program)))
-		(local-set-key
-		 (kbd "@") 'my-dired-run-http-server)
-		(local-set-key
-		 (kbd "<return>") 'my-dired-uni-open)
-		(local-set-key
-		 (kbd "#") 'my-dired-find-file-as-root)))
+    	      (lambda ()
+    		(local-set-key
+    		 (kbd "!") (lambda (program)
+    			     (interactive
+    			      (list (read-shell-command "Program: ")))
+    			     (my-dired-shell-command program)))
+    		(local-set-key
+    		 (kbd "@") 'my-dired-run-http-server)
+    		(local-set-key
+    		 (kbd "<return>") 'my-dired-uni-open)
+    		(local-set-key
+    		 (kbd "#") 'my-dired-find-file-as-root)))
 
     ;; Functions
     (defun string-suffix-list-p (list item)
       (unless (null list)
-	(if (string-suffix-p (car list) item t) t
-	  (string-suffix-list-p (cdr list) item))))
+    	(if (string-suffix-p (car list) item t) t
+    	  (string-suffix-list-p (cdr list) item))))
 
     (defun my-dired-uni-open ()
       (interactive)
       (let ((file (dired-get-file-for-visit)))
-	(cond
-	 ((file-directory-p file) (dired-find-file))
-	 ((string-suffix-list-p
-	   '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
-	  (mpv file))
-	 ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
-	 ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
-	 ((string-suffix-list-p
-	   '(".doc" ".docx" ".odt" ".ppt" ".pptx" ".odp") file)
-	  (libreoffice file))
-	 ((string-suffix-p ".pdf" file t) (mupdf file))
-	 ((string-suffix-p ".xcf" file t) (gimp file))
-	 (t (dired-find-file)))))
+    	(cond
+    	 ((file-directory-p file) (dired-find-file))
+    	 ((string-suffix-list-p
+    	   '(".avi" ".mp4" ".m4v" ".mkv" ".webm") file)
+    	  (mpv file))
+    	 ((string-suffix-list-p '(".mp3" ".wav" ".m4a") file) (vlc file))
+    	 ((string-suffix-list-p '(".jpg" ".png") file) (feh file))
+    	 ((string-suffix-list-p
+    	   '(".doc" ".docx" ".odt" ".ppt" ".pptx" ".odp") file)
+    	  (libreoffice file))
+    	 ((string-suffix-p ".pdf" file t) (mupdf file))
+    	 ((string-suffix-p ".xcf" file t) (gimp file))
+    	 (t (dired-find-file)))))
 
     (defun my-dired-shell-command (program)
       (let ((file (dired-get-file-for-visit)))
-	(start-process-shell-command
-	 "my-dired-shell-command" nil
-	 (concat program " " (escape-string file)))))
+    	(start-process-shell-command
+    	 "my-dired-shell-command" nil
+    	 (concat program " " (escape-string file)))))
 
     (defun my-dired-run-http-server ()
       (interactive)
       (let ((file (dired-get-file-for-visit)))
-	(if (file-directory-p file)
-	    (st (concat "php -S localhost:8081 -t "
-			(escape-string file)
-			" & chromium --app=http://localhost:8081")))))
+    	(if (file-directory-p file)
+    	    (st (concat "php -S localhost:8081 -t "
+    			(escape-string file)
+    			" & chromium --app=http://localhost:8081")))))
 
     (defun my-dired-find-file-as-root ()
       (interactive)
@@ -580,29 +580,29 @@
     ;;; allekok-website
     ;; Open website
     (global-set-key (kbd "C-x a")
-		    (lambda ()
-		      (interactive)
-		      (chromium "--app=https://allekok.github.io/")))
+    		    (lambda ()
+    		      (interactive)
+    		      (chromium "--app=https://allekok.github.io/")))
     ;; Test server
     (global-set-key (kbd "C-x A")
-		    (lambda ()
-		      (interactive)
-		      (chromium "--app=http://localhost/")))
+    		    (lambda ()
+    		      (interactive)
+    		      (chromium "--app=http://localhost/")))
     ;; Show allekok/status
     (global-set-key (kbd "C-x !")
-		    (lambda ()
-		      (interactive)
-		      (popup (string-trim (shell-command-to-string
-					   "~/PROG/my-status")))
-		      (message "'allekok/status' Done!")
-		      (org-mode)
-		      (setq bidi-paragraph-direction 'right-to-left)))
+    		    (lambda ()
+    		      (interactive)
+    		      (popup (string-trim (shell-command-to-string
+    					   "~/PROG/my-status")))
+    		      (message "'allekok/status' Done!")
+    		      (org-mode)
+    		      (setq bidi-paragraph-direction 'right-to-left)))
     ;; my-functions
     (global-set-key (kbd "C-x j")
-		    (lambda ()
-		      (interactive)
-		      (chromium
-		       "--app=file:///home/payam/my-functions/site/index.html")))
+    		    (lambda ()
+    		      (interactive)
+    		      (chromium
+    		       "--app=file:///home/payam/my-functions/site/index.html")))
     ;; Insert text in allekok style
     (defun insert-allekok (string)
       (interactive "sڕستە: ")
@@ -611,14 +611,14 @@
     (defun my-allekok (word)
       (interactive "sوشە: ")
       (popup (string-trim (shell-command-to-string
-			   (format "~/PROG/my-allekok '%s'"
-				   (escape-string word))))))
+    			   (format "~/PROG/my-allekok '%s'"
+    				   (escape-string word))))))
     ;; Tewar
     (defun my-lookup (word)
       (interactive "sوشە: ")
       (popup (string-trim (shell-command-to-string
-			   (format "~/PROG/my-lookup '%s' 50"
-				   (escape-string word))))))
+    			   (format "~/PROG/my-lookup '%s' 50"
+    				   (escape-string word))))))
   #+end_src
 * hs-minor-mode
   #+begin_src emacs-lisp
@@ -791,14 +791,14 @@
       (interactive)
       (theme-load*
        (if (memq 'allekok-light custom-enabled-themes)
-	   (progn
-	     (setenv "GTK_THEME" "Adwaita:dark")
-	     (kbd-brightness-set 5 "")
-	     'allekok-dark)
-	 (progn
-	   (setenv "GTK_THEME" "Adwaita")
-	   (kbd-brightness-set 0 "")
-	   'allekok-light))))
+    	   (progn
+    	     (setenv "GTK_THEME" "Adwaita:dark")
+    	     (kbd-brightness-set 5 "")
+    	     'allekok-dark)
+    	 (progn
+    	   (setenv "GTK_THEME" "Adwaita")
+    	   (kbd-brightness-set 0 "")
+    	   'allekok-light))))
 
     (global-set-key [XF86LaunchA] 'theme-toggle)
     (setq themes-path (expand-file-name "themes" user-emacs-directory))
@@ -810,19 +810,19 @@
 
     ;;; Mode-line
     (add-to-list 'global-mode-string
-		 (format "[%s %s]"
-			 (format-time-string "%a %Y-%-m-%-d")
-			 (my-calendar-kurdish-current-date))
-		 t)
+    		 (format "[%s | %s]"
+    			 (format-time-string "%a | %Y-%-m-%-d")
+    			 (my-calendar-kurdish-current-date))
+    		 t)
   #+end_src
 * font
   #+begin_src emacs-lisp
     (when (eq 'x (window-system))
-      (let ((ara (font-spec :family "NotoSansArabicUI"))
-	    (dev (font-spec :family "NotoSansDevanagari"
-			    :script "devanagari")))
-	(set-fontset-font nil 'arabic ara)
-	(set-fontset-font nil 'devanagari dev)))
+      (let ((ara (font-spec :family "NotoNaskhArabicUI"))
+    	    (dev (font-spec :family "NotoSansDevanagari"
+    			    :script "devanagari")))
+    	(set-fontset-font nil 'arabic ara)
+    	(set-fontset-font nil 'devanagari dev)))
   #+end_src
 * misc
   #+begin_src emacs-lisp
@@ -904,7 +904,3 @@
 
     (server-start)
   #+end_src
-* work
-#+begin_src emacs-lisp
-  ;; (load (expand-file-name "work.el" user-emacs-directory))
-#+end_src
